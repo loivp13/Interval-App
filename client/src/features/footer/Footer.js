@@ -10,7 +10,7 @@ const Footer = () => {
   const [isHeartImgHover, setHeartImgHover] = useState(false);
 
   return (
-    <div className="flex flex-row h-20">
+    <div className="Footer flex flex-row h-20 mt-auto">
       <div
         onMouseEnter={() => {
           setHeartImgHover(true);

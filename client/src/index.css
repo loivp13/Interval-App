@@ -20,8 +20,14 @@ body {
     .w-8\/10vw {
       width: 80vw;
     }
+    .w-17\/20vw {
+      width: 85vw;
+    }
+    .w-19\/20vw {
+      width: 95vw;
+    }
     .w-9\/10vw {
-      width: 90vw;
+      width: 95vw;
     }
     .min-w-4\/10 {
       min-width: 40%;
@@ -44,8 +50,14 @@ body {
     .h-8\/10vw {
       height: 80vw;
     }
+    .h-17\/20vw {
+      height: 85vw;
+    }
     .h-9\/10vw {
       height: 90vw;
+    }
+    .h-19\/20vw {
+      height: 95vw;
     }
     .max-h-md {
       max-height: 448px;

@@ -11,7 +11,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectTheme } from "./features/changeThemeButton/changeThemeSlice";
 
 //Components
-import LandingPage from "./features/landingPage/LandingPage";
+import LandingPage from "./features/Page_landing/LandingPage";
+import HelpPage from "./features/Page_help/HelpPage";
 import ActivateAccount from "./features/activateAccount/ActivateAccount.js";
 
 //CSS
@@ -31,6 +32,13 @@ function App() {
           path="/"
           component={() => {
             return <LandingPage></LandingPage>;
+          }}
+        ></Route>
+        <Route
+          exact
+          path="/help"
+          component={() => {
+            return <HelpPage></HelpPage>;
           }}
         ></Route>
         <Route path="/activate/:token" component={ActivateAccount}></Route>
