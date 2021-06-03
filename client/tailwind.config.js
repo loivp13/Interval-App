@@ -7,13 +7,18 @@ module.exports = {
   },
   plugins: [],
   theme: {
+    fontFamily: {
+      quicksand: ["Quicksand", "sans-serif;"],
+      openSans: ["Open Sans", "sans-serif"],
+    },
     colors: {
-      "th-background": "var(--th-background)",
-      "th-text": "var(--th-text)",
+      "th-primary": "var(--th-primary)",
+      "th-secondary": "var(--th-secondary)",
+      "th-white": "var(--th-white)",
       "th-linkText": "var(--th-linkText)",
-      "th-linkTextSecondary": "var(--th-linkTextSecondary)",
-      "th-popUp": "var(--th-popUp)",
+      "th-overlay": "var(--th-overlay)",
       "th-error": "var(--th-error)",
+      "th-shadow": "var(--th-shadow)",
     },
   },
 };

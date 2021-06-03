@@ -1,13 +1,24 @@
 import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+//Theme
+//need to initialize or will cause error
 import { DEFAULT_THEME } from "./themes";
 import { applyTheme } from "./themes/utils";
-import "./App.css";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+//Theme Change Slice
+import { useSelector, useDispatch } from "react-redux";
+import { selectTheme } from "./features/changeThemeButton/changeThemeSlice";
+
+//Components
 import LandingPage from "./features/landingPage/LandingPage";
 import ActivateAccount from "./features/activateAccount/ActivateAccount.js";
 
+//CSS
+import "./App.css";
+
 function App() {
-  const [theme, setTheme] = useState(DEFAULT_THEME);
+  const theme = useSelector(selectTheme);
 
   useEffect(() => {
     applyTheme(theme);
@@ -19,9 +30,7 @@ function App() {
           exact
           path="/"
           component={() => {
-            return (
-              <LandingPage theme={theme} setTheme={setTheme}></LandingPage>
-            );
+            return <LandingPage></LandingPage>;
           }}
         ></Route>
         <Route path="/activate/:token" component={ActivateAccount}></Route>

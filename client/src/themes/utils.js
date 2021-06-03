@@ -2,11 +2,11 @@ import { themes } from "./index";
 
 export const mapTheme = (variables) => {
   return {
-    "--th-background": variables.backgroundColor || "",
-    "--th-text": variables.text || "",
+    "--th-primary": variables.primary || "",
+    "--th-secondary": variables.secondary || "",
+    "--th-white": variables.white || "",
     "--th-linkText": variables.linkText || "",
-    "--th-linkTextSecondary": variables.linkTextSecondary || "",
-    "--th-popUp": variables.popUp || "",
+    "--th-overlay": variables.overlay || "",
     "--th-shadow": variables.shadow || "",
     "--th-error": variables.error || "",
   };

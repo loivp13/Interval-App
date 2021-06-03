@@ -2,8 +2,8 @@ import { extend } from "./utils";
 import base from "./base";
 
 export default extend(base, {
-  backgroundColor: "#5A91AA",
-  text: "#133F53",
-  linkTextSecondary: "#B2D7E6",
-  popUp: "#88AAB9",
+  primary: "#5A91AA",
+  secondary: "#133F53",
+  linkText: "#B2D7E6",
+  overlay: "#88AAB9",
 });

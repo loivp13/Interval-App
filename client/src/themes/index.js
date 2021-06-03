@@ -1,6 +1,6 @@
 import base from "./base";
-import seafoamGreen from "./seafoamGreen";
 import slateTeal from "./slateTeal";
+import seafoamGreen from "./seafoamGreen";
 
 export const DEFAULT_THEME = "slateTeal";
 
