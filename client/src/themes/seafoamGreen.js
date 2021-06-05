@@ -6,4 +6,5 @@ export default extend(base, {
   secondary: "#464346",
   linkText: "#A8ACAC",
   overlay: "#D9D8D6",
+  needHelp: "#EFE7E7",
 });

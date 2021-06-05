@@ -1,16 +1,24 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import WhiteHeartsImg from "../../images/BUTTON - desktop ver. WHITE heart@3x.png";
-import WhiteHeartsImgHover from "../../images/BUTTON - desktop ver. WHITE heart (HOVER)@3x.png";
+import { Link } from "react-router-dom";
+
+//importing Icons
+import WhiteHeartIcon from "../../images/BUTTON - desktop ver. WHITE heart@3x.png";
+import WhiteHeartIconHover from "../../images/BUTTON - desktop ver. WHITE heart (HOVER)@3x.png";
 import SettingImg from "../../images/BUTTON - settings@3x.png";
-import { selectTheme } from "../changeThemeButton/changeThemeSlice";
 
 const Footer = () => {
-  let theme = useSelector(selectTheme);
   const [isHeartImgHover, setHeartImgHover] = useState(false);
 
+  const renderWhiteButton = () => {
+    return isHeartImgHover ? (
+      <img className="w-1/4 h-auto" src={WhiteHeartIconHover} alt="Save Sets" />
+    ) : (
+      <img className="w-1/4 h-auto" src={WhiteHeartIcon} alt="Saved Sets" />
+    );
+  };
+
   return (
-    <div className="Footer flex flex-row h-20 mt-auto">
+    <div className="Footer flex flex-row justify-between h-20 min-w-15.75rem mt-auto">
       <div
         onMouseEnter={() => {
           setHeartImgHover(true);
@@ -20,18 +28,12 @@ const Footer = () => {
         }}
         className="flex flex-row justify-start items-center"
       >
-        {isHeartImgHover ? (
-          <img
-            className="w-1/4 h-auto"
-            src={WhiteHeartsImgHover}
-            alt="Save Sets"
-          />
-        ) : (
-          <img className="w-1/4 h-auto" src={WhiteHeartsImg} alt="Saved Sets" />
-        )}
+        {renderWhiteButton()}
       </div>
       <div className="flex flex-row justify-end items-center">
-        <img className="w-1/4 h-auto" src={SettingImg} alt="Settings" />
+        <Link className="w-1/4 h-auto" to="/setting">
+          <img className="" src={SettingImg} alt="Settings" />
+        </Link>
       </div>
     </div>
   );

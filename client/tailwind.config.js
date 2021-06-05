@@ -19,6 +19,7 @@ module.exports = {
       "th-overlay": "var(--th-overlay)",
       "th-error": "var(--th-error)",
       "th-shadow": "var(--th-shadow)",
+      "th-needHelp": "var(--th-needHelp)",
     },
   },
 };

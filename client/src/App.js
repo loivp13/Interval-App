@@ -13,6 +13,7 @@ import { selectTheme } from "./features/changeThemeButton/changeThemeSlice";
 //Components
 import LandingPage from "./features/Page_landing/LandingPage";
 import HelpPage from "./features/Page_help/HelpPage";
+import SettingPage from "./features/Page_Setting/SettingPage";
 import ActivateAccount from "./features/activateAccount/ActivateAccount.js";
 
 //CSS
@@ -39,6 +40,13 @@ function App() {
           path="/help"
           component={() => {
             return <HelpPage></HelpPage>;
+          }}
+        ></Route>
+        <Route
+          exact
+          path="/setting"
+          component={() => {
+            return <SettingPage></SettingPage>;
           }}
         ></Route>
         <Route path="/activate/:token" component={ActivateAccount}></Route>

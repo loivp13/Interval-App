@@ -9,6 +9,7 @@ export const mapTheme = (variables) => {
     "--th-overlay": variables.overlay || "",
     "--th-shadow": variables.shadow || "",
     "--th-error": variables.error || "",
+    "--th-needHelp": variables.needHelp || "",
   };
 };
 

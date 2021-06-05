@@ -11,6 +11,7 @@ body {
     .w-8\/10 {
       width: 80%;
     }
+
     .w-9\/10 {
       width: 90%;
     }
@@ -29,11 +30,17 @@ body {
     .w-9\/10vw {
       width: 95vw;
     }
+    .min-w-15\.75rem {
+      min-width: 15.75rem;
+    }
     .min-w-4\/10 {
       min-width: 40%;
     }
     .min-w-5\/10 {
       min-width: 50%;
+    }
+    .min-w-17\/20 {
+      min-width: 85%;
     }
   }
 }
@@ -61,6 +68,30 @@ body {
     }
     .max-h-md {
       max-height: 448px;
+    }
+  }
+}
+
+/* fontsize utilities */
+@layer utilities {
+  @variants responsive {
+    .text-20px {
+      font-size: 20px;
+    }
+  }
+}
+/* circle utilities */
+@layer utilities {
+  @variants responsive {
+    .half-circle-right {
+      border-radius: 0 150px 150px 0;
+      border: 1.5px solid black;
+      border-left: none;
+    }
+    .half-circle-left {
+      border-radius: 150px 0 0 150px;
+      border: 1.5px solid black;
+      border-right: none;
     }
   }
 }
