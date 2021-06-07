@@ -12,9 +12,9 @@ import { selectTheme } from "./features/changeThemeButton/changeThemeSlice";
 
 //Components
 import LandingPage from "./features/Page_landing/LandingPage";
+import LoginPage from "./features/Page_login/LoginPage";
 import HelpPage from "./features/Page_help/HelpPage";
 import SettingPage from "./features/Page_Setting/SettingPage";
-import ActivateAccount from "./features/activateAccount/ActivateAccount.js";
 
 //CSS
 import "./App.css";
@@ -49,7 +49,13 @@ function App() {
             return <SettingPage></SettingPage>;
           }}
         ></Route>
-        <Route path="/activate/:token" component={ActivateAccount}></Route>
+        <Route
+          exact
+          path="/login"
+          component={() => {
+            return <LoginPage></LoginPage>;
+          }}
+        ></Route>
       </Switch>
     </Router>
   );
