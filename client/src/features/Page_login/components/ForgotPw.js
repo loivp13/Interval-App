@@ -1,41 +1,61 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import InputField from "./sharedComponents/InputField";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
+const schema = yup.object().shape({
+  forgot_email: yup
+    .string()
+    .email("Please enter a valid email")
+    .required("Email is required."),
+});
 const ForgotPw = ({ handleButtonClick }) => {
-  const [email, setEmail] = useState("");
-
-  const handleOnChange = (e) => {
-    setEmail(e.target.value);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) });
+  const onSubmit = (data) => {
+    console.log(data);
   };
   return (
     <>
       <header>
-        <h3 className="text-th-secondary text-4xl font-openSans mb-12 mt-4">
+        <h3 className="text-th-secondary text-4xl font-openSans mb-12 mt-4 text-center">
           forgot password
         </h3>
       </header>
 
-      <form className="flex flex-col items-center w-9/10 " action="">
-        <input
-          className="placeholder-th-secondary text-2xl bg-transparent border-th-white rounded-lg border-2 p-2 mb-2 w-full font-openSans"
-          onChange={(e) => {
-            handleOnChange(e);
-          }}
-          type="text"
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col items-center  max-w-md"
+        action=""
+      >
+        <InputField
           placeholder="email"
-        />
+          register={register}
+          registerName="forgot_email"
+          errors={errors}
+        ></InputField>
+
         <div className="flex justify-between w-full">
-          <div className="text-md text-th-white">
-            <Link to="/">sign in</Link>
-          </div>
           <div
             onClick={() => {
-              handleButtonClick("signup");
+              handleButtonClick("login");
             }}
+            className="text-md text-th-white"
+          >
+            <div>sign in</div>
+          </div>
+          <button
+            type="submit"
             className="text-md text-th-white uppercase border-2 border-th-white rounded-lg p-1"
           >
             Reset
-          </div>
+          </button>
         </div>
       </form>
     </>

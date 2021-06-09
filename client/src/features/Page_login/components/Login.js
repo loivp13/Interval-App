@@ -1,19 +1,38 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { apiAxios } from "../../../helpers/axios_api";
 import { useForm } from "react-hook-form";
-import ErrorIcon from "../../../images/errorIcon.png";
+import InputField from "../components/sharedComponents/InputField";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const schema = yup.object().shape({
+  login_email: yup
+    .string()
+    .email("Please enter a valid email")
+    .required("Field is required"),
+  login_password: yup.string().required("Field is required"),
+});
+
 const Login = ({ handleButtonClick }) => {
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: yupResolver(schema) });
 
   const onSubmit = (data) => {
-    console.log("data");
+    apiAxios
+      .get()
+      .then((data) => {
+        console.log(data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
+  console.log(errors);
   return (
     <>
       <header>
@@ -22,42 +41,28 @@ const Login = ({ handleButtonClick }) => {
         </h3>
       </header>
       {errors.login_username && (
-        <div className="text-th-error text-xs uppercase font-openSans">
-          Incorrect username or password
-        </div>
+        <div className="text-th-error text-xs uppercase font-openSans"></div>
       )}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col items-center w-9/10"
+        className="flex flex-col items-center max-w-md"
         action=""
       >
-        <fieldset className="flex  items-center mb-8">
-          <input
-            id="login_username"
-            {...register("login_username", { required: true })}
-            className="placeholder-th-secondary text-2xl bg-transparent border-th-white rounded-lg border-2 p-2  w-full font-openSans "
-            type="text"
-            placeholder="email"
-          />
-          {errors.login_username && (
-            <span className="pl-2">
-              <img src={ErrorIcon} className="w-4 h-auto" alt="" />
-            </span>
-          )}
-        </fieldset>
-
-        <fieldset className="flex  items-center mb-1">
-          <input
-            {...register("login_password", { required: true })}
-            className="placeholder-th-secondary border-2 text-2xl bg-opacity-0  bg-transparent border-th-white rounded-lg p-2 w-full  font-openSans"
-            placeholder="password"
-          />
-          {errors.login_password && (
-            <span className="pl-2">
-              <img src={ErrorIcon} className="w-4 h-auto" alt="" />
-            </span>
-          )}
-        </fieldset>
+        <InputField
+          id="login_email"
+          placeholder="email"
+          register={register}
+          registerName="login_email"
+          errors={errors}
+        ></InputField>
+        <InputField
+          id="login_password"
+          type="password"
+          placeholder="password"
+          register={register}
+          registerName="login_password"
+          errors={errors}
+        ></InputField>
         <div className="flex justify-between w-full">
           <div
             onClick={() => {

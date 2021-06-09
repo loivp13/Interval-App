@@ -39,7 +39,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="LoginPage bg-th-primary h-screen flex flex-col font-quicksand p-8 items-center text-th-white">
+    <div className="LoginPage bg-th-primary h-screen flex flex-col font-quicksand p-8 items-center text-th-white ">
       <Navbar displayBack={true}></Navbar>
       {renderView()}
     </div>

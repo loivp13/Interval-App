@@ -8,7 +8,7 @@ const Default = ({ handleButtonClick }) => {
           menu
         </h3>
       </header>
-      <div className="LoginPage-main flex flex-col items-center w-full">
+      <div className="LoginPage-main flex flex-col items-center w-full max-w-md cursor-pointer">
         <div
           onClick={() => {
             handleButtonClick("login");
@@ -21,7 +21,7 @@ const Default = ({ handleButtonClick }) => {
           onClick={() => {
             handleButtonClick("signup");
           }}
-          className="rounded-3xl border-2 uppercase border-th-white text-4xl p-2 text-center w-3/4"
+          className="rounded-3xl border-2 uppercase border-th-white text-4xl p-2 text-center w-3/4 cursor-pointer"
         >
           sign up
         </div>
