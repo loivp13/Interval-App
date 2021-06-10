@@ -35,7 +35,7 @@ router.post(
   runValidation,
   forgotPassword
 );
-
+//User update
 router.put(
   "/reset-password",
   userResetPasswordValidator,

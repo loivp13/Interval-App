@@ -15,6 +15,8 @@ import LandingPage from "./features/Page_landing/LandingPage";
 import LoginPage from "./features/Page_login/LoginPage";
 import HelpPage from "./features/Page_help/HelpPage";
 import SettingPage from "./features/Page_Setting/SettingPage";
+import ActivateUserPage from "./features/Page_ActivateUser/ActivateUserPage";
+import TimerPage from "./features/Page_timer/TimerPage";
 
 //CSS
 import "./App.css";
@@ -54,6 +56,20 @@ function App() {
           path="/login"
           component={() => {
             return <LoginPage></LoginPage>;
+          }}
+        ></Route>
+        <Route
+          exact
+          path="/activate/:token"
+          component={() => {
+            return <ActivateUserPage></ActivateUserPage>;
+          }}
+        ></Route>
+        <Route
+          exact
+          path="/timer/"
+          component={() => {
+            return <TimerPage></TimerPage>;
           }}
         ></Route>
       </Switch>

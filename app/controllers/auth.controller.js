@@ -20,34 +20,40 @@ AWS.config.update({
 const ses = new AWS.SES({ apiVersion: "2010-12-1" });
 
 exports.register = (req, res) => {
-  const { firstName, lastName, username, password, email } = req.body;
+  const { signup_username, signup_password, signup_email } = req.body;
   User.findOne({
     where: {
-      email,
+      email: {
+        [Op.iLike]: signup_email,
+      },
     },
   }).then((data) => {
     //if data exist email or username is taking
     if (data) {
       console.log(data);
       res.status(400).json({
-        message: "email or password is already taken",
+        message: "email is already taken",
       });
     }
 
     //if data does not exist send double optin email
     const token = jwt.sign(
-      { firstName, lastName, username, password, email },
+      {
+        signup_password,
+        signup_username,
+        signup_email,
+      },
       process.env.JWT_ACCOUNT_ACTIVATION
     );
     //send email returning a promise
     const sendEmailOnRegister = ses
-      .sendEmail(registerEmailParams(email, token))
+      .sendEmail(registerEmailParams(signup_email, token))
       .promise();
     //
     sendEmailOnRegister
       .then((data) => {
         res.json({
-          message: `Email has been sent to  ${email}. Follow the instructions to complete your registration.`,
+          message: `Email has been sent to  ${signup_email}. Follow the instructions to complete your registration.`,
           data,
         });
       })
@@ -71,10 +77,16 @@ exports.activate = (req, res) => {
     }
   });
 
-  const { firstName, lastName, email, password, username } = jwt.decode(token);
+  const { signup_username, signup_password, signup_email } = jwt.decode(token);
 
   //check if another email was registered
-  User.findOne({ where: { email } }).then((data) => {
+  User.findOne({
+    where: {
+      email: {
+        [Op.iLike]: signup_email,
+      },
+    },
+  }).then((data) => {
     if (data) {
       res.status(401).json({
         error: "Email was just taken",
@@ -84,11 +96,9 @@ exports.activate = (req, res) => {
 
   //create new user
   User.create({
-    username,
-    firstName,
-    lastName,
-    password,
-    email,
+    username: signup_username,
+    password: signup_password,
+    email: signup_email,
   })
     .then((data) => {
       res.send(data);
@@ -103,8 +113,8 @@ exports.activate = (req, res) => {
 };
 
 exports.login = (req, res) => {
-  const { email, password } = req.body;
-  User.findOne({ where: { email } })
+  const { login_email, login_password } = req.body;
+  User.findOne({ where: { email: { [Op.iLike]: login_email } } })
     .then(async (data) => {
       //No user was found
       if (!data) {
@@ -114,7 +124,7 @@ exports.login = (req, res) => {
       }
 
       //found user validate password
-      if (!(await data.validatePassword(password))) {
+      if (!(await data.validatePassword(login_password))) {
         console.log("end");
         return res
           .status(401)
@@ -127,7 +137,7 @@ exports.login = (req, res) => {
       const { email, firstName, lastName, username } = data;
       return res.json({
         token,
-        user: { email, firstName, lastName, username },
+        user: { email, username },
       });
     })
     .catch((err) => {
@@ -150,7 +160,7 @@ exports.requireSignin = expressJwt({
 exports.forgotPassword = (req, res) => {
   const { email } = req.body;
 
-  User.findOne({ where: { email } })
+  User.findOne({ where: { email: { [Op.iLike]: signup_email } } })
     .then((data) => {
       //no user found
       if (!data) {

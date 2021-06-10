@@ -1,20 +1,33 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { apiAxios } from "../../../helpers/axios_api";
 import { useForm } from "react-hook-form";
-import InputField from "../components/sharedComponents/InputField";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+
+import InputField from "../components/sharedComponents/InputField";
+import AuthForm from "./sharedComponents/AuthForm";
 
 const schema = yup.object().shape({
   login_email: yup
     .string()
     .email("Please enter a valid email")
-    .required("Field is required"),
-  login_password: yup.string().required("Field is required"),
+    .required("Email is required"),
+  login_password: yup.string().required("Password is required"),
 });
 
 const Login = ({ handleButtonClick }) => {
+  //display server error message
+  const [serverErrorMessage, triggerServerErrorMessage] = useState({
+    displayErrorMessage: false,
+    errorMessage: "",
+  });
+  let { displayErrorMessage, errorMessage } = serverErrorMessage;
+  const renderErrorMessage = () => {
+    return displayErrorMessage ? errorMessage : "";
+  };
+
+  //error handling with react-hook-form
   const {
     register,
     handleSubmit,
@@ -22,31 +35,30 @@ const Login = ({ handleButtonClick }) => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
+  let history = useHistory();
   const onSubmit = (data) => {
     apiAxios
-      .get()
+      .post("/auth/login", data)
       .then((data) => {
-        console.log(data.data);
+        history.push("/timer");
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(({ response }) => {
+        triggerServerErrorMessage({
+          ...serverErrorMessage,
+          errorMessage: response.data.message,
+        });
       });
   };
-  console.log(errors);
+
   return (
     <>
-      <header>
-        <h3 className="text-th-secondary text-4xl font-openSans mb-12 mt-4">
-          log in
-        </h3>
-      </header>
-      {errors.login_username && (
-        <div className="text-th-error text-xs uppercase font-openSans"></div>
-      )}
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col items-center max-w-md"
-        action=""
+      <AuthForm
+        header={"log in"}
+        handleSubmit={handleSubmit}
+        handleButtonClick={handleButtonClick}
+        onSubmit={onSubmit}
+        errors={errors}
+        serverErrorMessage={errorMessage}
       >
         <InputField
           id="login_email"
@@ -63,23 +75,31 @@ const Login = ({ handleButtonClick }) => {
           registerName="login_password"
           errors={errors}
         ></InputField>
-        <div className="flex justify-between w-full">
+        <div className="flex justify-between align w-full  transform -translate-y-1/2">
           <div
             onClick={() => {
               handleButtonClick("forgotPw");
             }}
-            className="text-md text-th-white"
+            className="text-md text-th-white  cursor-pointer"
           >
             forgot password?
           </div>
           <button
             type="submit"
-            className="text-md mt-4 text-th-white uppercase border-2 border-th-white rounded-lg p-1"
+            className="text-md text-th-white uppercase border-2 border-th-white rounded-lg p-1"
           >
             Login
           </button>
         </div>
-      </form>
+        <div
+          onClick={() => {
+            handleButtonClick("signup");
+          }}
+          className="mt-10 text-th-white w-full text-center cursor-pointer"
+        >
+          sign up
+        </div>
+      </AuthForm>
     </>
   );
 };

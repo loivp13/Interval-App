@@ -15,7 +15,7 @@ module.exports = (sequelize, Sequelize) => {
       },
       firstName: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
         validate: {
           len: {
             args: [1],
@@ -25,7 +25,7 @@ module.exports = (sequelize, Sequelize) => {
       },
       lastName: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
         validate: {
           len: {
             args: [1],
@@ -38,12 +38,6 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: false,
         unique: {
           msg: "Username is already taken",
-        },
-        validate: {
-          len: {
-            args: [6],
-            msg: "Username needs a minimum of 6 characters.",
-          },
         },
       },
       password: {

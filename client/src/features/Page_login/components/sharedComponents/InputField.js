@@ -8,9 +8,10 @@ const InputField = ({
   errors,
   register,
   registerName,
+  extraClasses,
 }) => {
   return (
-    <fieldset className="flex items-center mb-8 w-full relative">
+    <fieldset className="flex items-center mb-10 w-full relative">
       <input
         id={id ? id : ""}
         {...register(registerName, { required: true })}
@@ -24,7 +25,7 @@ const InputField = ({
         </span>
       )}
       {errors[registerName] && (
-        <span className="p2-2 absolute bottom-0 transform translate-y-full text-th-error">
+        <span className="p2-2 absolute top-0 transform -translate-y-full text-th-error">
           {errors[registerName].message}
         </span>
       )}

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import InputField from "./sharedComponents/InputField";
+import AuthForm from "./sharedComponents/AuthForm";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -23,16 +23,12 @@ const ForgotPw = ({ handleButtonClick }) => {
   };
   return (
     <>
-      <header>
-        <h3 className="text-th-secondary text-4xl font-openSans mb-12 mt-4 text-center">
-          forgot password
-        </h3>
-      </header>
-
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col items-center  max-w-md"
-        action=""
+      <AuthForm
+        header={"forgot password"}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        errors={errors}
+        handleButtonClick={handleButtonClick}
       >
         <InputField
           placeholder="email"
@@ -40,15 +36,14 @@ const ForgotPw = ({ handleButtonClick }) => {
           registerName="forgot_email"
           errors={errors}
         ></InputField>
-
-        <div className="flex justify-between w-full">
+        <div className="flex justify-between items-start w-full   transform -translate-y-1/2">
           <div
             onClick={() => {
               handleButtonClick("login");
             }}
-            className="text-md text-th-white"
+            className="text-md text-th-white cursor-pointer"
           >
-            <div>sign in</div>
+            login
           </div>
           <button
             type="submit"
@@ -57,7 +52,15 @@ const ForgotPw = ({ handleButtonClick }) => {
             Reset
           </button>
         </div>
-      </form>
+        <div
+          onClick={() => {
+            handleButtonClick("signup");
+          }}
+          className="mt-10 text-th-white w-full text-center cursor-pointer"
+        >
+          sign up
+        </div>
+      </AuthForm>
     </>
   );
 };
