@@ -32,7 +32,7 @@ exports.register = (req, res) => {
     if (data) {
       console.log(data);
       res.status(400).json({
-        message: "email is already taken",
+        message: "Email is already taken",
       });
     }
 

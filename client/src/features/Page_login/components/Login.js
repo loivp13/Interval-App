@@ -39,8 +39,11 @@ const Login = ({ handleButtonClick }) => {
   const onSubmit = (data) => {
     apiAxios
       .post("/auth/login", data)
-      .then((data) => {
-        history.push("/timer");
+      .then(({ data }) => {
+        console.log(data.user);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
+        history.push("/");
       })
       .catch(({ response }) => {
         triggerServerErrorMessage({

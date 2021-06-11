@@ -16,7 +16,7 @@ import LoginPage from "./features/Page_login/LoginPage";
 import HelpPage from "./features/Page_help/HelpPage";
 import SettingPage from "./features/Page_Setting/SettingPage";
 import ActivateUserPage from "./features/Page_ActivateUser/ActivateUserPage";
-import TimerPage from "./features/Page_timer/TimerPage";
+import ActiveTimerPage from "./features/Page_ActiveTimer/ActiveTimerPage";
 
 //CSS
 import "./App.css";
@@ -67,9 +67,9 @@ function App() {
         ></Route>
         <Route
           exact
-          path="/timer/"
+          path="/activeTimer/"
           component={() => {
-            return <TimerPage></TimerPage>;
+            return <ActiveTimerPage></ActiveTimerPage>;
           }}
         ></Route>
       </Switch>
