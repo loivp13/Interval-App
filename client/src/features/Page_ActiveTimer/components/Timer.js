@@ -1,41 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import UseIntervalHook from "../../../customHooks/UseInterval";
 
 export default function Timer({ timerName, currentTimer, setCurrentTimer }) {
   let [timerValues, setTimerValues] = useState(currentTimer.times);
+  let [isRunning, setRunningState] = useState(false);
   let { hr, min, sec } = timerValues;
-  let [intervalIds, setIntervalIds] = useState([]);
 
   const handleStartTimer = () => {
     startTimer();
   };
+
   const startTimer = () => {
-    let i = setInterval(updateTimerLoop, 100);
-    console.log("🚀 ~ file: Timer.js ~ line 13 ~ startTimer ~ i", i);
-    setIntervalIds([...intervalIds, i]);
+    setRunningState(true);
   };
 
-  const clearIntervalIds = () => {
-    console.log(intervalIds);
-    for (let id of intervalIds) {
-      console.log(id);
-      clearInterval(id);
-    }
-    console.log("clear");
-    setIntervalIds([]);
+  const PauseTimer = () => {
+    setRunningState(false);
   };
-  const updateTimerLoop = () => {
-    let updateSec = --sec;
-    if (updateSec < 0) {
-      let updateMin = --min;
-      if (updateMin < 0) {
-        clearIntervalIds();
+
+  //function to calc and update new times
+  const countDown = () => {
+    console.log(isRunning);
+    let updatedSec = --sec;
+    if (updatedSec < 0) {
+      let updatedMin = --min;
+      if (updatedMin < 0) {
+        let updatedHr = --hr;
+        if (updatedHr < 0) {
+          setRunningState(false);
+        } else {
+          setTimerValues({
+            ...timerValues,
+            hr: updatedHr,
+            sec: 59,
+            min: 59,
+          });
+        }
       } else {
-        setTimerValues({ ...timerValues, min: updateMin, sec: 59 });
+        setTimerValues({ ...timerValues, sec: 59, min: updatedMin });
       }
     } else {
-      setTimerValues({ ...timerValues, sec: updateSec });
+      setTimerValues({ ...timerValues, sec: updatedSec });
     }
   };
+
+  UseIntervalHook(countDown, 1000, isRunning);
+
   return (
     <div className="Timer text-openSans mt-8">
       <div className="text-3xl text-th-secondary uppercase text-center">

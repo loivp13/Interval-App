@@ -17,7 +17,6 @@ export default function ActiveTimerPage() {
       setCurrentTimer(currentTimer + 1);
     }
   };
-  console.log(currentTimer);
   return (
     <MobileLayout>
       <Navbar displayHelp={true} displayBack={true}></Navbar>

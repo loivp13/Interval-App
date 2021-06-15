@@ -6,7 +6,7 @@ const initialState = {
     {
       currentTimerName: "45 seconds",
       times: {
-        hr: 0,
+        hr: 1,
         min: 1,
         sec: 45,
       },
