@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import UseIntervalHook from "../../../customHooks/UseInterval";
+import AnimatedTimer from "../../animateTimer/AnimatedTimer";
+
+import PauseIcon from "../../../images/BUTTON - pause.png";
+import PlayIcon from "../../../images/BUTTON - PLAY.png";
+import RepeatIcon from "../../../images/button-repeat.png";
 
 export default function Timer({ timerName, currentTimer, setCurrentTimer }) {
   let [timerValues, setTimerValues] = useState(currentTimer.times);
@@ -14,7 +19,7 @@ export default function Timer({ timerName, currentTimer, setCurrentTimer }) {
     setRunningState(true);
   };
 
-  const PauseTimer = () => {
+  const pauseTimer = () => {
     setRunningState(false);
   };
 
@@ -47,20 +52,35 @@ export default function Timer({ timerName, currentTimer, setCurrentTimer }) {
   UseIntervalHook(countDown, 1000, isRunning);
 
   return (
-    <div className="Timer text-openSans mt-8">
-      <div className="text-3xl text-th-secondary uppercase text-center">
+    <div className="Timer font-openSans mt-6">
+      <div className="text-4xl text-th-secondary uppercase text-center mb-8">
         {timerName}
       </div>
-      <div className="">{`${hr.toString().padStart(2, 0)}:${min
-        .toString()
-        .padStart(2, 0)}:${sec.toString().padStart(2, 0)}`}</div>
-      <button
-        onClick={() => {
-          handleStartTimer();
-        }}
-      >
-        start timer
-      </button>
+      <AnimatedTimer hr={hr} min={min} sec={sec}></AnimatedTimer>.
+      <div className="flex justify-around mx-20">
+        <button
+          className="font-quicksand text-th-secondary"
+          onClick={() => {
+            handleStartTimer();
+          }}
+        >
+          <div className="">
+            <img src={PlayIcon} alt="" />
+          </div>
+          start timer
+        </button>
+        <button
+          className="font-quicksand text-th-secondary"
+          onClick={() => {
+            pauseTimer();
+          }}
+        >
+          <div className="">
+            <img src={PauseIcon} alt="" />
+          </div>
+          pause timer
+        </button>
+      </div>
     </div>
   );
 }

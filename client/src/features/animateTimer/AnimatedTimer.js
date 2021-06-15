@@ -1,0 +1,46 @@
+import React from "react";
+
+export default function AnimatedTimer({ sec, min, hr }) {
+  return (
+    <div className="AnimatedTime relative w-9/10vw max-w-md">
+      <svg
+        className="base-timer__svg"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g className="base-timer__circle stroke-th-none fill-th-none">
+          <circle
+            className="base-timer__path-elapsed stroke-current text-th-white stroke-1"
+            cx="50"
+            cy="50"
+            r="45"
+          />
+        </g>
+      </svg>
+      <span className="absolute top-0 w-full h-full text-th-white flex flex-col items-center justify-center">
+        <div className=" relative title text-center text-8xl  w-full">
+          <div className=" absolute -top-16 w-full title text-center text-th-secondary text-2xl mb-16 uppercase">
+            name
+          </div>
+          <div className="w-full flex justify-around px-12 items-center">
+            <span className="w-2/5 text-center">{`${min
+              .toString()
+              .padStart(2, 0)}`}</span>
+            <span className="w-1/5 text-center">:</span>
+            <span className="w-2/5 text-center">{`${sec
+              .toString()
+              .padStart(2, 0)}`}</span>
+          </div>
+          <div className="absolute flex justify-around w-full px-12 items-center mt-4">
+            <div className="text-th-secondary text-lg font-quicksand uppercase">
+              Min
+            </div>
+            <div className="text-th-secondary text-lg font-quicksand uppercase">
+              Sec
+            </div>
+          </div>
+        </div>
+      </span>
+    </div>
+  );
+}

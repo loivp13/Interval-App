@@ -20,6 +20,13 @@ module.exports = {
         "th-error": "var(--th-error)",
         "th-shadow": "var(--th-shadow)",
         "th-needHelp": "var(--th-needHelp)",
+        "th-transparent": "#00000000",
+      },
+      fill: {
+        "th-none": "none",
+      },
+      stroke: {
+        "th-none": "none",
       },
     },
   },

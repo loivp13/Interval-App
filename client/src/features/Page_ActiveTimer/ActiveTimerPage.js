@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import MobileLayout from "../../layout/MobileLayout";
 import Navbar from "../globalComponents/navbar/Navbar";
 import Timer from "./components/Timer";
+import Footer from "../footer/Footer";
+
 import { setNewTimer, selectTimer } from "./components/timerSlice";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -25,6 +27,7 @@ export default function ActiveTimerPage() {
         timerName={timerName}
         currentTimer={timers[currentTimer]}
       ></Timer>
+      <Footer></Footer>
     </MobileLayout>
   );
 }
