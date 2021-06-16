@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import UseIntervalHook from "../../../customHooks/UseInterval";
 import AnimatedTimer from "../../animateTimer/AnimatedTimer";
+import TimerButton from "./TimerButton";
 
 import PauseIcon from "../../../images/BUTTON - pause.png";
 import PlayIcon from "../../../images/BUTTON - PLAY.png";
@@ -10,6 +11,7 @@ export default function Timer({ timerName, currentTimer, setCurrentTimer }) {
   let [timerValues, setTimerValues] = useState(currentTimer.times);
   let [isRunning, setRunningState] = useState(false);
   let { hr, min, sec } = timerValues;
+  let [totalTime, setTotalTime] = useState(min * 60 + sec);
 
   const handleStartTimer = () => {
     startTimer();
@@ -22,10 +24,20 @@ export default function Timer({ timerName, currentTimer, setCurrentTimer }) {
   const pauseTimer = () => {
     setRunningState(false);
   };
-
+  const resetTimer = () => {
+    setRunningState(false);
+    setTimerValues(currentTimer.times);
+  };
+  const updateTimer = (hr, min, sec) => {
+    setTimerValues({
+      ...timerValues,
+      hr,
+      sec,
+      min,
+    });
+  };
   //function to calc and update new times
   const countDown = () => {
-    console.log(isRunning);
     let updatedSec = --sec;
     if (updatedSec < 0) {
       let updatedMin = --min;
@@ -34,18 +46,13 @@ export default function Timer({ timerName, currentTimer, setCurrentTimer }) {
         if (updatedHr < 0) {
           setRunningState(false);
         } else {
-          setTimerValues({
-            ...timerValues,
-            hr: updatedHr,
-            sec: 59,
-            min: 59,
-          });
+          updateTimer(updatedHr, 59, 59);
         }
       } else {
-        setTimerValues({ ...timerValues, sec: 59, min: updatedMin });
+        updateTimer(hr, updatedMin, 59);
       }
     } else {
-      setTimerValues({ ...timerValues, sec: updatedSec });
+      updateTimer(hr, min, updatedSec);
     }
   };
 
@@ -56,30 +63,34 @@ export default function Timer({ timerName, currentTimer, setCurrentTimer }) {
       <div className="text-4xl text-th-secondary uppercase text-center mb-8">
         {timerName}
       </div>
-      <AnimatedTimer hr={hr} min={min} sec={sec}></AnimatedTimer>.
+      <AnimatedTimer
+        totalTime={totalTime}
+        hr={hr}
+        min={min}
+        sec={sec}
+      ></AnimatedTimer>
+
       <div className="flex justify-around mx-20">
-        <button
-          className="font-quicksand text-th-secondary"
-          onClick={() => {
-            handleStartTimer();
-          }}
-        >
-          <div className="">
-            <img src={PlayIcon} alt="" />
-          </div>
-          start timer
-        </button>
-        <button
-          className="font-quicksand text-th-secondary"
-          onClick={() => {
-            pauseTimer();
-          }}
-        >
-          <div className="">
-            <img src={PauseIcon} alt="" />
-          </div>
-          pause timer
-        </button>
+        {!isRunning && (
+          <TimerButton
+            action={handleStartTimer}
+            text="start"
+            icon={PlayIcon}
+          ></TimerButton>
+        )}
+
+        {isRunning && (
+          <TimerButton
+            action={pauseTimer}
+            text="pause"
+            icon={PauseIcon}
+          ></TimerButton>
+        )}
+        <TimerButton
+          action={resetTimer}
+          text="reset"
+          icon={RepeatIcon}
+        ></TimerButton>
       </div>
     </div>
   );

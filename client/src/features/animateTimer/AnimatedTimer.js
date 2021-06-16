@@ -1,6 +1,17 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 
-export default function AnimatedTimer({ sec, min, hr }) {
+export default function AnimatedTimer({ sec, min, hr, totalTime }) {
+  const currentDashArray = ((sec + 60 * min) / totalTime) * 283;
+
+  let timeElapsedCircleRef = useRef();
+  useEffect(() => {
+    timeElapsedCircleRef.current = document.getElementById("elapsedCircle");
+    timeElapsedCircleRef.current.setAttribute(
+      "stroke-dasharray",
+      `${currentDashArray.toFixed(0)} 283`
+    );
+  }, [currentDashArray]);
+
   return (
     <div className="AnimatedTime relative w-9/10vw max-w-md">
       <svg
@@ -8,16 +19,26 @@ export default function AnimatedTimer({ sec, min, hr }) {
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <g className="base-timer__circle stroke-th-none fill-th-none">
+        <g className="base-timer__circle">
           <circle
-            className="base-timer__path-elapsed stroke-current text-th-white stroke-1"
+            className="base-timer__path-elapsed stroke-current text-th-secondary fill-th-none stroke-1 "
             cx="50"
             cy="50"
             r="45"
           />
+          <path
+            id="elapsedCircle"
+            className="base-timer__path-elapsed transform origin-center  rotate-90 stroke-current duration-1000 text-th-white fill-th-none stroke-1 "
+            d="
+                M 50, 50
+                m -45, 0
+                a 45,45 0 1,0 90,0
+                a 45,45 0 1,0 -90,0
+              "
+          />
         </g>
       </svg>
-      <span className="absolute top-0 w-full h-full text-th-white flex flex-col items-center justify-center">
+      <span className=" absolute top-0 w-full h-full text-th-white flex flex-col items-center justify-center">
         <div className=" relative title text-center text-8xl  w-full">
           <div className=" absolute -top-16 w-full title text-center text-th-secondary text-2xl mb-16 uppercase">
             name

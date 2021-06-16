@@ -6,6 +6,9 @@ module.exports = {
   },
   plugins: [],
   theme: {
+    scale: {
+      neg100: "-1",
+    },
     extend: {
       fontFamily: {
         quicksand: ["Quicksand", "sans-serif;"],
