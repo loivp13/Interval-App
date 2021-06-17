@@ -27,10 +27,7 @@ const initialState = {
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched. Thunks are
 // typically used to make async requests.
-export const saveTimerAsync = createAsyncThunk(
-  "timer/saveTimer",
-  console.log("hasdhfhas")
-);
+export const saveTimerAsync = createAsyncThunk("timer/saveTimer");
 
 export const timerSlice = createSlice({
   name: "timer",
@@ -42,7 +39,8 @@ export const timerSlice = createSlice({
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      state.timers = action.payload;
+
+      return action.payload;
     },
     setTimerName: (state, action) => {
       state.timerName = action.payload;
@@ -69,4 +67,10 @@ export const { setNewTimer, setTimerName } = timerSlice.actions;
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const selectTimer = (state) => state.timer;
 
+// We can also write thunks by hand, which may contain both sync and async logic.
+// Here's an example of conditionally dispatching actions based on current state.
+export const asyncSetNewTimer = (payload) => async (dispatch, getState) => {
+  await dispatch(setNewTimer(payload.timerData));
+  payload.history.push("/activeTimer");
+};
 export default timerSlice.reducer;

@@ -18,10 +18,54 @@ export default function LandingPage({}) {
           quickstart
         </div>
         <div className="QuickStartButtons h-auto w-8/10 text-center flex flex-row flex-wrap px-4 justify-between items-center ">
-          <CtaButtons text={"00:45"}></CtaButtons>
-          <CtaButtons text={"01:00"}></CtaButtons>
-          <CtaButtons text={"05:00"}></CtaButtons>
-          <CtaButtons text={"10:00"}></CtaButtons>
+          <CtaButtons
+            timerData={{
+              timerName: "Quickstart",
+              timers: [
+                {
+                  currentTimerName: "45 seconds",
+                  times: { hr: 0, min: 0, sec: 45 },
+                },
+              ],
+            }}
+            text={"00:45"}
+          ></CtaButtons>
+          <CtaButtons
+            timerData={{
+              timerName: "Quickstart",
+              timers: [
+                {
+                  currentTimerName: "1 minute",
+                  times: { hr: 0, min: 1, sec: 0 },
+                },
+              ],
+            }}
+            text={"01:00"}
+          ></CtaButtons>
+          <CtaButtons
+            timerData={{
+              timerName: "Quickstart",
+              timers: [
+                {
+                  currentTimerName: "5 minutes",
+                  times: { hr: 0, min: 5, sec: 0 },
+                },
+              ],
+            }}
+            text={"05:00"}
+          ></CtaButtons>
+          <CtaButtons
+            timerData={{
+              timerName: "Quickstart",
+              timers: [
+                {
+                  currentTimerName: "10 minutes",
+                  times: { hr: 0, min: 10, sec: 0 },
+                },
+              ],
+            }}
+            text={"10:00"}
+          ></CtaButtons>
         </div>
       </main>
       <Footer></Footer>

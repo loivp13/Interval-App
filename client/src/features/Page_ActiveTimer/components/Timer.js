@@ -94,7 +94,7 @@ export default function Timer({
         sec={sec}
       ></AnimatedTimer>
 
-      <div className="flex justify-around mx-20">
+      <div className="flex justify-around mx-20 mt-16">
         {!isRunning && (
           <TimerButton
             action={handleStartTimer}
