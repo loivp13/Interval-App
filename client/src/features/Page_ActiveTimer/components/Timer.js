@@ -16,6 +16,7 @@ export default function Timer({
   let { currentTimerName } = currentTimer;
   let [timerValues, setTimerValues] = useState(currentTimer.times);
   let [isRunning, setRunningState] = useState(false);
+  let [isFinished, setFinishedState] = useState(false);
   let { hr, min, sec } = timerValues;
   let [totalTime, setTotalTime] = useState(min * 60 + sec);
 
@@ -31,6 +32,7 @@ export default function Timer({
     setRunningState(false);
   };
   const resetTimer = () => {
+    setFinishedState(false);
     setRunningState(false);
     setTimerValues(currentTimer.times);
   };
@@ -55,12 +57,12 @@ export default function Timer({
       if (updatedMin < 0) {
         let updatedHr = --hr;
         if (updatedHr < 0) {
+          //return true if queue next timer
           let hasMoreTimer = handleRequestNextTimer();
           if (hasMoreTimer) {
-            console.log("more");
           } else {
-            console.log("none");
             setRunningState(false);
+            setFinishedState(true);
           }
         } else {
           updateTimer(updatedHr, 59, 59);
@@ -84,9 +86,10 @@ export default function Timer({
   return (
     <div className="Timer font-openSans mt-6">
       <div className="text-4xl text-th-secondary uppercase text-center mb-8">
-        {timerName}
+        {isFinished ? `Time's Up` : timerName}
       </div>
       <AnimatedTimer
+        isFinished={isFinished}
         currentTimerName={currentTimerName}
         totalTime={totalTime}
         hr={hr}

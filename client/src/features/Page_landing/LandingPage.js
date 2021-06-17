@@ -23,7 +23,7 @@ export default function LandingPage({}) {
               timerName: "Quickstart",
               timers: [
                 {
-                  currentTimerName: "45 seconds",
+                  currentTimerName: "00:45",
                   times: { hr: 0, min: 0, sec: 45 },
                 },
               ],
@@ -35,7 +35,7 @@ export default function LandingPage({}) {
               timerName: "Quickstart",
               timers: [
                 {
-                  currentTimerName: "1 minute",
+                  currentTimerName: "1:00",
                   times: { hr: 0, min: 1, sec: 0 },
                 },
               ],
@@ -47,7 +47,7 @@ export default function LandingPage({}) {
               timerName: "Quickstart",
               timers: [
                 {
-                  currentTimerName: "5 minutes",
+                  currentTimerName: "5:00",
                   times: { hr: 0, min: 5, sec: 0 },
                 },
               ],
@@ -59,7 +59,7 @@ export default function LandingPage({}) {
               timerName: "Quickstart",
               timers: [
                 {
-                  currentTimerName: "10 minutes",
+                  currentTimerName: "10:00",
                   times: { hr: 0, min: 10, sec: 0 },
                 },
               ],

@@ -1,4 +1,5 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
+import UseIntervalHook from "../../customHooks/UseInterval";
 
 export default function AnimatedTimer({
   sec,
@@ -6,9 +7,12 @@ export default function AnimatedTimer({
   hr,
   totalTime,
   currentTimerName,
+  isFinished,
 }) {
+  //calc how many dasharray to display
   const currentDashArray = ((totalTime - (sec + 60 * min)) / totalTime) * 283;
 
+  //animate timer ring
   let timeElapsedCircleRef = useRef();
   useEffect(() => {
     timeElapsedCircleRef.current = document.getElementById("elapsedCircle");
@@ -17,6 +21,16 @@ export default function AnimatedTimer({
       `${currentDashArray.toFixed(0)} 283`
     );
   }, [currentDashArray, currentTimerName]);
+
+  // animate blinking text
+  const [isTextOpaque, setTextOpaque] = useState(isFinished);
+  const renderBlinkingText = () => {
+    return isTextOpaque ? "opacity-50" : "";
+  };
+  const blinkTimerText = () => {
+    setTextOpaque(!isTextOpaque);
+  };
+  UseIntervalHook(blinkTimerText, 300, isFinished);
 
   return (
     <div className="AnimatedTime relative w-9/10vw max-w-md">
@@ -50,13 +64,15 @@ export default function AnimatedTimer({
             {currentTimerName}
           </div>
           <div className="w-full flex justify-around px-12 items-center">
-            <span className="w-2/5 text-center">{`${min
-              .toString()
-              .padStart(2, 0)}`}</span>
-            <span className="w-1/5 text-center">:</span>
-            <span className="w-2/5 text-center">{`${sec
-              .toString()
-              .padStart(2, 0)}`}</span>
+            <span
+              className={`w-2/5 text-center ${renderBlinkingText()}`}
+            >{`${min.toString().padStart(2, 0)}`}</span>
+            <span className={`w-1/5 text-center ${renderBlinkingText()}`}>
+              :
+            </span>
+            <span
+              className={` w-2/5 text-center ${renderBlinkingText()}`}
+            >{`${sec.toString().padStart(2, 0)}`}</span>
           </div>
           <div className="absolute flex justify-around w-full px-12 items-center mt-4">
             <div className="text-th-secondary text-lg font-quicksand uppercase">
