@@ -7,7 +7,13 @@ import PauseIcon from "../../../images/BUTTON - pause.png";
 import PlayIcon from "../../../images/BUTTON - PLAY.png";
 import RepeatIcon from "../../../images/button-repeat.png";
 
-export default function Timer({ timerName, currentTimer, setCurrentTimer }) {
+export default function Timer({
+  timerName,
+  currentTimer,
+  handleRequestNextTimer,
+  handleRequestResetTimer,
+}) {
+  let { currentTimerName } = currentTimer;
   let [timerValues, setTimerValues] = useState(currentTimer.times);
   let [isRunning, setRunningState] = useState(false);
   let { hr, min, sec } = timerValues;
@@ -28,6 +34,11 @@ export default function Timer({ timerName, currentTimer, setCurrentTimer }) {
     setRunningState(false);
     setTimerValues(currentTimer.times);
   };
+  const loadNextTime = () => {
+    setRunningState(false);
+    setTimerValues(currentTimer.times);
+    startTimer();
+  };
   const updateTimer = (hr, min, sec) => {
     setTimerValues({
       ...timerValues,
@@ -44,7 +55,13 @@ export default function Timer({ timerName, currentTimer, setCurrentTimer }) {
       if (updatedMin < 0) {
         let updatedHr = --hr;
         if (updatedHr < 0) {
-          setRunningState(false);
+          let hasMoreTimer = handleRequestNextTimer();
+          if (hasMoreTimer) {
+            console.log("more");
+          } else {
+            console.log("none");
+            setRunningState(false);
+          }
         } else {
           updateTimer(updatedHr, 59, 59);
         }
@@ -58,12 +75,19 @@ export default function Timer({ timerName, currentTimer, setCurrentTimer }) {
 
   UseIntervalHook(countDown, 1000, isRunning);
 
+  useEffect(() => {
+    if (isRunning) {
+      loadNextTime();
+    }
+  }, [currentTimer]);
+
   return (
     <div className="Timer font-openSans mt-6">
       <div className="text-4xl text-th-secondary uppercase text-center mb-8">
         {timerName}
       </div>
       <AnimatedTimer
+        currentTimerName={currentTimerName}
         totalTime={totalTime}
         hr={hr}
         min={min}
@@ -87,7 +111,10 @@ export default function Timer({ timerName, currentTimer, setCurrentTimer }) {
           ></TimerButton>
         )}
         <TimerButton
-          action={resetTimer}
+          action={() => {
+            resetTimer();
+            handleRequestResetTimer();
+          }}
           text="reset"
           icon={RepeatIcon}
         ></TimerButton>

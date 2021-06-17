@@ -17,13 +17,19 @@ export default function ActiveTimerPage() {
   const handleRequestNextTimer = () => {
     if (currentTimer + 1 < timers.length) {
       setCurrentTimer(currentTimer + 1);
+      return true;
     }
+    return false;
+  };
+  const handleRequestResetTimer = () => {
+    setCurrentTimer(0);
   };
   return (
     <MobileLayout>
       <Navbar displayHelp={true} displayBack={true}></Navbar>
       <Timer
-        setCurrentTimer={setCurrentTimer}
+        handleRequestResetTimer={handleRequestResetTimer}
+        handleRequestNextTimer={handleRequestNextTimer}
         timerName={timerName}
         currentTimer={timers[currentTimer]}
       ></Timer>

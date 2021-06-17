@@ -4,11 +4,19 @@ const initialState = {
   timerName: "Quickstart",
   timers: [
     {
-      currentTimerName: "45 seconds",
+      currentTimerName: "first counter",
       times: {
         hr: 0,
-        min: 1,
-        sec: 45,
+        min: 0,
+        sec: 5,
+      },
+    },
+    {
+      currentTimerName: "second counter",
+      times: {
+        hr: 0,
+        min: 0,
+        sec: 5,
       },
     },
   ],

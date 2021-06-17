@@ -1,7 +1,13 @@
 import React, { useRef, useEffect } from "react";
 
-export default function AnimatedTimer({ sec, min, hr, totalTime }) {
-  const currentDashArray = ((sec + 60 * min) / totalTime) * 283;
+export default function AnimatedTimer({
+  sec,
+  min,
+  hr,
+  totalTime,
+  currentTimerName,
+}) {
+  const currentDashArray = ((totalTime - (sec + 60 * min)) / totalTime) * 283;
 
   let timeElapsedCircleRef = useRef();
   useEffect(() => {
@@ -10,7 +16,7 @@ export default function AnimatedTimer({ sec, min, hr, totalTime }) {
       "stroke-dasharray",
       `${currentDashArray.toFixed(0)} 283`
     );
-  }, [currentDashArray]);
+  }, [currentDashArray, currentTimerName]);
 
   return (
     <div className="AnimatedTime relative w-9/10vw max-w-md">
@@ -21,14 +27,14 @@ export default function AnimatedTimer({ sec, min, hr, totalTime }) {
       >
         <g className="base-timer__circle">
           <circle
-            className="base-timer__path-elapsed stroke-current text-th-secondary fill-th-none stroke-1 "
+            className="base-timer__path-elapsed stroke-current text-th-white fill-th-none stroke-1 "
             cx="50"
             cy="50"
             r="45"
           />
           <path
             id="elapsedCircle"
-            className="base-timer__path-elapsed transform origin-center  rotate-90 stroke-current duration-1000 text-th-white fill-th-none stroke-1 "
+            className="base-timer__path-elapsed transform origin-center  -rotate-90 stroke-current scale-x-neg100 duration-1000 text-th-secondary fill-th-none stroke-2 "
             d="
                 M 50, 50
                 m -45, 0
@@ -41,7 +47,7 @@ export default function AnimatedTimer({ sec, min, hr, totalTime }) {
       <span className=" absolute top-0 w-full h-full text-th-white flex flex-col items-center justify-center">
         <div className=" relative title text-center text-8xl  w-full">
           <div className=" absolute -top-16 w-full title text-center text-th-secondary text-2xl mb-16 uppercase">
-            name
+            {currentTimerName}
           </div>
           <div className="w-full flex justify-around px-12 items-center">
             <span className="w-2/5 text-center">{`${min
