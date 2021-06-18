@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import DeleteIcon from "../../../images/BUTTON - delete@3x.png";
+import classNames from "classnames";
 
 export default function SetTimerItem({ name, timeValue, timeUnit }) {
   const [time, setTime] = useState(timeUnit);
@@ -8,7 +9,6 @@ export default function SetTimerItem({ name, timeValue, timeUnit }) {
   const handleDeleteClick = () => {
     setIsHidden(true);
   };
-  const 
 
   const generateHighlightClass = (unit) => {
     switch (unit) {
