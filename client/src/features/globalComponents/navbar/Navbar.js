@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 //import images
 import BackButtonImage from "../../../images/ICON - BACK ARROW @3x.png";
 import MenuButtonImage from "../../../images/BUTTON - menu@3x.png";
+import EditButtonImage from "../../../images/ICON - pencil@3x.png";
 
-const Navbar = ({ displayMenu, displayHelp, displayBack }) => {
+const Navbar = ({ displayMenu, displayHelp, displayBack, displayEdit }) => {
   //render if true
   const renderMenuButton = () => {
     return displayMenu ? (
@@ -46,12 +47,25 @@ const Navbar = ({ displayMenu, displayHelp, displayBack }) => {
       ""
     );
   };
+  //render if true
+  const renderEditButton = () => {
+    return displayEdit ? (
+      <div className="w-5  ml-auto h-auto text-th-linkText bg-th-primary text-right">
+        <Link to="/">
+          <img className="w-full h-full" src={EditButtonImage} alt="" />
+        </Link>
+      </div>
+    ) : (
+      ""
+    );
+  };
 
   return (
-    <div className="Navbar flex items-center w-full sticky top-0">
+    <div className="Navbar h-14 flex items-center w-full sticky top-0">
       {renderMenuButton()}
       {renderBackButton()}
       {renderHelpButton()}
+      {renderEditButton()}
     </div>
   );
 };

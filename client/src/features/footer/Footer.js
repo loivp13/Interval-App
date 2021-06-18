@@ -9,7 +9,7 @@ import SettingImg from "../../images/BUTTON - settings@3x.png";
 const Footer = () => {
   const [isHeartImgHover, setHeartImgHover] = useState(false);
 
-  const renderWhiteButton = () => {
+  const renderHeartButton = () => {
     return isHeartImgHover ? (
       <img className="w-1/4 h-auto" src={WhiteHeartIconHover} alt="Save Sets" />
     ) : (
@@ -28,7 +28,7 @@ const Footer = () => {
         }}
         className="flex flex-row justify-start items-center"
       >
-        {renderWhiteButton()}
+        <Link to="/editTimer">{renderHeartButton()}</Link>
       </div>
       <div className="flex flex-row justify-end items-center">
         <Link className="w-1/4 h-auto" to="/setting">

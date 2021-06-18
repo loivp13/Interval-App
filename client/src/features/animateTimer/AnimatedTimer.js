@@ -23,9 +23,9 @@ export default function AnimatedTimer({
   }, [currentDashArray, currentTimerName]);
 
   // animate blinking text
-  const [isTextOpaque, setTextOpaque] = useState(isFinished);
+  const [isTextOpaque, setTextOpaque] = useState(false);
   const renderBlinkingText = () => {
-    return isTextOpaque ? "opacity-50" : "";
+    return isTextOpaque && isFinished ? "opacity-50" : "";
   };
   const blinkTimerText = () => {
     setTextOpaque(!isTextOpaque);

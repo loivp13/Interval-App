@@ -36,7 +36,7 @@ export default function Timer({
     setRunningState(false);
     setTimerValues(currentTimer.times);
   };
-  const loadNextTime = () => {
+  const loadNextTimer = () => {
     setRunningState(false);
     setTimerValues(currentTimer.times);
     startTimer();
@@ -79,12 +79,12 @@ export default function Timer({
 
   useEffect(() => {
     if (isRunning) {
-      loadNextTime();
+      loadNextTimer();
     }
   }, [currentTimer]);
 
   return (
-    <div className="Timer font-openSans mt-6">
+    <div className="Timer font-openSans mt-6  max-w-md">
       <div className="text-4xl text-th-secondary uppercase text-center mb-8">
         {isFinished ? `Time's Up` : timerName}
       </div>

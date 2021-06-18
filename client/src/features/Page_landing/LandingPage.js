@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { Link } from "react-router-dom";
 import Footer from "../footer/Footer";
 import CtaButtons from "./components/CtaButtons";
 import Navbar from "../../features/globalComponents/navbar/Navbar";
@@ -11,7 +11,7 @@ export default function LandingPage({}) {
       <main className="Landing-main h-9/10 w-9/10 max-w-md flex flex-col justify-center items-center pt-8">
         <div className="SetIntervalCircle h-17/20vw w-17/20vw max-w-md max-h-md flex justify-center items-center rounded-full border-2 border-th-white mb-12 ">
           <h1 className="text-5xl p-9 text-center uppercase leading-tight tracking-widest">
-            Set Interval Timer
+            <Link to="/createTimer">Set Interval Timer</Link>
           </h1>
         </div>
         <div className="text-3xl font-openSans text-th-secondary mb-8 tracking-widest">
