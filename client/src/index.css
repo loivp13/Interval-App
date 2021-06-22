@@ -95,3 +95,21 @@ body {
     }
   }
 }
+
+/* scrollsnap utilities */
+@layer utilities {
+  @variants responsive {
+    .scroll-mandatory-x {
+      scroll-snap-type: x mandatory;
+    }
+    .scroll-mandatory-y {
+      scroll-snap-type: y proximity;
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .scroll-child-start {
+      scroll-snap-align: start;
+    }
+  }
+}

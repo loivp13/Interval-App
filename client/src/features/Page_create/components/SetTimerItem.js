@@ -10,24 +10,40 @@ export default function SetTimerItem({ name, timeValue, timeUnit }) {
     setIsHidden(true);
   };
 
-  const generateHighlightClass = (unit) => {
+  const generateHighlightClass = function (unit) {
     switch (unit) {
       case "min":
-        if (time === "min") {
-          return "text-th-white  p-1 ";
-        } else {
-          return "text-th-secondary  p-1";
-        }
+        return classNames(
+          {
+            "text-th-white": time === "min",
+            "text-th-secondary": time !== "min",
+          },
+          "p-1"
+        );
       case "sec":
-        if (time === "sec") {
-          return "text-th-white p-1 ";
-        } else {
-          return "text-th-secondary  p-1";
-        }
+        return classNames(
+          {
+            "text-th-white": time === "sec",
+            "text-th-secondary": time !== "sec",
+          },
+          "p-1"
+        );
       default:
-        return;
+        break;
     }
   };
+  const SetTimerItemClass = classNames(
+    "SetTimerItem",
+    "flex",
+    "justify-around",
+    "items-center",
+    "font-quicksand",
+    "border-b",
+    "border-th-white",
+    " py-10",
+    " w-full",
+    { hidden: isHidden }
+  );
   const renderLabel = () => {
     switch (timeUnit) {
       case "times":
@@ -59,7 +75,7 @@ export default function SetTimerItem({ name, timeValue, timeUnit }) {
     }
   };
   return (
-    <div className="SetTimerItem flex justify-around items-center font-quicksand border-b border-th-white py-10 w-full">
+    <div className={SetTimerItemClass}>
       {renderDeleteButton()}
       <h1 className="uppercase w-1/3">{name}</h1>
       <div className="flex flex-col justify-between items-center relative w-1/6">
