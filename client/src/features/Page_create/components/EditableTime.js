@@ -32,7 +32,7 @@ export default function EditableTime() {
       );
     }
   };
-  //Generating the Seconds column
+  //Generating the time value column
   const renderColumns = (keysArray, roundsArray) => {
     let arr = [];
     console.log(roundsArray);
@@ -59,6 +59,7 @@ export default function EditableTime() {
     renderColumns([1, 1000], [60, 60])
   );
 
+  // changes color text removing before and after
   const changeColorText = (children, addColorIndex, removeColorIndexes) => {
     console.log("change");
     console.log(addColorIndex, removeColorIndexes);
@@ -128,52 +129,36 @@ export default function EditableTime() {
   };
 
   //scroll listener for secs
-  const eventScrollListenerSeconds = (e) => {
-    let { clientHeight, scrollTop, scrollHeight, children } = e.target;
+  const createEventScrollListener = (timeUnit) => {
+    return function (e) {
+      let { clientHeight, scrollTop, scrollHeight, children } = e.target;
 
-    let childBoxHeight = clientHeight / 3;
-    let centerIndex = children.length / 2 + 1;
+      let childBoxHeight = clientHeight / 3;
+      let centerIndex =
+        timeUnit === "sec" ? children.length / 2 + 1 : children.length / 2;
 
-    //update selectedTime
-    calcSecChange(scrollTop, childBoxHeight, children, centerIndex);
-    let { type, shouldRecenterColumn } = checkShouldRecenterColumn(
-      clientHeight,
-      scrollTop,
-      scrollHeight,
-      children
-    );
+      if (timeUnit === "sec") {
+        calcSecChange(scrollTop, childBoxHeight, children, centerIndex);
+      } else {
+        calcMinChange(scrollTop, childBoxHeight, children, centerIndex);
+      }
+      let { type, shouldRecenterColumn } = checkShouldRecenterColumn(
+        clientHeight,
+        scrollTop,
+        scrollHeight,
+        children
+      );
 
-    if (shouldRecenterColumn) {
-      type === "centerOffset1"
-        ? (e.target.scrollTop =
-            scrollTopSecRef.current - (2 * clientHeight) / 3)
-        : (e.target.scrollTop = scrollTopSecRef.current);
-    }
+      if (shouldRecenterColumn) {
+        type === "centerOffset1"
+          ? (e.target.scrollTop =
+              scrollTopSecRef.current - (2 * clientHeight) / 3)
+          : (e.target.scrollTop = scrollTopSecRef.current);
+      }
+    };
   };
-
-  //scroll listener for minutes
-  const eventScrollListenerMinutes = (e) => {
-    let { clientHeight, scrollTop, scrollHeight, children } = e.target;
-
-    let childBoxHeight = clientHeight / 3;
-    let centerIndex = children.length / 2;
-
-    calcMinChange(scrollTop, childBoxHeight, children, centerIndex);
-
-    let { type, shouldRecenterColumn } = checkShouldRecenterColumn(
-      clientHeight,
-      scrollTop,
-      scrollHeight,
-      children
-    );
-    if (shouldRecenterColumn) {
-      type === "centerOffset1"
-        ? (e.target.scrollTop =
-            scrollTopSecRef.current - (2 * clientHeight) / 3)
-        : (e.target.scrollTop = scrollTopSecRef.current);
-    }
-  };
-
+  const secEventScrollListener = createEventScrollListener("sec");
+  const minEventScrollListener = createEventScrollListener("min");
   //start the columns at the center and recenter when user reaches bottom or top
   useEffect(() => {
     //sec column centered
@@ -197,15 +182,15 @@ export default function EditableTime() {
   useEffect(() => {
     let secColumns = document.getElementById("secondsColumn");
     let minColumns = document.getElementById("minColumn");
-    secColumns.addEventListener("scroll", eventScrollListenerSeconds);
-    minColumns.addEventListener("scroll", eventScrollListenerMinutes);
+    secColumns.addEventListener("scroll", secEventScrollListener);
+    minColumns.addEventListener("scroll", minEventScrollListener);
     minRef.current = 0;
     secRef.current = 1;
     return () => {
       minRef.current = 0;
       secRef.current = 1;
-      secColumns.removeEventListener("scroll", eventScrollListenerSeconds);
-      minColumns.removeEventListener("scroll", eventScrollListenerMinutes);
+      secColumns.removeEventListener("scroll", secEventScrollListener);
+      minColumns.removeEventListener("scroll", minEventScrollListener);
     };
   }, []);
 
