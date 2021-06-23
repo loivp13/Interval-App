@@ -7,7 +7,8 @@ import round from "lodash/round";
 export default function EditableTime() {
   let timeValuesClassNames = classNames(
     "h-1/3",
-    "scroll-child-start text-grey-500"
+    "scroll-child-start",
+    " text-gray-300"
   );
   let [selectedTime, setSelectedTime] = useState({ min: 0, sec: 1 });
   let [scrollTopValue, setScrollTopValue] = useState({
@@ -60,10 +61,31 @@ export default function EditableTime() {
   const [secColumnState, setSecColumn] = useState(renderSecColumns());
   const [minColumnState, setMinColumn] = useState(renderMinColumns());
 
+  const changeColorText = (children, addColorIndex, removeColorIndexes) => {
+    console.log("change");
+    console.log(addColorIndex, removeColorIndexes);
+    children[addColorIndex].style.color = "white";
+    removeColorIndexes.forEach((index) => {
+      if (children[index]) {
+        children[index].style.color = "";
+      }
+    });
+  };
   //calculate and update sec timer state
-  const debounceCalcSecChange = debounce(function (scrollTop, childBoxHeight) {
+  const calcSecChange = function (
+    scrollTop,
+    childBoxHeight,
+    children,
+    centerIndex
+  ) {
     let difference =
       Math.round((scrollTop - scrollTopSecRef.current) / childBoxHeight) % 60;
+
+    let newCenterIndex = centerIndex + difference;
+    changeColorText(children, newCenterIndex, [
+      newCenterIndex + 1,
+      newCenterIndex - 1,
+    ]);
     if (difference > 0) {
       secRef.current = difference + 1;
       setSelectedTime({ min: minRef.current, sec: secRef.current });
@@ -77,12 +99,24 @@ export default function EditableTime() {
       secRef.current = 1;
       setSelectedTime({ min: minRef.current, sec: secRef.current });
     }
-  }, 250);
+  };
 
   //calculate and update sec timer state
-  const debounceCalcMinChange = debounce(function (scrollTop, childBoxHeight) {
+  const calcMinChange = function (
+    scrollTop,
+    childBoxHeight,
+    children,
+    centerIndex
+  ) {
     let difference =
       Math.round((scrollTop - scrollTopMinRef.current) / childBoxHeight) % 60;
+
+    //change text color
+    let newCenterIndex = centerIndex + difference;
+    changeColorText(children, newCenterIndex, [
+      newCenterIndex + 1,
+      newCenterIndex - 1,
+    ]);
     if (difference > 0) {
       minRef.current = difference;
       setSelectedTime({ sec: secRef.current, min: minRef.current });
@@ -93,16 +127,17 @@ export default function EditableTime() {
       minRef.current = 0;
       setSelectedTime({ sec: secRef.current, min: minRef.current });
     }
-  }, 250);
+  };
 
   //scroll listener for secs
   const eventScrollListenerSeconds = (e) => {
     let { clientHeight, scrollTop, scrollHeight, children } = e.target;
 
-    //update selectedTime
     let childBoxHeight = clientHeight / 3;
+    let centerIndex = children.length / 2 + 1;
 
-    debounceCalcSecChange(scrollTop, childBoxHeight);
+    //update selectedTime
+    calcSecChange(scrollTop, childBoxHeight, children, centerIndex);
     let { type, shouldRecenterColumn } = checkShouldRecenterColumn(
       clientHeight,
       scrollTop,
@@ -123,8 +158,9 @@ export default function EditableTime() {
     let { clientHeight, scrollTop, scrollHeight, children } = e.target;
 
     let childBoxHeight = clientHeight / 3;
+    let centerIndex = children.length / 2;
 
-    debounceCalcMinChange(scrollTop, childBoxHeight);
+    calcMinChange(scrollTop, childBoxHeight, children, centerIndex);
 
     let { type, shouldRecenterColumn } = checkShouldRecenterColumn(
       clientHeight,
