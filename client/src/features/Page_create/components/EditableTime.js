@@ -33,20 +33,14 @@ export default function EditableTime() {
     }
   };
   //Generating the Seconds column
-  const renderSecColumns = () => {
-    let secColumns = [];
-    addMoreColumns(secColumns, 1, 59);
-    addMoreColumns(secColumns, 1000, 59);
-    return secColumns;
+  const renderColumns = (keysArray, roundsArray) => {
+    let arr = [];
+    console.log(roundsArray);
+    roundsArray.forEach((rounds, i) => {
+      addMoreColumns(arr, keysArray[i], rounds);
+    });
+    return arr;
   };
-  //Generate the Minutes column
-  const renderMinColumns = () => {
-    let minColumns = [];
-    addMoreColumns(minColumns, 1, 60);
-    addMoreColumns(minColumns, 1000, 60);
-    return minColumns;
-  };
-
   //Check if columns should center
   const checkShouldRecenterColumn = (clientHeight, scrollTop, scrollHeight) => {
     if (scrollHeight - (scrollTop + clientHeight) < 5) {
@@ -58,8 +52,12 @@ export default function EditableTime() {
     }
   };
 
-  const [secColumnState, setSecColumn] = useState(renderSecColumns());
-  const [minColumnState, setMinColumn] = useState(renderMinColumns());
+  const [secColumnState, setSecColumn] = useState(
+    renderColumns([1, 1000], [59, 59])
+  );
+  const [minColumnState, setMinColumn] = useState(
+    renderColumns([1, 1000], [60, 60])
+  );
 
   const changeColorText = (children, addColorIndex, removeColorIndexes) => {
     console.log("change");
