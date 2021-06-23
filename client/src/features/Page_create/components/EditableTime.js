@@ -2,9 +2,13 @@ import React, { useEffect, useState, useRef } from "react";
 import classNames from "classnames";
 import { selectTimer } from "../../Page_ActiveTimer/components/timerSlice";
 import debounce from "lodash/debounce";
+import round from "lodash/round";
 
 export default function EditableTime() {
-  let timeValuesClassNames = classNames("h-1/3", "scroll-child-start");
+  let timeValuesClassNames = classNames(
+    "h-1/3",
+    "scroll-child-start text-grey-500"
+  );
   let [selectedTime, setSelectedTime] = useState({ min: 0, sec: 1 });
   let [scrollTopValue, setScrollTopValue] = useState({
     scrollTopMin: 0,
@@ -17,10 +21,9 @@ export default function EditableTime() {
   let secRef = useRef();
 
   //Add extra divs
-  const addMoreColumns = (type, arr, keyId) => {
+  const addMoreColumns = (arr, keyId, rounds) => {
     //max 60min | max 59sec
-    let maxNum = type === "min" ? 60 : 59;
-    for (let i = 0; i <= maxNum; i++) {
+    for (let i = 0; i <= rounds; i++) {
       arr.push(
         <div key={i + keyId} className={timeValuesClassNames}>
           {`${i}`.padStart(2, 0)}
@@ -31,42 +34,25 @@ export default function EditableTime() {
   //Generating the Seconds column
   const renderSecColumns = () => {
     let secColumns = [];
-    addMoreColumns("sec", secColumns, 1);
-    addMoreColumns("sec", secColumns, 1000);
-    secColumns.push(
-      <div key={"lastSecNum"} className={timeValuesClassNames}>
-        00
-      </div>
-    );
+    addMoreColumns(secColumns, 1, 59);
+    addMoreColumns(secColumns, 1000, 59);
     return secColumns;
   };
   //Generate the Minutes column
   const renderMinColumns = () => {
     let minColumns = [];
-    addMoreColumns("min", minColumns, 1);
-    addMoreColumns("min", minColumns, 1000);
+    addMoreColumns(minColumns, 1, 60);
+    addMoreColumns(minColumns, 1000, 60);
     return minColumns;
   };
 
   //Check if columns should center
   const checkShouldRecenterColumn = (clientHeight, scrollTop, scrollHeight) => {
-    console.log(
-      "🚀 ~ file: EditableTime.js ~ line 53 ~ checkShouldRecenterColumn ~ clientHeight, scrollTop, scrollHeight",
-      clientHeight,
-      scrollTop,
-      scrollHeight
-    );
-
-    if (scrollTop + clientHeight === scrollHeight) {
-      console.log("yes");
+    if (scrollHeight - (scrollTop + clientHeight) < 5) {
       return { type: "centerOffset1", shouldRecenterColumn: true };
     } else if (scrollTop === 0) {
-      console.log("yes");
-
       return { type: "center", shouldRecenterColumn: true };
     } else {
-      console.log("no");
-
       return { type: "", shouldRecenterColumn: false };
     }
   };
@@ -111,16 +97,17 @@ export default function EditableTime() {
 
   //scroll listener for secs
   const eventScrollListenerSeconds = (e) => {
-    let { clientHeight, scrollTop, scrollHeight } = e.target;
+    let { clientHeight, scrollTop, scrollHeight, children } = e.target;
 
     //update selectedTime
-    let childBoxHeight = Math.floor(clientHeight / 3);
+    let childBoxHeight = clientHeight / 3;
 
     debounceCalcSecChange(scrollTop, childBoxHeight);
     let { type, shouldRecenterColumn } = checkShouldRecenterColumn(
       clientHeight,
       scrollTop,
-      scrollHeight
+      scrollHeight,
+      children
     );
 
     if (shouldRecenterColumn) {
@@ -133,16 +120,17 @@ export default function EditableTime() {
 
   //scroll listener for minutes
   const eventScrollListenerMinutes = (e) => {
-    let { clientHeight, scrollTop, scrollHeight } = e.target;
+    let { clientHeight, scrollTop, scrollHeight, children } = e.target;
 
-    let childBoxHeight = Math.floor(clientHeight / 3);
+    let childBoxHeight = clientHeight / 3;
 
     debounceCalcMinChange(scrollTop, childBoxHeight);
 
     let { type, shouldRecenterColumn } = checkShouldRecenterColumn(
       clientHeight,
       scrollTop,
-      scrollHeight
+      scrollHeight,
+      children
     );
     if (shouldRecenterColumn) {
       type === "centerOffset1"
