@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { selectTimer } from "../../Page_ActiveTimer/components/timerSlice";
 import debounce from "lodash/debounce";
 import round from "lodash/round";
+import { changeColorText, createEventScrollListener } from "./utils";
 
 export default function EditableTime() {
   let timeValuesClassNames = classNames(
@@ -41,16 +42,6 @@ export default function EditableTime() {
     });
     return arr;
   };
-  //Check if columns should center
-  const checkShouldRecenterColumn = (clientHeight, scrollTop, scrollHeight) => {
-    if (scrollHeight - (scrollTop + clientHeight) < 5) {
-      return { type: "centerOffset1", shouldRecenterColumn: true };
-    } else if (scrollTop === 0) {
-      return { type: "center", shouldRecenterColumn: true };
-    } else {
-      return { type: "", shouldRecenterColumn: false };
-    }
-  };
 
   const [secColumnState, setSecColumn] = useState(
     renderColumns([1, 1000], [59, 59])
@@ -59,17 +50,6 @@ export default function EditableTime() {
     renderColumns([1, 1000], [60, 60])
   );
 
-  // changes color text removing before and after
-  const changeColorText = (children, addColorIndex, removeColorIndexes) => {
-    console.log("change");
-    console.log(addColorIndex, removeColorIndexes);
-    children[addColorIndex].style.color = "white";
-    removeColorIndexes.forEach((index) => {
-      if (children[index]) {
-        children[index].style.color = "";
-      }
-    });
-  };
   //calculate and update sec timer state
   const calcSecChange = function (
     scrollTop,
@@ -108,7 +88,7 @@ export default function EditableTime() {
     centerIndex
   ) {
     let difference =
-      Math.round((scrollTop - scrollTopMinRef.current) / childBoxHeight) % 60;
+      Math.round((scrollTop - scrollTopMinRef.current) / childBoxHeight) % 61;
 
     //change text color
     let newCenterIndex = centerIndex + difference;
@@ -128,37 +108,6 @@ export default function EditableTime() {
     }
   };
 
-  //scroll listener for secs
-  const createEventScrollListener = (timeUnit) => {
-    return function (e) {
-      let { clientHeight, scrollTop, scrollHeight, children } = e.target;
-
-      let childBoxHeight = clientHeight / 3;
-      let centerIndex =
-        timeUnit === "sec" ? children.length / 2 + 1 : children.length / 2;
-
-      if (timeUnit === "sec") {
-        calcSecChange(scrollTop, childBoxHeight, children, centerIndex);
-      } else {
-        calcMinChange(scrollTop, childBoxHeight, children, centerIndex);
-      }
-      let { type, shouldRecenterColumn } = checkShouldRecenterColumn(
-        clientHeight,
-        scrollTop,
-        scrollHeight,
-        children
-      );
-
-      if (shouldRecenterColumn) {
-        type === "centerOffset1"
-          ? (e.target.scrollTop =
-              scrollTopSecRef.current - (2 * clientHeight) / 3)
-          : (e.target.scrollTop = scrollTopSecRef.current);
-      }
-    };
-  };
-  const secEventScrollListener = createEventScrollListener("sec");
-  const minEventScrollListener = createEventScrollListener("min");
   //start the columns at the center and recenter when user reaches bottom or top
   useEffect(() => {
     //sec column centered
@@ -172,16 +121,25 @@ export default function EditableTime() {
     let minColumns = document.getElementById("minColumn");
     let minColumnsHeight = minColumns.scrollHeight;
     let minCenter = minColumnsHeight / 2 - minColumns.children[0].clientHeight;
-    minColumns.scrollTo(0, minCenter);
+    minColumns.scrollTop = minCenter;
     scrollTopMinRef.current = minCenter;
 
-    return () => {};
-  }, []);
+    //adding and removing scroll listener, setting minute and seconds refs
+    const secEventScrollListener = createEventScrollListener(
+      "sec",
+      calcSecChange,
+      calcMinChange,
+      scrollTopSecRef,
+      scrollTopMinRef
+    );
+    const minEventScrollListener = createEventScrollListener(
+      "min",
+      calcSecChange,
+      calcMinChange,
+      scrollTopSecRef,
+      scrollTopMinRef
+    );
 
-  //adding and removing scroll listener, setting minute and second refs.
-  useEffect(() => {
-    let secColumns = document.getElementById("secondsColumn");
-    let minColumns = document.getElementById("minColumn");
     secColumns.addEventListener("scroll", secEventScrollListener);
     minColumns.addEventListener("scroll", minEventScrollListener);
     minRef.current = 0;
