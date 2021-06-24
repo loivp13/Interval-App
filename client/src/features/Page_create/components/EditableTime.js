@@ -1,15 +1,27 @@
 import React, { useEffect, useState, useRef } from "react";
 import classNames from "classnames";
 import { selectTimer } from "../../Page_ActiveTimer/components/timerSlice";
-import debounce from "lodash/debounce";
-import round from "lodash/round";
-import { changeColorText, createEventScrollListener } from "./utils";
+import {
+  changeColorText,
+  createEventScrollListener,
+  changeInputEditPermission,
+  limitChar2,
+} from "./utils";
+import { scrollTo } from "./utils/scrollToAnimation";
 
-export default function EditableTime() {
-  let timeValuesClassNames = classNames(
-    "h-1/3",
-    "scroll-child-start",
-    " text-gray-300"
+export default function EditableTime({ handleHidePaneOnFocus, hidePane }) {
+  let timeValuesClassNames = classNames("h-1/3", "scroll-child-start");
+  let inputClassNames = classNames(
+    "h-full",
+    "w-full",
+    "placeholder-gray-300",
+    "text-center",
+    "bg-th-primary",
+    "pointer-events-none",
+    "focus:outline-none",
+    "focus:bg-white",
+    "focus:bg-opacity-25",
+    "font-bold"
   );
   let [selectedTime, setSelectedTime] = useState({ min: 0, sec: 1 });
   let [scrollTopValue, setScrollTopValue] = useState({
@@ -28,7 +40,17 @@ export default function EditableTime() {
     for (let i = 0; i <= rounds; i++) {
       arr.push(
         <div key={i + keyId} className={timeValuesClassNames}>
-          {`${i}`.padStart(2, 0)}
+          <input
+            className={inputClassNames}
+            type="number"
+            min={0}
+            max={60}
+            maxLength={2}
+            placeholder={`${i}`.padStart(2, 0)}
+            onKeyDown={limitChar2}
+            onFocus={handleHidePaneOnFocus}
+            onBlur={handleHidePaneOnFocus}
+          />
         </div>
       );
     }
@@ -36,7 +58,6 @@ export default function EditableTime() {
   //Generating the time value column
   const renderColumns = (keysArray, roundsArray) => {
     let arr = [];
-    console.log(roundsArray);
     roundsArray.forEach((rounds, i) => {
       addMoreColumns(arr, keysArray[i], rounds);
     });
@@ -59,12 +80,18 @@ export default function EditableTime() {
   ) {
     let difference =
       Math.round((scrollTop - scrollTopSecRef.current) / childBoxHeight) % 60;
-
     let newCenterIndex = centerIndex + difference;
+
     changeColorText(children, newCenterIndex, [
       newCenterIndex + 1,
       newCenterIndex - 1,
     ]);
+
+    changeInputEditPermission(children, newCenterIndex, [
+      newCenterIndex + 1,
+      newCenterIndex - 1,
+    ]);
+
     if (difference > 0) {
       secRef.current = difference + 1;
       setSelectedTime({ min: minRef.current, sec: secRef.current });
@@ -89,13 +116,18 @@ export default function EditableTime() {
   ) {
     let difference =
       Math.round((scrollTop - scrollTopMinRef.current) / childBoxHeight) % 61;
+    let newCenterIndex = centerIndex + difference;
 
     //change text color
-    let newCenterIndex = centerIndex + difference;
     changeColorText(children, newCenterIndex, [
       newCenterIndex + 1,
       newCenterIndex - 1,
     ]);
+    changeInputEditPermission(children, newCenterIndex, [
+      newCenterIndex + 1,
+      newCenterIndex - 1,
+    ]);
+
     if (difference > 0) {
       minRef.current = difference;
       setSelectedTime({ sec: secRef.current, min: minRef.current });
@@ -114,14 +146,15 @@ export default function EditableTime() {
     let secColumns = document.getElementById("secondsColumn");
     let { scrollHeight: secScrollHeight } = secColumns;
     let secCenter = secScrollHeight / 2;
-    secColumns.scrollTop = secCenter;
+    scrollTo(secCenter, 500, secColumns);
+
     scrollTopSecRef.current = secCenter;
 
     //min column centered
     let minColumns = document.getElementById("minColumn");
     let minColumnsHeight = minColumns.scrollHeight;
     let minCenter = minColumnsHeight / 2 - minColumns.children[0].clientHeight;
-    minColumns.scrollTop = minCenter;
+    scrollTo(minCenter, 500, minColumns);
     scrollTopMinRef.current = minCenter;
 
     //adding and removing scroll listener, setting minute and seconds refs
@@ -151,18 +184,22 @@ export default function EditableTime() {
       minColumns.removeEventListener("scroll", minEventScrollListener);
     };
   }, []);
-
+  console.log("render");
   return (
     <div className="h-1/2 ">
-      {selectedTime.min}: {selectedTime.sec}
       <div className="flex justify-center h-full items-center relative">
+        {hidePane ? (
+          <div className="HidePane absolute top-0 w-full h-1/3 bg-th-primary"></div>
+        ) : (
+          ""
+        )}
         <div
           id="minColumn"
           className="text-th-white text-9xl w-2/5 h-full  text-center font-bold overflow-scroll scroll-mandatory-y hide-scrollbar cursor-pointer"
         >
           {minColumnState}
         </div>
-        <div className="text-th-white text-8xl w-1/8 h-1/3 text-center font-bold">
+        <div className="text-th-white text-8xl w-1/8 h-1/3 text-center font-bold flex items-center">
           :
         </div>
         <div
@@ -171,6 +208,11 @@ export default function EditableTime() {
         >
           {secColumnState}
         </div>
+        {hidePane ? (
+          <div className="HidePane absolute bottom-0 w-full h-1/3 bg-th-primary"></div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
