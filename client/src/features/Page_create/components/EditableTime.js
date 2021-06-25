@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import classNames from "classnames";
 import { selectTimer } from "../../Page_ActiveTimer/components/timerSlice";
 import {
   changeColorText,
@@ -7,22 +6,10 @@ import {
   changeInputEditPermission,
   limitChar2,
 } from "./utils";
+import styles from "./EditableTime.styles";
 import { scrollTo } from "./utils/scrollToAnimation";
 
 export default function EditableTime({ handleHidePaneOnFocus, hidePane }) {
-  let timeValuesClassNames = classNames("h-1/3", "scroll-child-start");
-  let inputClassNames = classNames(
-    "h-full",
-    "w-full",
-    "placeholder-gray-300",
-    "text-center",
-    "bg-th-primary",
-    "pointer-events-none",
-    "focus:outline-none",
-    "focus:bg-white",
-    "focus:bg-opacity-25",
-    "font-bold"
-  );
   let [selectedTime, setSelectedTime] = useState({ min: 0, sec: 1 });
   let [scrollTopValue, setScrollTopValue] = useState({
     scrollTopMin: 0,
@@ -39,9 +26,9 @@ export default function EditableTime({ handleHidePaneOnFocus, hidePane }) {
     //max 60min | max 59sec
     for (let i = 0; i <= rounds; i++) {
       arr.push(
-        <div key={i + keyId} className={timeValuesClassNames}>
+        <div key={i + keyId} className={styles.timeValues}>
           <input
-            className={inputClassNames}
+            className={styles.input}
             type="number"
             min={0}
             max={60}
@@ -184,7 +171,6 @@ export default function EditableTime({ handleHidePaneOnFocus, hidePane }) {
       minColumns.removeEventListener("scroll", minEventScrollListener);
     };
   }, []);
-  console.log("render");
   return (
     <div className="h-1/2 ">
       <div className="flex justify-center h-full items-center relative">

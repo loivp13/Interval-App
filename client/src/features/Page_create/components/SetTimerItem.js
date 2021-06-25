@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import DeleteIcon from "../../../images/BUTTON - delete@3x.png";
-import classNames from "classnames";
+import styles from "./SetTimerItem.styles";
 
 export default function SetTimerItem({ name, timeValue, timeUnit }) {
   const [time, setTime] = useState(timeUnit);
@@ -13,37 +13,15 @@ export default function SetTimerItem({ name, timeValue, timeUnit }) {
   const generateHighlightClass = function (unit) {
     switch (unit) {
       case "min":
-        return classNames(
-          {
-            "text-th-white": time === "min",
-            "text-th-secondary": time !== "min",
-          },
-          "p-1"
-        );
+        return styles.highlightMin({ time });
       case "sec":
-        return classNames(
-          {
-            "text-th-white": time === "sec",
-            "text-th-secondary": time !== "sec",
-          },
-          "p-1"
-        );
+        return styles.highlightSec({ time });
+
       default:
         break;
     }
   };
-  const SetTimerItemClass = classNames(
-    "SetTimerItem",
-    "flex",
-    "justify-around",
-    "items-center",
-    "font-quicksand",
-    "border-b",
-    "border-th-white",
-    " py-10",
-    " w-full",
-    { hidden: isHidden }
-  );
+  const SetTimerItemClass = styles.setTimerItem({ hidden: isHidden });
   const renderLabel = () => {
     switch (timeUnit) {
       case "times":
