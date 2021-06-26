@@ -8,16 +8,17 @@ import EditIcon from "../../images/ICON - pencil@3x.png";
 import EditTimeModal from "./components/EditTimeModal";
 
 export default function CreateTimer() {
+  let [showModal, setModalState] = useState(false);
   return (
     <div className="CreatePage relative">
-      <EditTimeModal></EditTimeModal>
+      {showModal && <EditTimeModal></EditTimeModal>}
       <MobileLayout>
         <Navbar displayHelp={true} displayBack={true}></Navbar>
         <main className="text-3xl text-th-secondary w-full font-openSans  max-w-md mb-10">
-          <header className="mb-6">
-            <h1 className="text-4xl text-center">set timer</h1>
+          <header className="mb-2 md:mb-6">
+            <h1 className=" text-2xl md:text-4xl text-center">set timer</h1>
           </header>
-          <div className=" text-4xl">
+          <div className="text-xl md:text-4xl">
             <SetTimerItem
               name="Work"
               timeValue="45"
@@ -38,7 +39,7 @@ export default function CreateTimer() {
             <div className="w-6 mr-2">
               <img src={EditIcon} alt="" />
             </div>
-            <div className="text-th-white text-2xl font-quicksand">
+            <div className="text-th-white text-xl  md:text-2xl font-quicksand">
               edit names & times
             </div>
           </div>

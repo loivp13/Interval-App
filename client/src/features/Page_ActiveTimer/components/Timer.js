@@ -85,7 +85,7 @@ export default function Timer({
 
   return (
     <div className="Timer font-openSans mt-6  max-w-md">
-      <div className="text-4xl text-th-secondary uppercase text-center mb-8">
+      <div className="text-3xl md:text-4xl text-th-secondary uppercase text-center mb-8">
         {isFinished ? `Time's Up` : timerName}
       </div>
       <AnimatedTimer
@@ -97,7 +97,7 @@ export default function Timer({
         sec={sec}
       ></AnimatedTimer>
 
-      <div className="flex justify-around mx-20 mt-16">
+      <div className="flex justify-around mx-20 mt-8  md:mt-16">
         {!isRunning && (
           <TimerButton
             action={handleStartTimer}

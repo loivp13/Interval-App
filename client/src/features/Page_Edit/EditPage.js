@@ -20,7 +20,7 @@ export default function ActiveTimerPage() {
     }
   };
   return (
-    <div>
+    <div className="EditPage h-full min-h-screen md:h-screen">
       <MobileLayout>
         <Navbar displayEdit={true} displayBack={true}></Navbar>
         <div className="text-3xl text-th-secondary font-openSans mb-10">

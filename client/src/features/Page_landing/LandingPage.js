@@ -6,7 +6,7 @@ import Navbar from "../../features/globalComponents/navbar/Navbar";
 
 export default function LandingPage({}) {
   return (
-    <div className="LandingPage bg-th-primary h-screen flex flex-col justify-between items-center text-th-white font-quicksand">
+    <div className="LandingPage bg-th-primary h-full min-h-screen md:h-screen flex flex-col justify-between items-center text-th-white font-quicksand">
       <Navbar displayMenu={true} displayHelp={true}></Navbar>
       <main className="Landing-main h-9/10 w-9/10 max-w-md flex flex-col justify-center items-center pt-8">
         <Link to="/createTimer">

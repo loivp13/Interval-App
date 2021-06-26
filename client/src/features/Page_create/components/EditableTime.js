@@ -179,19 +179,13 @@ export default function EditableTime({ handleHidePaneOnFocus, hidePane }) {
         ) : (
           ""
         )}
-        <div
-          id="minColumn"
-          className="text-th-white text-9xl w-2/5 h-full  text-center font-bold overflow-scroll scroll-mandatory-y hide-scrollbar cursor-pointer"
-        >
+        <div id="minColumn" className={styles.timeCol}>
           {minColumnState}
         </div>
         <div className="text-th-white text-8xl w-1/8 h-1/3 text-center font-bold flex items-center">
           :
         </div>
-        <div
-          id="secondsColumn"
-          className="text-th-white text-9xl w-2/5 h-full  text-center font-bold overflow-scroll scroll-mandatory-y hide-scrollbar cursor-pointer"
-        >
+        <div id="secondsColumn" className={styles.timeCol}>
           {secColumnState}
         </div>
         {hidePane ? (

@@ -43,7 +43,7 @@ export default function SetTimerItem({ name, timeValue, timeUnit }) {
           onClick={() => {
             handleDeleteClick();
           }}
-          className="w-12 absolute left-6"
+          className="w-12 absolute -left-12 transform -translate-y-1/2 "
         >
           <img src={DeleteIcon} alt="" />
         </div>
@@ -54,8 +54,10 @@ export default function SetTimerItem({ name, timeValue, timeUnit }) {
   };
   return (
     <div className={SetTimerItemClass}>
-      {renderDeleteButton()}
-      <h1 className="uppercase w-1/3">{name}</h1>
+      <h1 className="uppercase w-1/3 relative flex items-center">
+        {renderDeleteButton()}
+        {name}
+      </h1>
       <div className="flex flex-col justify-between items-center relative w-1/6">
         <div className="text-th-white border-th-white border flex justify-center p-2 mb-2 w-full rounded-md">
           {timeValue}

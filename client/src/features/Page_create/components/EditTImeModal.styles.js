@@ -7,16 +7,17 @@ export default {
   },
   unitTextContainer: ({ hidden }) => {
     return classNames(
+      "duration-1000",
       "flex",
       "justify-around",
-      "w-full",
       "my-5",
+      "relative",
       "sm:my-20",
       "transform",
-      "duration-1000",
+      "w-full",
       "z-10",
-      { "translate-y-full": hidden },
-      { "sm:translate-y-2x-full": hidden }
+      { "sm:translate-y-2x-full": hidden },
+      { "translate-y-full": hidden }
     );
   },
   unitText: classNames("text-3xl", "sm:w-1/5", "text-center"),

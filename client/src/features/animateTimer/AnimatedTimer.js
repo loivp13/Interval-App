@@ -59,7 +59,7 @@ export default function AnimatedTimer({
         </g>
       </svg>
       <span className=" absolute top-0 w-full h-full text-th-white flex flex-col items-center justify-center">
-        <div className=" relative title text-center text-8xl  w-full">
+        <div className=" relative title text-center text-7xl  md:text-8xl  w-full">
           <div className=" absolute -top-16 w-full title text-center text-th-secondary text-2xl mb-16 uppercase">
             {currentTimerName}
           </div>

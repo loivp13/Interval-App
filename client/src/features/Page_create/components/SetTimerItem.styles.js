@@ -28,7 +28,8 @@ export default {
       "font-quicksand",
       "border-b",
       "border-th-white",
-      " py-10",
+      "py-8",
+      " md:py-10",
       " w-full",
       { hidden }
     );

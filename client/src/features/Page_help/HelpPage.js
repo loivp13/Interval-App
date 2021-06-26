@@ -9,7 +9,7 @@ import Footer from "../footer/Footer";
 
 const HelpPage = () => {
   return (
-    <div className="HelpPage h-screen flex bg-th-primary flex-col items-center  p-5 pb-0 font-openSans">
+    <div className="HelpPage h-full min-h-screen md:h-screen flex bg-th-primary flex-col items-center  p-5 pb-0 font-openSans">
       <Navbar displayBack={true}></Navbar>
       <header>
         <h1 className="text-3xl text-th-secondary tracking-widest m-7">

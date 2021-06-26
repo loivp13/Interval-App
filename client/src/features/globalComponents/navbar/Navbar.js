@@ -61,7 +61,7 @@ const Navbar = ({ displayMenu, displayHelp, displayBack, displayEdit }) => {
   };
 
   return (
-    <div className="Navbar h-14 flex items-center w-full sticky top-0">
+    <div className="Navbar h-14 flex items-center w-full sticky top-0 bg-th-primary z-50">
       {renderMenuButton()}
       {renderBackButton()}
       {renderHelpButton()}
