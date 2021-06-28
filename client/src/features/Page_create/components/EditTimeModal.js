@@ -6,7 +6,7 @@ import classNames from "classnames";
 import { transform } from "lodash";
 import styles from "./EditTImeModal.styles";
 
-export default function EditTimeModal() {
+export default function EditTimeModal({ setModalState }) {
   let [hidePane, setHidePane] = useState(false);
   let handleHidePaneOnFocus = () => {
     setHidePane((hidePane) => !hidePane);
@@ -26,7 +26,7 @@ export default function EditTimeModal() {
           hidePane={hidePane}
         ></EditableTime>
         <div className={styles.buttonContainer({ hidden: hidePane })}>
-          <CtaButtons text={"back"}></CtaButtons>
+          <CtaButtons setModalState={setModalState} text={"back"}></CtaButtons>
           <CtaButtons text={"save"}></CtaButtons>
         </div>
       </div>

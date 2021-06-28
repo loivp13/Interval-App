@@ -11,9 +11,11 @@ export default function CreateTimer() {
   let [showModal, setModalState] = useState(false);
   return (
     <div className="CreatePage relative">
-      {showModal && <EditTimeModal></EditTimeModal>}
+      {showModal && (
+        <EditTimeModal setModalState={setModalState}></EditTimeModal>
+      )}
       <MobileLayout>
-        <Navbar displayHelp={true} displayBack={true}></Navbar>
+        <Navbar displayHelp={true} displayBack={!showModal}></Navbar>
         <main className="text-3xl text-th-secondary w-full font-openSans  max-w-md mb-10">
           <header className="mb-2 md:mb-6">
             <h1 className=" text-2xl md:text-4xl text-center">set timer</h1>
@@ -23,16 +25,19 @@ export default function CreateTimer() {
               name="Work"
               timeValue="45"
               timeUnit="min"
+              toggleModal={setModalState}
             ></SetTimerItem>
             <SetTimerItem
               name="Break"
               timeValue="10"
               timeUnit="min"
+              toggleModal={setModalState}
             ></SetTimerItem>
             <SetTimerItem
               name="Sets"
               timeValue="4"
               timeUnit="times"
+              toggleModal={setModalState}
             ></SetTimerItem>
           </div>
           <div className="flex p-6">

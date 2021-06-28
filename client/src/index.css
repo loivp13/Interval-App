@@ -133,6 +133,9 @@ input::-moz-focus-outer {
 /* transform utilities */
 @layer utilities {
   @variants responsive {
+    .translate-y-3px {
+      transform: translateY(3px);
+    }
     .translate-y-2x-full {
       transform: translateY(200%);
     }

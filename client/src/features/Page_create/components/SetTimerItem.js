@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import DeleteIcon from "../../../images/BUTTON - delete@3x.png";
 import styles from "./SetTimerItem.styles";
 
-export default function SetTimerItem({ name, timeValue, timeUnit }) {
+export default function SetTimerItem({
+  name,
+  timeValue,
+  timeUnit,
+  toggleModal,
+}) {
   const [time, setTime] = useState(timeUnit);
   const [isHidden, setIsHidden] = useState(false);
 
@@ -43,7 +48,7 @@ export default function SetTimerItem({ name, timeValue, timeUnit }) {
           onClick={() => {
             handleDeleteClick();
           }}
-          className="w-12 absolute -left-12 transform -translate-y-1/2 "
+          className="w-12 absolute -left-12 transform translate-y-3px"
         >
           <img src={DeleteIcon} alt="" />
         </div>
@@ -58,7 +63,12 @@ export default function SetTimerItem({ name, timeValue, timeUnit }) {
         {renderDeleteButton()}
         {name}
       </h1>
-      <div className="flex flex-col justify-between items-center relative w-1/6">
+      <div
+        onClick={() => {
+          toggleModal(true);
+        }}
+        className="flex flex-col justify-between items-center relative w-1/6"
+      >
         <div className="text-th-white border-th-white border flex justify-center p-2 mb-2 w-full rounded-md">
           {timeValue}
         </div>
