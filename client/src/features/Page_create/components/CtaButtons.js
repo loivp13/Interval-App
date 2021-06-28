@@ -1,5 +1,4 @@
 import React from "react";
-
 export default function CtaButtons({
   text,
   setModalState,
@@ -7,11 +6,12 @@ export default function CtaButtons({
   sec,
   handleUpdateValue,
   type,
+  handleSaveTimer,
 }) {
   const handleCallAction = () => {
     switch (type) {
       case "saveTimer":
-        console.log("need fix");
+        handleSaveTimer();
         break;
       case "startTimer":
         console.log("need fix");

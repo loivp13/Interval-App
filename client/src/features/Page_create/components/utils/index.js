@@ -98,3 +98,44 @@ export function limitChar2(e, handleTimeInputChange) {
     handleTimeInputChange(e);
   }
 }
+
+//generate timer data sets
+export function generateTimers(works, breaks, sets) {
+  let numOfUnnamedTimer = JSON.parse(localStorage.getItem("numUnnamedTimer"));
+  if (!numOfUnnamedTimer) {
+    localStorage.setItem("numUnnamedTimer", 1);
+  } else {
+    localStorage.setItem("numUnnamedTimer", ++numOfUnnamedTimer);
+  }
+  let newTimer = { timerName: `Timer ${numOfUnnamedTimer}`, timers: [] };
+
+  //insert work then break alternatively by the numbers of sets times;
+  let workIndex = 0;
+  let breakIndex = 0;
+  let setIndex = 1;
+
+  while (setIndex <= sets) {
+    let setTimer = {
+      currentTimerName: ``,
+      times: {
+        hr: 0,
+        min: 0,
+        sec: 0,
+      },
+    };
+    if (workIndex <= breakIndex) {
+      setTimer.currentTimerName = `Set ${setIndex}`;
+      setTimer.times.min = works.min;
+      setTimer.times.sec = works.sec;
+      workIndex++;
+    } else {
+      setTimer.currentTimerName = `Break ${setIndex}`;
+      setTimer.times.min = breaks.min;
+      setTimer.times.sec = breaks.sec;
+      breakIndex++;
+      setIndex++;
+    }
+    newTimer.timers.push(setTimer);
+  }
+  return newTimer;
+}

@@ -6,11 +6,14 @@ import CtaButtons from "./components/CtaButtons";
 import SetTimerItem from "./components/SetTimerItem";
 import EditIcon from "../../images/ICON - pencil@3x.png";
 import EditTimeModal from "./components/EditTimeModal";
+import { setNewTimer } from "../Page_ActiveTimer/components/timerSlice";
+import { useDispatch } from "react-redux";
+import { generateTimers } from "./components/utils";
 
 export default function CreateTimer() {
   let [showModal, setModalState] = useState(false);
-  let [workValue, setWorkValue] = useState({ min: 45, sec: 0 });
-  let [breakValue, setBreakValue] = useState({ min: 10, sec: 0 });
+  let [workValue, setWorkValue] = useState({ min: 5, sec: 0 });
+  let [breakValue, setBreakValue] = useState({ min: 0, sec: 30 });
   let [setsValue, setSetsValue] = useState(4);
   let [currentEditItem, setCurrentEditItem] = useState("work");
 
@@ -25,6 +28,10 @@ export default function CreateTimer() {
       default:
         break;
     }
+  };
+  const handleSaveTimer = () => {
+    let timer = generateTimers(workValue, breakValue, setsValue);
+    console.log(timer);
   };
   return (
     <div className="CreatePage relative">
@@ -82,7 +89,11 @@ export default function CreateTimer() {
             </div>
           </div>
           <div className="flex justify-around p-4">
-            <CtaButtons type="saveTimer" text="save"></CtaButtons>
+            <CtaButtons
+              handleSaveTimer={handleSaveTimer}
+              type="saveTimer"
+              text="save"
+            ></CtaButtons>
             <CtaButtons type="startTimer" text="start"></CtaButtons>
           </div>
         </main>
