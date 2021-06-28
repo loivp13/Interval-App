@@ -9,13 +9,37 @@ import EditTimeModal from "./components/EditTimeModal";
 
 export default function CreateTimer() {
   let [showModal, setModalState] = useState(false);
+  let [workValue, setWorkValue] = useState({ min: 45, sec: 0 });
+  let [breakValue, setBreakValue] = useState({ min: 10, sec: 0 });
+  let [setsValue, setSetsValue] = useState(4);
+  let [currentEditItem, setCurrentEditItem] = useState("work");
+
+  const handleUpdateValue = (min, sec) => {
+    switch (currentEditItem) {
+      case "work":
+        setWorkValue({ min, sec });
+        break;
+      case "break":
+        setBreakValue({ min, sec });
+        break;
+      default:
+        break;
+    }
+  };
   return (
     <div className="CreatePage relative">
       {showModal && (
-        <EditTimeModal setModalState={setModalState}></EditTimeModal>
+        <EditTimeModal
+          handleUpdateValue={handleUpdateValue}
+          setModalState={setModalState}
+        ></EditTimeModal>
       )}
       <MobileLayout>
-        <Navbar displayHelp={true} displayBack={!showModal}></Navbar>
+        {!showModal ? (
+          <Navbar displayHelp={showModal} displayBack={showModal}></Navbar>
+        ) : (
+          ""
+        )}
         <main className="text-3xl text-th-secondary w-full font-openSans  max-w-md mb-10">
           <header className="mb-2 md:mb-6">
             <h1 className=" text-2xl md:text-4xl text-center">set timer</h1>
@@ -23,21 +47,30 @@ export default function CreateTimer() {
           <div className="text-xl md:text-4xl">
             <SetTimerItem
               name="Work"
-              timeValue="45"
+              {...workValue}
               timeUnit="min"
               toggleModal={setModalState}
+              setNewValue={setWorkValue}
+              setCurrentEditItem={() => {
+                setCurrentEditItem("work");
+              }}
             ></SetTimerItem>
             <SetTimerItem
               name="Break"
-              timeValue="10"
+              {...breakValue}
               timeUnit="min"
               toggleModal={setModalState}
+              setNewValue={setBreakValue}
+              setCurrentEditItem={() => {
+                setCurrentEditItem("break");
+              }}
             ></SetTimerItem>
             <SetTimerItem
               name="Sets"
-              timeValue="4"
+              timeValue={setsValue}
               timeUnit="times"
               toggleModal={setModalState}
+              setCurrentEditItem={setSetsValue}
             ></SetTimerItem>
           </div>
           <div className="flex p-6">
@@ -49,8 +82,8 @@ export default function CreateTimer() {
             </div>
           </div>
           <div className="flex justify-around p-4">
-            <CtaButtons text="save"></CtaButtons>
-            <CtaButtons text="start"></CtaButtons>
+            <CtaButtons type="saveTimer" text="save"></CtaButtons>
+            <CtaButtons type="startTimer" text="start"></CtaButtons>
           </div>
         </main>
         <Footer></Footer>

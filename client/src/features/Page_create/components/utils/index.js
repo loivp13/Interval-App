@@ -80,20 +80,21 @@ export const changeColorText = (
 };
 
 //limit characters to two
-export function limitChar2(e) {
+//update after check
+export function limitChar2(e, handleTimeInputChange) {
   e.preventDefault();
   let isMaxCharacter = e.target.value.length + 1 > 2;
   let currentValue = +(e.target.value + e.key);
   if (currentValue > 60) {
-    console.log("damn");
     e.target.value = e.key;
+    handleTimeInputChange(e);
     return;
   } else {
     e.target.value = e.target.value + e.key;
+    handleTimeInputChange(e);
   }
   if (isMaxCharacter && !isNaN(e.key)) {
-    console.log(e);
-
     e.target.value = e.target.value.substring(1, 3);
+    handleTimeInputChange(e);
   }
 }

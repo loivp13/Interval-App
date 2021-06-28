@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DeleteIcon from "../../../images/BUTTON - delete@3x.png";
 import styles from "./SetTimerItem.styles";
 
 export default function SetTimerItem({
   name,
-  timeValue,
+  sec,
+  min,
   timeUnit,
   toggleModal,
+  timeValue,
+  setCurrentEditItem,
 }) {
   const [time, setTime] = useState(timeUnit);
   const [isHidden, setIsHidden] = useState(false);
@@ -30,7 +33,7 @@ export default function SetTimerItem({
   const renderLabel = () => {
     switch (timeUnit) {
       case "times":
-        return <div className="text-th-white">times</div>;
+        return <div className="text-th-white cursor-pointer">times</div>;
       default:
         return (
           <>
@@ -57,25 +60,46 @@ export default function SetTimerItem({
       return;
     }
   };
+
+  const renderItem = () => {
+    if (name === "Sets") {
+      return (
+        <div
+          onChange={(e) => {
+            setCurrentEditItem(+e.target.value);
+          }}
+          className="flex flex-col justify-between items-center relative w-1/4"
+        >
+          <input
+            placeholder={timeValue}
+            className="text-th-white border-th-white border flex justify-center p-4 mb-2 w-full rounded-md text-center bg-th-primary placeholder-white focus:outline-none"
+          ></input>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          onClick={() => {
+            setCurrentEditItem();
+            toggleModal(true);
+          }}
+          className="flex flex-col justify-between items-center relative w-1/4"
+        >
+          <div className="text-th-white border-th-white border flex justify-center p-4 mb-2 w-full rounded-md">
+            {min}:{sec.toString().padStart(2, 0)}
+          </div>
+        </div>
+      );
+    }
+  };
+
   return (
     <div className={SetTimerItemClass}>
       <h1 className="uppercase w-1/3 relative flex items-center">
         {renderDeleteButton()}
         {name}
       </h1>
-      <div
-        onClick={() => {
-          toggleModal(true);
-        }}
-        className="flex flex-col justify-between items-center relative w-1/6"
-      >
-        <div className="text-th-white border-th-white border flex justify-center p-2 mb-2 w-full rounded-md">
-          {timeValue}
-        </div>
-        <div className="flex justify-around mb-2 absolute bottom-0 transform translate-y-full text-xl uppercase">
-          {renderLabel()}
-        </div>
-      </div>
+      {renderItem()}
     </div>
   );
 }

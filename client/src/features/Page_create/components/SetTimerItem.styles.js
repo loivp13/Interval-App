@@ -31,7 +31,8 @@ export default {
       "py-8",
       " md:py-10",
       " w-full",
-      { hidden }
+      { hidden },
+      "cursor-pointer"
     );
   },
 };

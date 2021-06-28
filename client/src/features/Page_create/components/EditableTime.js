@@ -9,8 +9,11 @@ import {
 import styles from "./EditableTime.styles";
 import { scrollTo } from "./utils/scrollToAnimation";
 
-export default function EditableTime({ handleHidePaneOnFocus, hidePane }) {
-  let [selectedTime, setSelectedTime] = useState({ min: 0, sec: 1 });
+export default function EditableTime({
+  handleHidePaneOnFocus,
+  hidePane,
+  setSelectedTime,
+}) {
   let [scrollTopValue, setScrollTopValue] = useState({
     scrollTopMin: 0,
     scrollTopSec: 0,
@@ -21,41 +24,57 @@ export default function EditableTime({ handleHidePaneOnFocus, hidePane }) {
   let minRef = useRef();
   let secRef = useRef();
 
+  const handleTimeInputChange = (e) => {
+    let isSecColumn = e.target.classList.contains("sec");
+    if (isSecColumn) {
+      setSelectedTime((state) => {
+        return { ...state, sec: e.target.value };
+      });
+    } else {
+      setSelectedTime((state) => {
+        return { ...state, min: e.target.value };
+      });
+    }
+  };
   //Add extra divs
-  const addMoreColumns = (arr, keyId, rounds) => {
+  const addMoreColumns = (arr, keyId, rounds, colType) => {
     //max 60min | max 59sec
     for (let i = 0; i <= rounds; i++) {
       arr.push(
         <div key={i + keyId} className={styles.timeValues}>
           <input
-            className={styles.input}
+            className={styles.input({ colType })}
             type="number"
             min={0}
             max={60}
             maxLength={2}
             placeholder={`${i}`.padStart(2, 0)}
-            onKeyDown={limitChar2}
+            onKeyDown={(e) => {
+              limitChar2(e, handleTimeInputChange);
+            }}
             onFocus={handleHidePaneOnFocus}
-            onBlur={handleHidePaneOnFocus}
+            onBlur={(e) => {
+              handleHidePaneOnFocus(e);
+            }}
           />
         </div>
       );
     }
   };
   //Generating the time value column
-  const renderColumns = (keysArray, roundsArray) => {
+  const renderColumns = (keysArray, roundsArray, colType) => {
     let arr = [];
     roundsArray.forEach((rounds, i) => {
-      addMoreColumns(arr, keysArray[i], rounds);
+      addMoreColumns(arr, keysArray[i], rounds, colType);
     });
     return arr;
   };
 
   const [secColumnState, setSecColumn] = useState(
-    renderColumns([1, 1000], [59, 59])
+    renderColumns([1, 1000], [59, 59], "sec")
   );
   const [minColumnState, setMinColumn] = useState(
-    renderColumns([1, 1000], [60, 60])
+    renderColumns([1, 1000], [60, 60], "min")
   );
 
   //calculate and update sec timer state
