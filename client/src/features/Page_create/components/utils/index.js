@@ -101,12 +101,10 @@ export function limitChar2(e, handleTimeInputChange) {
 
 //generate timer data sets
 export function generateTimers(works, breaks, sets) {
-  let numOfUnnamedTimer = JSON.parse(localStorage.getItem("numUnnamedTimer"));
-  if (!numOfUnnamedTimer) {
-    localStorage.setItem("numUnnamedTimer", 1);
-  } else {
-    localStorage.setItem("numUnnamedTimer", ++numOfUnnamedTimer);
-  }
+  let numOfUnnamedTimer =
+    JSON.parse(localStorage.getItem("numUnnamedTimer")) || 0;
+
+  localStorage.setItem("numUnnamedTimer", ++numOfUnnamedTimer);
   let newTimer = { timerName: `Timer ${numOfUnnamedTimer}`, timers: [] };
 
   //insert work then break alternatively by the numbers of sets times;

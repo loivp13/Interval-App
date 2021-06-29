@@ -6,7 +6,11 @@ import CtaButtons from "./components/CtaButtons";
 import SetTimerItem from "./components/SetTimerItem";
 import EditIcon from "../../images/ICON - pencil@3x.png";
 import EditTimeModal from "./components/EditTimeModal";
-import { setNewTimer } from "../Page_ActiveTimer/components/timerSlice";
+import {
+  saveNewTimer,
+  asyncSetNewTimer,
+} from "../Page_ActiveTimer/components/timerSlice";
+import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { generateTimers } from "./components/utils";
 
@@ -16,6 +20,8 @@ export default function CreateTimer() {
   let [breakValue, setBreakValue] = useState({ min: 0, sec: 30 });
   let [setsValue, setSetsValue] = useState(4);
   let [currentEditItem, setCurrentEditItem] = useState("work");
+  let dispatch = useDispatch();
+  let history = useHistory();
 
   const handleUpdateValue = (min, sec) => {
     switch (currentEditItem) {
@@ -31,7 +37,11 @@ export default function CreateTimer() {
   };
   const handleSaveTimer = () => {
     let timer = generateTimers(workValue, breakValue, setsValue);
-    console.log(timer);
+    dispatch(saveNewTimer(timer));
+  };
+  const handleSetTimer = () => {
+    let timer = generateTimers(workValue, breakValue, setsValue);
+    dispatch(asyncSetNewTimer({ timerData: timer, history }));
   };
   return (
     <div className="CreatePage relative">
@@ -43,7 +53,7 @@ export default function CreateTimer() {
       )}
       <MobileLayout>
         {!showModal ? (
-          <Navbar displayHelp={showModal} displayBack={showModal}></Navbar>
+          <Navbar displayHelp={true} displayBack={true}></Navbar>
         ) : (
           ""
         )}
@@ -94,7 +104,11 @@ export default function CreateTimer() {
               type="saveTimer"
               text="save"
             ></CtaButtons>
-            <CtaButtons type="startTimer" text="start"></CtaButtons>
+            <CtaButtons
+              handleSetTimer={handleSetTimer}
+              type="startTimer"
+              text="start"
+            ></CtaButtons>
           </div>
         </main>
         <Footer></Footer>

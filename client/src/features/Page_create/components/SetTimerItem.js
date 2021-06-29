@@ -24,7 +24,6 @@ export default function SetTimerItem({
         return styles.highlightMin({ time });
       case "sec":
         return styles.highlightSec({ time });
-
       default:
         break;
     }

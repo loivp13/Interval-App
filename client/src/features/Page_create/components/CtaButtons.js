@@ -1,20 +1,22 @@
 import React from "react";
 export default function CtaButtons({
   text,
-  setModalState,
   min,
   sec,
-  handleUpdateValue,
   type,
+  setModalState,
+  handleUpdateValue,
   handleSaveTimer,
+  handleSetTimer,
 }) {
   const handleCallAction = () => {
     switch (type) {
       case "saveTimer":
+        console.log("save timer");
         handleSaveTimer();
         break;
       case "startTimer":
-        console.log("need fix");
+        handleSetTimer();
         break;
       case "backToSetTimer":
         setModalState(false);
