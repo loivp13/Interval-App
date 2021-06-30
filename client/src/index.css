@@ -67,6 +67,15 @@ input::-moz-focus-outer {
     .h-9\/10 {
       height: 90%;
     }
+    .h-1\/2vh {
+      height: 50vh;
+    }
+    .h-6\/10vh {
+      height: 60vh;
+    }
+    .h-8\/10vh {
+      height: 80vh;
+    }
     .h-6\/10vw {
       height: 60vw;
     }
@@ -138,6 +147,15 @@ input::-moz-focus-outer {
     }
     .translate-y-2x-full {
       transform: translateY(200%);
+    }
+  }
+}
+
+/* text utilities */
+@layer utilities {
+  @variants responsive {
+    .text-end {
+      text-align: end;
     }
   }
 }

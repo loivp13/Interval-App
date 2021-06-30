@@ -57,7 +57,6 @@ export const timerSlice = createSlice({
         localTimers.push(action.payload);
         localStorage.setItem("localTimer", JSON.stringify(localTimers));
       }
-
       return action.payload;
     },
   },

@@ -6,6 +6,7 @@ import CtaButtons from "./components/CtaButtons";
 import SetTimerItem from "./components/SetTimerItem";
 import EditIcon from "../../images/ICON - pencil@3x.png";
 import EditTimeModal from "./components/EditTimeModal";
+import EditSetModal from "./components/EditSetModal";
 import {
   saveNewTimer,
   asyncSetNewTimer,
@@ -15,7 +16,8 @@ import { useDispatch } from "react-redux";
 import { generateTimers } from "./components/utils";
 
 export default function CreateTimer() {
-  let [showModal, setModalState] = useState(false);
+  let [showTimeModal, setModalState] = useState(false);
+  let [showEditModal, setEditModal] = useState(false);
   let [workValue, setWorkValue] = useState({ min: 5, sec: 0 });
   let [breakValue, setBreakValue] = useState({ min: 0, sec: 30 });
   let [setsValue, setSetsValue] = useState(4);
@@ -24,6 +26,7 @@ export default function CreateTimer() {
   let history = useHistory();
 
   const handleUpdateValue = (min, sec) => {
+    console.log(sec, min);
     switch (currentEditItem) {
       case "work":
         setWorkValue({ min, sec });
@@ -36,24 +39,33 @@ export default function CreateTimer() {
     }
   };
   const handleSaveTimer = () => {
-    let timer = generateTimers(workValue, breakValue, setsValue);
+    let timer = generateTimers(workValue, breakValue, setsValue, "save");
     dispatch(saveNewTimer(timer));
   };
   const handleSetTimer = () => {
-    let timer = generateTimers(workValue, breakValue, setsValue);
+    let timer = generateTimers(workValue, breakValue, setsValue, "set");
     dispatch(asyncSetNewTimer({ timerData: timer, history }));
   };
   return (
     <div className="CreatePage relative">
-      {showModal && (
+      {showEditModal && (
+        <EditSetModal
+          sets={generateTimers(workValue, breakValue, setsValue)}
+          setEditModal={setEditModal}
+        ></EditSetModal>
+      )}
+      {showTimeModal && (
         <EditTimeModal
           handleUpdateValue={handleUpdateValue}
           setModalState={setModalState}
         ></EditTimeModal>
       )}
       <MobileLayout>
-        {!showModal ? (
-          <Navbar displayHelp={true} displayBack={true}></Navbar>
+        {!showTimeModal ? (
+          <Navbar
+            displayHelp={!showEditModal && true}
+            displayBack={true}
+          ></Navbar>
         ) : (
           ""
         )}
@@ -87,10 +99,15 @@ export default function CreateTimer() {
               timeValue={setsValue}
               timeUnit="times"
               toggleModal={setModalState}
-              setCurrentEditItem={setSetsValue}
+              setNewValue={setSetsValue}
             ></SetTimerItem>
           </div>
-          <div className="flex p-6">
+          <div
+            onClick={() => {
+              setEditModal(true);
+            }}
+            className="flex p-6"
+          >
             <div className="w-6 mr-2">
               <img src={EditIcon} alt="" />
             </div>

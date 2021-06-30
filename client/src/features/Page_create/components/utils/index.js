@@ -100,19 +100,23 @@ export function limitChar2(e, handleTimeInputChange) {
 }
 
 //generate timer data sets
-export function generateTimers(works, breaks, sets) {
-  let numOfUnnamedTimer =
-    JSON.parse(localStorage.getItem("numUnnamedTimer")) || 0;
-
-  localStorage.setItem("numUnnamedTimer", ++numOfUnnamedTimer);
+export function generateTimers(works, breaks, sets, type) {
+  let numOfUnnamedTimer;
+  if (type === "save") {
+    numOfUnnamedTimer =
+      JSON.parse(localStorage.getItem("numUnnamedTimer")) || 0;
+    localStorage.setItem("numUnnamedTimer", ++numOfUnnamedTimer);
+  } else {
+    numOfUnnamedTimer = "";
+  }
   let newTimer = { timerName: `Timer ${numOfUnnamedTimer}`, timers: [] };
 
   //insert work then break alternatively by the numbers of sets times;
   let workIndex = 0;
   let breakIndex = 0;
   let setIndex = 1;
-
-  while (setIndex <= sets) {
+  console.log(sets);
+  while (setIndex <= (sets || 1)) {
     let setTimer = {
       currentTimerName: ``,
       times: {
@@ -121,7 +125,14 @@ export function generateTimers(works, breaks, sets) {
         sec: 0,
       },
     };
-    if (workIndex <= breakIndex) {
+    //if no breaks add only sets
+    if (breaks.min + breaks.sec === 0) {
+      setTimer.currentTimerName = `Set ${setIndex}`;
+      setTimer.times.min = works.min;
+      setTimer.times.sec = works.sec;
+      setIndex++;
+      //alternate between work and break
+    } else if (workIndex <= breakIndex) {
       setTimer.currentTimerName = `Set ${setIndex}`;
       setTimer.times.min = works.min;
       setTimer.times.sec = works.sec;

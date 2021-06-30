@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import CloseIcon from "../../../images/BUTTON - cancel@3x.png";
 import CtaButtons from "./CtaButtons";
 import EditableTime from "./EditableTime";
-import styles from "./EditTImeModal.styles";
+import styles from "./EditTimeModal.styles";
 
 export default function EditTimeModal({ setModalState, handleUpdateValue }) {
   let [hidePane, setHidePane] = useState(false);

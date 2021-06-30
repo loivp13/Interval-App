@@ -10,6 +10,7 @@ export default function SetTimerItem({
   toggleModal,
   timeValue,
   setCurrentEditItem,
+  setNewValue,
 }) {
   const [time, setTime] = useState(timeUnit);
   const [isHidden, setIsHidden] = useState(false);
@@ -48,6 +49,7 @@ export default function SetTimerItem({
       return (
         <div
           onClick={() => {
+            setNewValue(name === "Break" ? { min: 0, sec: 0 } : 0);
             handleDeleteClick();
           }}
           className="w-12 absolute -left-12 transform translate-y-3px"
@@ -65,7 +67,7 @@ export default function SetTimerItem({
       return (
         <div
           onChange={(e) => {
-            setCurrentEditItem(+e.target.value);
+            setNewValue(+e.target.value);
           }}
           className="flex flex-col justify-between items-center relative w-1/4"
         >
@@ -79,7 +81,6 @@ export default function SetTimerItem({
       return (
         <div
           onClick={() => {
-            setCurrentEditItem();
             toggleModal(true);
           }}
           className="flex flex-col justify-between items-center relative w-1/4"
@@ -93,7 +94,7 @@ export default function SetTimerItem({
   };
 
   return (
-    <div className={SetTimerItemClass}>
+    <div onClick={setCurrentEditItem} className={SetTimerItemClass}>
       <h1 className="uppercase w-1/3 relative flex items-center">
         {renderDeleteButton()}
         {name}
