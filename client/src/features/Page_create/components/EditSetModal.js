@@ -12,7 +12,6 @@ export default function EditSetModal({ sets, setEditModal }) {
   let [editableSet, setEditableSet] = useState(sets);
   let [showTimeModal, setShowTimeModal] = useState(false);
   let [currentEditItem, setCurrentEditItem] = useState(0);
-
   const handleOnChangeNameInput = (e) => {
     let key = e.target.getAttribute("data-id");
     let newObj = cloneDeep(editableSet);
@@ -20,12 +19,11 @@ export default function EditSetModal({ sets, setEditModal }) {
     setEditableSet(newObj);
   };
 
-  const handleDeleteSet = () => {
-    // let key = e.target.getAttribute("data-id");
+  const handleDeleteSet = (index) => {
     let newObj = cloneDeep(editableSet);
     newObj.timers = [
-      ...newObj.timers.slice(0, currentEditItem - 1),
-      ...newObj.timers.slice(currentEditItem),
+      ...newObj.timers.slice(0, index),
+      ...newObj.timers.slice(index + 1),
     ];
     if (newObj.timers.length === 0) {
       setEditModal(false);
@@ -45,14 +43,15 @@ export default function EditSetModal({ sets, setEditModal }) {
   const renderEditableItem = () => {
     return editableSet.timers.map((time, index) => {
       return (
-        <div
-          key={index}
-          onClick={handleChangeCurrentEditItem}
-          data-id={index + 1}
-          className={styles.editItem()}
-        >
+        <div key={index} className={styles.editItem()}>
           <div className={styles.currentTimerName()}>
-            <div onClick={handleDeleteSet} className={styles.deleteIcon()}>
+            <div
+              onClick={(e) => {
+                handleDeleteSet(index);
+              }}
+              data-id={index}
+              className={styles.deleteIcon()}
+            >
               <img src={DeleteIcon} alt="" />
             </div>
             <input
@@ -64,9 +63,10 @@ export default function EditSetModal({ sets, setEditModal }) {
           <div className={styles.timerValueBox()}>
             <div
               onClick={(e) => {
+                handleChangeCurrentEditItem(e);
                 setShowTimeModal(true);
               }}
-              data-timeid={index}
+              data-id={index}
               className={styles.timerValue()}
             >
               {time.times.min.toString().padStart(2, 0)}:

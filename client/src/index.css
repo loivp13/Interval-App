@@ -121,7 +121,7 @@ input::-moz-focus-outer {
   }
 }
 
-/* scrollsnap utilities */
+/* scrollbar utilities */
 @layer utilities {
   @variants responsive {
     .scroll-mandatory-x {
