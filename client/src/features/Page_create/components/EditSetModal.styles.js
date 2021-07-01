@@ -8,12 +8,15 @@ export default {
       "items-center",
       "font-quicksand",
       "text-th-white",
-      "text-end",
+      "text-center",
       "text-4xl",
       "my-8",
       "relative",
-      "w-auto",
-      "tracking-widest"
+      "w-full",
+      "tracking-widest",
+      "bg-th-primary",
+      "placeholder-white",
+      "focus:outline-none"
     );
   },
   editIcon: () => {
@@ -77,7 +80,8 @@ export default {
       "bg-th-primary",
       "text-white",
       "placeholder-white",
-      "w-full"
+      "w-full",
+      "focus:outline-none"
     );
   },
 };

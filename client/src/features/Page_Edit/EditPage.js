@@ -4,13 +4,17 @@ import Navbar from "../globalComponents/navbar/Navbar";
 import Footer from "../footer/Footer";
 
 export default function ActiveTimerPage() {
-  const [allTimers, setAllTimers] = useState(
-    JSON.parse(localStorage.getItem("allTimers"))
-  );
-
+  let localTimer = JSON.parse(localStorage.getItem("localTimers")) || [];
+  let serverTimer = JSON.parse(localStorage.getItem("serverTimers")) || [];
+  const [allTimers, setAllTimers] = useState([...localTimer, ...serverTimer]);
+  const generateAllTimerItems = () => {
+    return allTimers.map((item) => {
+      return "hi";
+    });
+  };
   const renderAllTimers = () => {
     if (allTimers) {
-      return "timers";
+      return generateAllTimerItems();
     } else {
       return (
         <div className="px-2 py-2 border-b border-th-white">

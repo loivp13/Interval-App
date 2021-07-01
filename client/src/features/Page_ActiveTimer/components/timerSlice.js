@@ -47,7 +47,7 @@ export const timerSlice = createSlice({
     },
     saveNewTimer: (state, action) => {
       let isSignIn = JSON.parse(localStorage.getItem("user"));
-      let localTimers = JSON.parse(localStorage.getItem("localTimer")) || [];
+      let localTimers = JSON.parse(localStorage.getItem("localTimers")) || [];
       //save to server and add to localStorage timer
       if (isSignIn) {
         console.log(
@@ -55,7 +55,7 @@ export const timerSlice = createSlice({
         );
       } else {
         localTimers.push(action.payload);
-        localStorage.setItem("localTimer", JSON.stringify(localTimers));
+        localStorage.setItem("localTimers", JSON.stringify(localTimers));
       }
       return action.payload;
     },
@@ -87,4 +87,20 @@ export const asyncSetNewTimer = (payload) => async (dispatch, getState) => {
   await dispatch(setNewTimer(payload.timerData));
   payload.history.push("/activeTimer");
 };
+
+export const asyncSaveNewTimer = (payload) => async (dispatch, getState) => {
+  let isUserSignIn = JSON.parse(localStorage.getItem("user"));
+  let localTimers = JSON.parse(localStorage.getItem("localTimers")) || [];
+
+  if (isUserSignIn) {
+    await console.log("saving to server");
+    setNewTimer(payload.timerData);
+  } else {
+    localTimers.push(payload.timerData);
+    localStorage.setItem("localTimers", JSON.stringify(localTimers));
+    await dispatch(setNewTimer(payload.timerData));
+  }
+  payload.history.push("/editTimer");
+};
+
 export default timerSlice.reducer;
