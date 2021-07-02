@@ -6,7 +6,13 @@ import BackButtonImage from "../../../images/ICON - BACK ARROW @3x.png";
 import MenuButtonImage from "../../../images/BUTTON - menu@3x.png";
 import EditButtonImage from "../../../images/ICON - pencil@3x.png";
 
-const Navbar = ({ displayMenu, displayHelp, displayBack, displayEdit }) => {
+const Navbar = ({
+  displayMenu,
+  displayHelp,
+  displayBack,
+  displayEdit,
+  action,
+}) => {
   //render if true
   const renderMenuButton = () => {
     return displayMenu ? (
@@ -18,6 +24,12 @@ const Navbar = ({ displayMenu, displayHelp, displayBack, displayEdit }) => {
     ) : (
       ""
     );
+  };
+
+  const handleOnClick = () => {
+    if (action) {
+      action();
+    } else return;
   };
 
   //render if true
@@ -50,10 +62,11 @@ const Navbar = ({ displayMenu, displayHelp, displayBack, displayEdit }) => {
   //render if true
   const renderEditButton = () => {
     return displayEdit ? (
-      <div className="w-5  ml-auto h-auto text-th-linkText bg-th-primary text-right">
-        <Link to="/">
-          <img className="w-full h-full" src={EditButtonImage} alt="" />
-        </Link>
+      <div
+        onClick={handleOnClick}
+        className="w-5  ml-auto h-auto text-th-linkText bg-th-primary text-right"
+      >
+        <img className="w-full h-full" src={EditButtonImage} alt="" />
       </div>
     ) : (
       ""

@@ -109,7 +109,11 @@ export function generateTimers(works, breaks, sets, type) {
   } else {
     numOfUnnamedTimer = "";
   }
-  let newTimer = { timerName: `Timer ${numOfUnnamedTimer}`, timers: [] };
+  let newTimer = {
+    timerName: `Timer ${numOfUnnamedTimer}`,
+    timers: [],
+    totalSets: 0,
+  };
 
   //insert work then break alternatively by the numbers of sets times;
   let workIndex = 0;
@@ -131,6 +135,7 @@ export function generateTimers(works, breaks, sets, type) {
       setTimer.times.min = works.min;
       setTimer.times.sec = works.sec;
       setIndex++;
+      newTimer.totalSets++;
       //alternate between work and break
     } else if (workIndex <= breakIndex) {
       setTimer.currentTimerName = `Set ${setIndex}`;
@@ -142,6 +147,7 @@ export function generateTimers(works, breaks, sets, type) {
       setTimer.times.min = breaks.min;
       setTimer.times.sec = breaks.sec;
       breakIndex++;
+      newTimer.totalSets++;
       setIndex++;
     }
     newTimer.timers.push(setTimer);

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
+import { v4 as uuidv4 } from "uuid";
 const initialState = {
   timerName: "Quickstart",
   timers: [
@@ -54,6 +54,7 @@ export const timerSlice = createSlice({
           "save data server side then save to localstorage under serverTimer"
         );
       } else {
+        action.payload.uuid = uuidv4();
         localTimers.push(action.payload);
         localStorage.setItem("localTimers", JSON.stringify(localTimers));
       }
@@ -96,6 +97,7 @@ export const asyncSaveNewTimer = (payload) => async (dispatch, getState) => {
     await console.log("saving to server");
     setNewTimer(payload.timerData);
   } else {
+    payload.timerData.uuid = uuidv4();
     localTimers.push(payload.timerData);
     localStorage.setItem("localTimers", JSON.stringify(localTimers));
     await dispatch(setNewTimer(payload.timerData));
