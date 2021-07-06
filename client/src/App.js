@@ -17,7 +17,7 @@ import HelpPage from "./features/Page_help/HelpPage";
 import SettingPage from "./features/Page_Setting/SettingPage";
 import ActivateUserPage from "./features/Page_ActivateUser/ActivateUserPage";
 import ActiveTimerPage from "./features/Page_ActiveTimer/ActiveTimerPage";
-import EditPage from "./features/Page_Edit/EditPage";
+import EditPage from "./features/Page_Edit/EditPage.jsx";
 import CreatePage from "./features/Page_create/CreatePage";
 
 //CSS

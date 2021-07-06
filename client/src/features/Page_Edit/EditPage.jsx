@@ -4,7 +4,8 @@ import Navbar from "../globalComponents/navbar/Navbar";
 import Footer from "../footer/Footer";
 import rearrangeIcon from "../../images/ICON - rearrange@3x.png";
 import deleteIcon from "../../images/BUTTON - delete@3x.png";
-import styles from "./EditPage.styles";
+import DragAndDropBox from "./DragAndDrop/DragAndDropBox.jsx";
+import GenerateSetItems from "./DragAndDrop/GenerateSetItems";
 
 export default function ActiveTimerPage() {
   let localTimer = JSON.parse(localStorage.getItem("localTimers")) || [];
@@ -42,34 +43,20 @@ export default function ActiveTimerPage() {
     }
   };
 
-  const generateAllTimerItems = () => {
-    return allTimers.map((item, index) => {
-      return (
-        <div key={index} className={styles.TimerItem()}>
-          <div
-            onClick={() => {
-              handleDeleteTime(index);
-            }}
-            className={styles.DeleteIcon(!editMode)}
-          >
-            <img className="" src={deleteIcon} alt="delete button" />
-          </div>
-          <div className={styles.RearrangeIcon(!editMode)}>
-            <img src={rearrangeIcon} alt="rearrange button" />
-          </div>
-          <div className="uppercase">{item.timerName}</div>
-          <div className="text-th-secondary text-xl">
-            {item.totalSets} set(s) - {totalAmountOfMins(item.timers)} total
-            mins
-          </div>
-        </div>
-      );
-    });
-  };
-
   const renderAllTimers = () => {
     if (allTimers) {
-      return generateAllTimerItems();
+      return (
+        <DragAndDropBox>
+          <GenerateSetItems
+            allTimers={allTimers}
+            editMode={editMode}
+            deleteIcon={deleteIcon}
+            rearrangeIcon={rearrangeIcon}
+            totalAmountOfMins={totalAmountOfMins}
+            handleDeleteTime={handleDeleteTime}
+          ></GenerateSetItems>
+        </DragAndDropBox>
+      );
     } else {
       return (
         <div className="NoTimerItem px-2 py-2 border-b border-th-white ">
