@@ -10,11 +10,12 @@ export default function SetItems({
   rearrangeIcon,
   totalAmountOfMins,
   handleDeleteTime,
+  handleArrangeTime,
 }) {
   const [{ isOver }, drop] = useDrop(
     () => ({
       accept: ItemTypes.SET_ITEM,
-      drop: () => console.log("drop"),
+      drop: () => handleArrangeTime(),
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
       }),
@@ -25,6 +26,7 @@ export default function SetItems({
     return allTimers.map((item, index) => {
       return (
         <SingleSetItem
+          key={index}
           editMode={editMode}
           deleteIcon={deleteIcon}
           rearrangeIcon={rearrangeIcon}

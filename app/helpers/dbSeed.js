@@ -6,7 +6,7 @@ module.exports = function () {
     firstName: "Loyd",
     lastName: "VP",
     email: "LVP@gmail.com",
-    password: "123456Guess",
+    password: "123456",
   })
     .then((data) => {
       console.log("created veloute successful");

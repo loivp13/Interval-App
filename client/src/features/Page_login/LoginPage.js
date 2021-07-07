@@ -4,8 +4,13 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import ForgotPw from "./components/ForgotPw";
 import Default from "./components/Default";
+import { useDispatch } from "react-redux";
+import { asyncUserSignOut } from "../../appReduxSlices/userSlice";
+import { useHistory } from "react-router";
 
 const LoginPage = () => {
+  let dispatch = useDispatch();
+  let history = useHistory();
   const [currentDisplay, setDisplay] = useState("default");
 
   const handleButtonClick = (type) => {
@@ -18,6 +23,8 @@ const LoginPage = () => {
         return setDisplay("signup");
       case "forgotPw":
         return setDisplay("forgotPw");
+      case "logout":
+        return dispatch(asyncUserSignOut({ history }));
       default:
         return setDisplay("default");
     }

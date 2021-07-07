@@ -6,13 +6,18 @@ import rearrangeIcon from "../../images/ICON - rearrange@3x.png";
 import deleteIcon from "../../images/BUTTON - delete@3x.png";
 import DragAndDropBox from "./DragAndDrop/DragAndDropBox.jsx";
 import GenerateSetItems from "./DragAndDrop/GenerateSetItems";
+import { selectUserSignIn } from "../../appReduxSlices/userSlice";
+import { useSelector } from "react-redux";
 
 export default function ActiveTimerPage() {
+  let isUserSignIn = useSelector(selectUserSignIn);
   let localTimer = JSON.parse(localStorage.getItem("localTimers")) || [];
   let serverTimer = JSON.parse(localStorage.getItem("serverTimers")) || [];
   let [editMode, setEditMode] = useState(true);
 
-  const [allTimers, setAllTimers] = useState([...localTimer, ...serverTimer]);
+  const [allTimers, setAllTimers] = useState(
+    isUserSignIn ? [...serverTimer] : [...localTimer]
+  );
 
   const totalAmountOfMins = (timers) => {
     let sum = 0;
@@ -29,12 +34,11 @@ export default function ActiveTimerPage() {
       for (let i = 0; i < localTimer.length; i++) {
         let foundTimer = localTimer[i].uuid === uuid;
         if (foundTimer) {
-          console.log(foundTimer);
           let firstHalf = localTimer.slice(0, i);
           let secondHalf = localTimer.slice(i + 1);
           localTimer = [...firstHalf, ...secondHalf];
           localStorage.setItem("localTimers", JSON.stringify(localTimer));
-          setAllTimers([...serverTimer, ...localTimer]);
+          setAllTimers([...localTimer]);
           break;
         }
       }
@@ -43,8 +47,12 @@ export default function ActiveTimerPage() {
     }
   };
 
+  const handleArrangeTime = () => {
+    console.log("why");
+  };
+
   const renderAllTimers = () => {
-    if (allTimers) {
+    if (allTimers.length > 0) {
       return (
         <DragAndDropBox>
           <GenerateSetItems
@@ -54,6 +62,7 @@ export default function ActiveTimerPage() {
             rearrangeIcon={rearrangeIcon}
             totalAmountOfMins={totalAmountOfMins}
             handleDeleteTime={handleDeleteTime}
+            handleArrangeTime={handleArrangeTime}
           ></GenerateSetItems>
         </DragAndDropBox>
       );

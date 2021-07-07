@@ -1,10 +1,10 @@
 import React from "react";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd-multi-backend";
+import HTML5toTouch from "react-dnd-multi-backend/dist/esm/HTML5toTouch";
 
 const DragAndDropBox = (props) => {
   return (
-    <DndProvider className="DndProvider" backend={HTML5Backend}>
+    <DndProvider className="DndProvider" options={HTML5toTouch}>
       {props.children}
     </DndProvider>
   );

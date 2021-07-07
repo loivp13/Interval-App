@@ -4,6 +4,8 @@ import { apiAxios } from "../../../helpers/axios_api";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { asyncUserSignIn } from "../../../appReduxSlices/userSlice";
+import { useDispatch } from "react-redux";
 
 import InputField from "../components/sharedComponents/InputField";
 import AuthForm from "./sharedComponents/AuthForm";
@@ -23,9 +25,6 @@ const Login = ({ handleButtonClick }) => {
     errorMessage: "",
   });
   let { displayErrorMessage, errorMessage } = serverErrorMessage;
-  const renderErrorMessage = () => {
-    return displayErrorMessage ? errorMessage : "";
-  };
 
   //error handling with react-hook-form
   const {
@@ -35,15 +34,13 @@ const Login = ({ handleButtonClick }) => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
+  let dispatch = useDispatch();
   let history = useHistory();
   const onSubmit = (data) => {
     apiAxios
       .post("/auth/login", data)
       .then(({ data }) => {
-        console.log(data.user);
-        localStorage.setItem("user", JSON.stringify(data.user));
-        localStorage.setItem("token", data.token);
-        history.push("/");
+        dispatch(asyncUserSignIn({ history, data }));
       })
       .catch(({ response }) => {
         triggerServerErrorMessage({
