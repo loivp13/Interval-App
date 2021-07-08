@@ -1,7 +1,6 @@
 import React from "react";
-import { useDrop } from "react-dnd";
 import SingleSetItem from "./SingleSetItem";
-import { ItemTypes } from "./ItemTypes";
+import {} from "react-beautiful-dnd";
 
 export default function SetItems({
   allTimers,
@@ -10,18 +9,7 @@ export default function SetItems({
   rearrangeIcon,
   totalAmountOfMins,
   handleDeleteTime,
-  handleArrangeTime,
 }) {
-  const [{ isOver }, drop] = useDrop(
-    () => ({
-      accept: ItemTypes.SET_ITEM,
-      drop: () => handleArrangeTime(),
-      collect: (monitor) => ({
-        isOver: !!monitor.isOver(),
-      }),
-    }),
-    []
-  );
   const generateAllTimerItems = () => {
     return allTimers.map((item, index) => {
       return (
@@ -39,9 +27,5 @@ export default function SetItems({
     });
   };
 
-  return (
-    <div ref={drop} className="AllTimers">
-      {generateAllTimerItems()}
-    </div>
-  );
+  return <>{generateAllTimerItems()}</>;
 }

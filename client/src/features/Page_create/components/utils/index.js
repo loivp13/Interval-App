@@ -1,3 +1,5 @@
+import { current } from "@reduxjs/toolkit";
+
 //Check if columns should center
 export const checkShouldRecenterColumn = (
   clientHeight,
@@ -101,6 +103,14 @@ export function limitChar2(e, handleTimeInputChange) {
 
 //generate timer data sets
 export function generateTimers(works, breaks, sets, type) {
+  //set order in which the timer will be displayed, order count determined by length of server timers or local timers depending on if isSignIn
+  let currentOrder;
+  let isSignIn = !!localStorage.getItem("user");
+  let serverTimers = JSON.parse(localStorage.getItem("serverTimers")) || [];
+  let localTimers = JSON.parse(localStorage.getItem("localTimers")) || [];
+
+  currentOrder = isSignIn ? serverTimers : localTimers.length;
+  //if user gave no name to timer, increment unnamed timer in storage
   let numOfUnnamedTimer;
   if (type === "save") {
     numOfUnnamedTimer =
@@ -113,13 +123,13 @@ export function generateTimers(works, breaks, sets, type) {
     timerName: `Timer ${numOfUnnamedTimer}`,
     timers: [],
     totalSets: 0,
+    order: currentOrder,
   };
 
   //insert work then break alternatively by the numbers of sets times;
   let workIndex = 0;
   let breakIndex = 0;
   let setIndex = 1;
-  console.log(sets);
   while (setIndex <= (sets || 1)) {
     let setTimer = {
       currentTimerName: ``,

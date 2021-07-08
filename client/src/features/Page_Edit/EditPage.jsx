@@ -9,7 +9,7 @@ import GenerateSetItems from "./DragAndDrop/GenerateSetItems";
 import { selectUserSignIn } from "../../appReduxSlices/userSlice";
 import { useSelector } from "react-redux";
 
-export default function ActiveTimerPage() {
+export default function EditPage() {
   let isUserSignIn = useSelector(selectUserSignIn);
   let localTimer = JSON.parse(localStorage.getItem("localTimers")) || [];
   let serverTimer = JSON.parse(localStorage.getItem("serverTimers")) || [];
@@ -46,15 +46,16 @@ export default function ActiveTimerPage() {
       console.log("handle server deletion and localstorage serverTimer");
     }
   };
-
-  const handleArrangeTime = () => {
-    console.log("why");
+  const handleOnDragEnd = (result) => {
+    const timers = Array.from(allTimers);
+    let [reorderedItem] = timers.splice(result.source.index, 1);
+    timers.splice(result.destination.index, 0, reorderedItem);
+    setAllTimers(timers);
   };
-
   const renderAllTimers = () => {
     if (allTimers.length > 0) {
       return (
-        <DragAndDropBox>
+        <DragAndDropBox handleOnDragEnd={handleOnDragEnd}>
           <GenerateSetItems
             allTimers={allTimers}
             editMode={editMode}
@@ -62,16 +63,13 @@ export default function ActiveTimerPage() {
             rearrangeIcon={rearrangeIcon}
             totalAmountOfMins={totalAmountOfMins}
             handleDeleteTime={handleDeleteTime}
-            handleArrangeTime={handleArrangeTime}
           ></GenerateSetItems>
         </DragAndDropBox>
       );
     } else {
-      return (
-        <div className="NoTimerItem px-2 py-2 border-b border-th-white ">
-          No timers saved.
-        </div>
-      );
+      <div className="NoTimerItem px-2 py-2 border-b border-th-white ">
+        No timers saved.
+      </div>;
     }
   };
   return (

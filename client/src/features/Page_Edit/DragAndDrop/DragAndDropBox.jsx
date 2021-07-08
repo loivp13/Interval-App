@@ -1,12 +1,20 @@
 import React from "react";
-import { DndProvider } from "react-dnd-multi-backend";
-import HTML5toTouch from "react-dnd-multi-backend/dist/esm/HTML5toTouch";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
-const DragAndDropBox = (props) => {
+const DragAndDropBox = ({ handleOnDragEnd, children }) => {
   return (
-    <DndProvider className="DndProvider" options={HTML5toTouch}>
-      {props.children}
-    </DndProvider>
+    <DragDropContext onDragEnd={handleOnDragEnd}>
+      <Droppable droppableId="droppableTimers">
+        {(provided) => {
+          return (
+            <div {...provided.droppableProps} ref={provided.innerRef}>
+              {children}
+              {provided.placeholder}
+            </div>
+          );
+        }}
+      </Droppable>
+    </DragDropContext>
   );
 };
 
