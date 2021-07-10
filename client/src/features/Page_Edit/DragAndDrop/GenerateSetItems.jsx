@@ -9,6 +9,8 @@ export default function SetItems({
   rearrangeIcon,
   totalAmountOfMins,
   handleDeleteTime,
+  handleSelectCurrentTimer,
+  handleToggleEditModal,
 }) {
   const generateAllTimerItems = () => {
     return allTimers.map((item, index) => {
@@ -22,6 +24,8 @@ export default function SetItems({
           handleDeleteTime={handleDeleteTime}
           item={item}
           index={index}
+          handleSelectCurrentTimer={handleSelectCurrentTimer}
+          handleToggleEditModal={handleToggleEditModal}
         ></SingleSetItem>
       );
     });

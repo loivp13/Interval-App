@@ -8,18 +8,22 @@ export default function CtaButtons({
   handleUpdateValue,
   handleSaveTimer,
   handleSetTimer,
+  setEditModal,
+  setEditMode,
 }) {
   const handleCallAction = () => {
     switch (type) {
       case "saveTimer":
-        console.log("save timer");
         handleSaveTimer();
         break;
       case "startTimer":
         handleSetTimer();
         break;
       case "backToSetTimer":
-        setModalState(false);
+        setModalState ? setModalState(false) : setEditModal(false);
+        if (setEditMode) {
+          setEditMode();
+        }
         break;
       case "saveBackToSetTimer":
         handleUpdateValue(min, sec);
@@ -34,7 +38,7 @@ export default function CtaButtons({
       onClick={() => {
         handleCallAction();
       }}
-      className="rounded-2xl border-2 bg-th-primary border-th-white text-xl md:text-4xl uppercase p-2 text-th-white w-1/2 text-center m-4 font-quicksand cursor-pointer"
+      className="rounded-2xl border-2 bg-th-primary border-th-white text-xl md:text-4xl uppercase  text-th-white w-1/2 m-1 text-center p-3 font-quicksand cursor-pointer "
     >
       {text}
     </div>

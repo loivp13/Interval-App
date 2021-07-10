@@ -14,6 +14,7 @@ import {
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { generateTimers } from "./components/utils";
+import styles from "./CreatePage.styles";
 
 export default function CreateTimer() {
   let [showTimeModal, setModalState] = useState(false);
@@ -47,11 +48,15 @@ export default function CreateTimer() {
     dispatch(asyncSetNewTimer({ timerData: timer, history }));
   };
   return (
-    <div className="CreatePage relative">
+    <div
+      className={styles.CreatePage({ hScreen: showTimeModal || showEditModal })}
+    >
       {showEditModal && (
         <EditSetModal
+          type="create"
           sets={generateTimers(workValue, breakValue, setsValue)}
           setEditModal={setEditModal}
+          editMode={true}
         ></EditSetModal>
       )}
       {showTimeModal && (
@@ -69,7 +74,11 @@ export default function CreateTimer() {
         ) : (
           ""
         )}
-        <main className="text-3xl text-th-secondary w-full font-openSans  max-w-md mb-10">
+        <main
+          className={`text-3xl text-th-secondary w-full font-openSans  max-w-md mb-10 ${
+            showEditModal || showTimeModal ? "hidden" : ""
+          } `}
+        >
           <header className="mb-2 md:mb-6">
             <h1 className=" text-2xl md:text-4xl text-center">set timer</h1>
           </header>

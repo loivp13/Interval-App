@@ -22,10 +22,14 @@ export default {
   editIcon: () => {
     return classNames("w-5", "absolute", "-right-8", "bottom-2");
   },
+  editableItemsContainer: () => {
+    return classNames("EditableItemContainer", "h-8/10vh");
+  },
   editableItemsBox: () => {
     return classNames(
-      "h-6/10vh",
+      "EditableItemBox",
       "overflow-scroll",
+      "h-9/10",
       "w-full",
       "flex",
       "flex-col",
@@ -48,10 +52,13 @@ export default {
   },
   currentTimerName: () => {
     return classNames(
+      "CurrentTimerName",
+      "relative",
       "b-bottom",
       "flex",
       "items-center",
       "p-4",
+      "pl-6",
       "text-center",
       "text-white",
       "uppercase",
@@ -73,15 +80,14 @@ export default {
     return classNames("text-white", "tracking-widest");
   },
   deleteIcon: () => {
-    return classNames("w-10");
+    return classNames("w-10", "absolute", "-left-15px", "top-15px");
   },
   editItemInput: () => {
     return classNames(
       "bg-th-primary",
       "text-white",
       "placeholder-white",
-      "w-full",
-      "focus:outline-none"
+      "w-full"
     );
   },
 };

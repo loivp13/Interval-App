@@ -8,16 +8,26 @@ import DragAndDropBox from "./DragAndDrop/DragAndDropBox.jsx";
 import GenerateSetItems from "./DragAndDrop/GenerateSetItems";
 import { selectUserSignIn } from "../../appReduxSlices/userSlice";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { asyncSetNewTimer } from "../Page_ActiveTimer/components/timerSlice";
+import { useHistory } from "react-router";
+
+import EditSetModal from "../Page_create/components/EditSetModal";
 
 export default function EditPage() {
+  let history = useHistory();
+  let dispatch = useDispatch();
+  let [showEditModal, setEditModal] = useState(false);
   let isUserSignIn = useSelector(selectUserSignIn);
   let localTimer = JSON.parse(localStorage.getItem("localTimers")) || [];
   let serverTimer = JSON.parse(localStorage.getItem("serverTimers")) || [];
-  let [editMode, setEditMode] = useState(true);
+  let [editMode, setEditMode] = useState(false);
 
-  const [allTimers, setAllTimers] = useState(
+  let [allTimers, setAllTimers] = useState(
     isUserSignIn ? [...serverTimer] : [...localTimer]
   );
+
+  let [currentSelectTimer, setCurrentSelectTimer] = useState(0);
 
   const totalAmountOfMins = (timers) => {
     let sum = 0;
@@ -25,6 +35,12 @@ export default function EditPage() {
       sum += timer.times.min + timer.times.sec / 60;
     }
     return sum.toFixed(2);
+  };
+
+  const handleSetTimer = () => {
+    dispatch(
+      asyncSetNewTimer({ timerData: allTimers[currentSelectTimer], history })
+    );
   };
 
   const handleDeleteTime = (index) => {
@@ -47,6 +63,7 @@ export default function EditPage() {
     }
   };
   const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
     const timers = Array.from(allTimers);
     let [reorderedItem] = timers.splice(result.source.index, 1);
     timers.splice(result.destination.index, 0, reorderedItem);
@@ -63,6 +80,8 @@ export default function EditPage() {
             rearrangeIcon={rearrangeIcon}
             totalAmountOfMins={totalAmountOfMins}
             handleDeleteTime={handleDeleteTime}
+            handleSelectCurrentTimer={setCurrentSelectTimer}
+            handleToggleEditModal={setEditModal}
           ></GenerateSetItems>
         </DragAndDropBox>
       );
@@ -74,6 +93,16 @@ export default function EditPage() {
   };
   return (
     <div className="EditPage h-full min-h-screen md:h-screen">
+      {showEditModal && (
+        <EditSetModal
+          type="edit"
+          sets={allTimers[currentSelectTimer]}
+          setEditModal={setEditModal}
+          editMode={editMode}
+          setEditMode={setEditMode}
+          handleSetTimer={handleSetTimer}
+        ></EditSetModal>
+      )}
       <MobileLayout>
         <Navbar
           displayEdit={true}
@@ -86,7 +115,9 @@ export default function EditPage() {
           <div className="text-3xl text-th-secondary font-openSans mb-10 text-center">
             saved timers
           </div>
-          <div className="w-full text-3xl  h-9/10">{renderAllTimers()}</div>
+          <div className="w-full text-3xl  h-9/10  overflow-scroll">
+            {renderAllTimers()}
+          </div>
           <Footer></Footer>
         </div>
       </MobileLayout>

@@ -45,6 +45,10 @@ export const timerSlice = createSlice({
     setTimerName: (state, action) => {
       state.timerName = action.payload;
     },
+    updateTimer: (state, action) => {
+      let isSignIn = JSON.parse(localStorage.getItem("user"));
+      console.log(action);
+    },
     saveNewTimer: (state, action) => {
       let isSignIn = JSON.parse(localStorage.getItem("user"));
       let localTimers = JSON.parse(localStorage.getItem("localTimers")) || [];
@@ -75,7 +79,8 @@ export const timerSlice = createSlice({
   },
 });
 
-export const { setNewTimer, setTimerName, saveNewTimer } = timerSlice.actions;
+export const { setNewTimer, setTimerName, saveNewTimer, updateTimer } =
+  timerSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
@@ -87,6 +92,10 @@ export const selectTimer = (state) => state.timer;
 export const asyncSetNewTimer = (payload) => async (dispatch, getState) => {
   await dispatch(setNewTimer(payload.timerData));
   payload.history.push("/activeTimer");
+};
+
+export const asyncUpdateTimer = (payload) => async (dispatch, getState) => {
+  await dispatch(updateTimer(payload.timerData));
 };
 
 export const asyncSaveNewTimer = (payload) => async (dispatch, getState) => {

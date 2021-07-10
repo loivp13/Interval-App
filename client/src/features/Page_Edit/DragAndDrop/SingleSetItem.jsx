@@ -10,12 +10,25 @@ export default function SingleSetItem({
   handleDeleteTime,
   item,
   index,
+  handleSelectCurrentTimer,
+  handleToggleEditModal,
 }) {
   return (
-    <Draggable index={index} draggableId={`${index}`} key={index}>
+    <Draggable
+      isDragDisabled={!editMode}
+      index={index}
+      draggableId={`${index}`}
+      key={index}
+    >
       {(provided) => {
         return (
           <div
+            onClick={() => {
+              if (!editMode) {
+                handleSelectCurrentTimer(index);
+                handleToggleEditModal(true);
+              }
+            }}
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}

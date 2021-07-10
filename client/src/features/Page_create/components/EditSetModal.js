@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import CtaButtons from "./CtaButtons";
 import styles from "./EditSetModal.styles";
 import EditIcon from "../../../images/ICON - pencil@3x.png";
@@ -9,8 +8,16 @@ import EditTimeModal from "./EditTimeModal";
 import { asyncSaveNewTimer } from "../../Page_ActiveTimer/components/timerSlice";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import { asyncUpdateTimer } from "../../Page_ActiveTimer/components/timerSlice";
 
-export default function EditSetModal({ sets, setEditModal }) {
+export default function EditSetModal({
+  sets,
+  setEditModal,
+  type,
+  editMode,
+  handleSetTimer,
+  setEditMode,
+}) {
   let dispatch = useDispatch();
   let history = useHistory();
   let [editableSet, setEditableSet] = useState(sets);
@@ -21,7 +28,7 @@ export default function EditSetModal({ sets, setEditModal }) {
   const handleOnChangeNameInput = (e, index) => {
     let newObj = cloneDeep(editableSet);
     if (index === -1) {
-      newObj.currentTimerName = e.target.value;
+      newObj.timerName = e.target.value;
     } else {
       newObj.timers[index].currentTimerName = e.target.value;
     }
@@ -30,6 +37,15 @@ export default function EditSetModal({ sets, setEditModal }) {
 
   const handleSaveSets = () => {
     dispatch(asyncSaveNewTimer({ timerData: editableSet, history }));
+  };
+
+  const handleUpdateSets = () => {
+    dispatch(
+      asyncUpdateTimer({
+        timerData: editableSet,
+        history,
+      })
+    );
   };
 
   const handleDeleteSet = (index) => {
@@ -61,16 +77,19 @@ export default function EditSetModal({ sets, setEditModal }) {
       return (
         <div key={index} className={styles.editItem()}>
           <div className={styles.currentTimerName()}>
-            <div
-              onClick={(e) => {
-                handleDeleteSet(index);
-              }}
-              data-id={index}
-              className={styles.deleteIcon()}
-            >
-              <img src={DeleteIcon} alt="" />
-            </div>
+            {editMode && (
+              <div
+                onClick={(e) => {
+                  handleDeleteSet(index);
+                }}
+                data-id={index}
+                className={styles.deleteIcon()}
+              >
+                <img src={DeleteIcon} alt="" />
+              </div>
+            )}
             <input
+              disabled={!editMode}
               onBlur={(e) => {
                 handleOnChangeNameInput(e, index);
               }}
@@ -82,8 +101,12 @@ export default function EditSetModal({ sets, setEditModal }) {
           <div className={styles.timerValueBox()}>
             <div
               onClick={(e) => {
-                handleChangeCurrentEditItem(e);
-                setShowTimeModal(true);
+                if (editMode) {
+                  handleChangeCurrentEditItem(e);
+                  setShowTimeModal(true);
+                } else {
+                  return;
+                }
               }}
               data-id={index}
               className={styles.timerValue()}
@@ -105,23 +128,45 @@ export default function EditSetModal({ sets, setEditModal }) {
         ></EditTimeModal>
       )}
       <div className="h-full w-full max-w-md flex flex-col items-center justify-between">
-        <div className="w-1/2">
+        <div className="w-1/2 mt-1">
           <input
             onBlur={(e) => {
               handleOnChangeNameInput(e, -1);
             }}
+            disabled={!editMode}
             className={styles.title()}
             type="text"
             placeholder={editableSet.timerName}
           />
           <img className={styles.editIcon()} src={EditIcon} alt="edit icon" />
         </div>
-        <div className={styles.editableItemsBox()}>{renderEditableItem()}</div>
-        <CtaButtons
-          type="saveTimer"
-          handleSaveTimer={handleSaveSets}
-          text={ctaButtonText}
-        ></CtaButtons>
+        <div className={styles.editableItemsContainer()}>
+          <div className={styles.editableItemsBox()}>
+            {renderEditableItem()}
+          </div>
+          <div className="flex w-full h-1/10 ">
+            <CtaButtons
+              type="backToSetTimer"
+              setEditModal={setEditModal}
+              setEditMode={setEditMode}
+              text={"back"}
+            ></CtaButtons>
+            {type === "create" || editMode === true ? (
+              <CtaButtons
+                type="saveTimer"
+                handleSaveTimer={handleUpdateSets}
+                text={ctaButtonText}
+              ></CtaButtons>
+            ) : (
+              <CtaButtons
+                type="startTimer"
+                handle
+                text={"start timer"}
+                handleSetTimer={handleSetTimer}
+              ></CtaButtons>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
