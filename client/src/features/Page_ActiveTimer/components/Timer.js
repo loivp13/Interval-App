@@ -24,6 +24,7 @@ export default function Timer({
   let { hr, min, sec } = timerValues;
   let [totalTime, setTotalTime] = useState(min * 60 + sec);
   let timerAudio = new Audio(FairyAudio);
+  timerAudio.volume = 0.2;
   let isSoundOn = useSelector(selectSoundSetting);
   const handleStartTimer = () => {
     startTimer();
@@ -44,6 +45,7 @@ export default function Timer({
   const loadNextTimer = () => {
     setRunningState(false);
     setTimerValues(currentTimer.times);
+    setTotalTime(currentTimer.times.min * 60 + currentTimer.times.sec);
     startTimer();
   };
   const updateTimer = (hr, min, sec) => {

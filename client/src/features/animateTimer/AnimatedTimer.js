@@ -4,23 +4,24 @@ import UseIntervalHook from "../../customHooks/UseInterval";
 export default function AnimatedTimer({
   sec,
   min,
-  hr,
   totalTime,
   currentTimerName,
   isFinished,
 }) {
   //calc how many dasharray to display
-  const currentDashArray = ((totalTime - (sec + 60 * min)) / totalTime) * 283;
+  let currentDashArray = ((totalTime - (sec + 60 * min)) / totalTime) * 283;
 
   //animate timer ring
   let timeElapsedCircleRef = useRef();
   useEffect(() => {
+    currentDashArray = ((totalTime - (sec + 60 * min)) / totalTime) * 283;
+
     timeElapsedCircleRef.current = document.getElementById("elapsedCircle");
     timeElapsedCircleRef.current.setAttribute(
       "stroke-dasharray",
       `${currentDashArray.toFixed(0)} 283`
     );
-  }, [currentDashArray, currentTimerName]);
+  }, [currentDashArray, currentTimerName, totalTime]);
 
   // animate blinking text
   const [isTextOpaque, setTextOpaque] = useState(false);
@@ -31,7 +32,6 @@ export default function AnimatedTimer({
     setTextOpaque(!isTextOpaque);
   };
   UseIntervalHook(blinkTimerText, 300, isFinished);
-
   return (
     <div className="AnimatedTime relative w-9/10vw max-w-md">
       <svg
