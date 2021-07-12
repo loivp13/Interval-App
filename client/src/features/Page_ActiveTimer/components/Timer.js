@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import UseIntervalHook from "../../../customHooks/UseInterval";
 import AnimatedTimer from "../../animateTimer/AnimatedTimer";
 import TimerButton from "./TimerButton";
+import FairyAudio from "../../../sounds/mixkit-fairy-message-notification-861.wav";
 
 import PauseIcon from "../../../images/BUTTON - pause.png";
 import PlayIcon from "../../../images/BUTTON - PLAY.png";
@@ -96,7 +97,6 @@ export default function Timer({
         min={min}
         sec={sec}
       ></AnimatedTimer>
-
       <div className="flex justify-around mx-20 mt-8  md:mt-16">
         {!isRunning && (
           <TimerButton
