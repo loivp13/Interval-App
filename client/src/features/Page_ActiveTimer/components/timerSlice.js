@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import { apiAxios } from "../../../helpers/axios_api";
 const initialState = {
   timerName: "Quickstart",
   timers: [
@@ -50,11 +51,10 @@ export const timerSlice = createSlice({
       console.log(action);
       let timerData = action.payload;
       if (isSignIn) {
-        console.log("handle save server side");
+        apiAxios.put("/timer", { hi: "hi" });
       } else {
         let allLocalTimers = JSON.parse(localStorage.getItem("localTimers"));
         let id = timerData.uuid;
-        console.log(timerData);
         for (let i = 0; i < allLocalTimers.length; i++) {
           if (allLocalTimers[i].uuid === id) {
             allLocalTimers[i] = timerData;
@@ -66,13 +66,15 @@ export const timerSlice = createSlice({
     },
     saveNewTimer: (state, action) => {
       let isSignIn = JSON.parse(localStorage.getItem("user"));
-      let localTimers = JSON.parse(localStorage.getItem("localTimers")) || [];
       //save to server and add to localStorage timer
       if (isSignIn) {
-        console.log(
-          "save data server side then save to localstorage under serverTimer"
-        );
+        let serverTimer =
+          JSON.parse(localStorage.getItem("serverTimers")) || [];
+        action.payload.uuid = uuidv4();
+        serverTimer.push(action.payload);
+        localStorage.setItem("serverTimers", JSON.stringify(serverTimer));
       } else {
+        let localTimers = JSON.parse(localStorage.getItem("localTimers")) || [];
         action.payload.uuid = uuidv4();
         localTimers.push(action.payload);
         localStorage.setItem("localTimers", JSON.stringify(localTimers));
@@ -116,15 +118,14 @@ export const asyncUpdateTimer = (payload) => async (dispatch, getState) => {
 
 export const asyncSaveNewTimer = (payload) => async (dispatch, getState) => {
   let isUserSignIn = JSON.parse(localStorage.getItem("user"));
-  let localTimers = JSON.parse(localStorage.getItem("localTimers")) || [];
 
+  await saveNewTimer(payload.timerData);
   if (isUserSignIn) {
-    await console.log("saving to server");
-    setNewTimer(payload.timerData);
+    let data = await apiAxios.put("/timer", {
+      token: JSON.parse(localStorage.get("token")),
+      timers: JSON.parse(localStorage.getItem("serverTimer")),
+    });
   } else {
-    payload.timerData.uuid = uuidv4();
-    localTimers.push(payload.timerData);
-    localStorage.setItem("localTimers", JSON.stringify(localTimers));
     await dispatch(setNewTimer(payload.timerData));
   }
   payload.history.push("/editTimer");

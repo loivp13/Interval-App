@@ -53,8 +53,12 @@ export default function EditPage() {
           let firstHalf = localTimer.slice(0, i);
           let secondHalf = localTimer.slice(i + 1);
           localTimer = [...firstHalf, ...secondHalf];
+          if (localTimer.length === 0) {
+            localStorage.setItem("numUnnamedTimer", 0);
+          }
           localStorage.setItem("localTimers", JSON.stringify(localTimer));
           setAllTimers([...localTimer]);
+
           break;
         }
       }
@@ -91,9 +95,11 @@ export default function EditPage() {
         </DragAndDropBox>
       );
     } else {
-      <div className="NoTimerItem px-2 py-2 border-b border-th-white ">
-        No timers saved.
-      </div>;
+      return (
+        <div className="NoTimerItem px-2 py-2 border-b border-th-white ">
+          No timers saved.
+        </div>
+      );
     }
   };
   return (
