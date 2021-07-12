@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isSoundOn: false,
+  isSoundOn: true,
 };
 //create init state and create reducers
 export const SlideSwitchSlice = createSlice({

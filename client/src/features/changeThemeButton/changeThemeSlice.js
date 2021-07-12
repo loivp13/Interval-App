@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   theme: DEFAULT_THEME,
+  sound: true,
 };
 //create init state and create reducers
 export const changeThemeSlice = createSlice({

@@ -8,6 +8,9 @@ import PauseIcon from "../../../images/BUTTON - pause.png";
 import PlayIcon from "../../../images/BUTTON - PLAY.png";
 import RepeatIcon from "../../../images/button-repeat.png";
 
+import { useSelector } from "react-redux";
+import { selectSoundSetting } from "../../Page_Setting/components/SlideSwitchSlice";
+
 export default function Timer({
   timerName,
   currentTimer,
@@ -20,7 +23,8 @@ export default function Timer({
   let [isFinished, setFinishedState] = useState(false);
   let { hr, min, sec } = timerValues;
   let [totalTime, setTotalTime] = useState(min * 60 + sec);
-
+  let timerAudio = new Audio(FairyAudio);
+  let isSoundOn = useSelector(selectSoundSetting);
   const handleStartTimer = () => {
     startTimer();
   };
@@ -50,6 +54,11 @@ export default function Timer({
       min,
     });
   };
+  useEffect(() => {
+    if (isFinished && isSoundOn) {
+      timerAudio.play();
+    }
+  }, [isFinished]);
   //function to calc and update new times
   const countDown = () => {
     let updatedSec = --sec;
