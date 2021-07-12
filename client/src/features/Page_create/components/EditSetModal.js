@@ -17,12 +17,15 @@ export default function EditSetModal({
   editMode,
   handleSetTimer,
   setEditMode,
+  handleUpdateTimers,
 }) {
   let dispatch = useDispatch();
   let history = useHistory();
   let [editableSet, setEditableSet] = useState(sets);
   let [showTimeModal, setShowTimeModal] = useState(false);
-  let [ctaButtonText, setCtaButtonText] = useState("save set");
+  let [ctaButtonText, setCtaButtonText] = useState(
+    editMode ? "update set" : "save set"
+  );
   let [currentEditItem, setCurrentEditItem] = useState(0);
 
   const handleOnChangeNameInput = (e, index) => {
@@ -36,7 +39,7 @@ export default function EditSetModal({
   };
 
   const handleSaveSets = () => {
-    dispatch(asyncSaveNewTimer({ timerData: editableSet, history }));
+    dispatch(asyncSaveNewTimer({ timerData: editableSet }));
   };
 
   const handleUpdateSets = () => {
@@ -46,6 +49,10 @@ export default function EditSetModal({
         history,
       })
     );
+    setCtaButtonText("updated");
+    setEditModal(false);
+    setEditMode(false);
+    handleUpdateTimers();
   };
 
   const handleDeleteSet = (index) => {
@@ -119,6 +126,35 @@ export default function EditSetModal({
       );
     });
   };
+
+  const renderCtaButtons = () => {
+    if (type === "create") {
+      return (
+        <CtaButtons
+          type="saveTimer"
+          handleSaveTimer={handleSaveSets}
+          text={ctaButtonText}
+        ></CtaButtons>
+      );
+    } else if (type === "edit" && !editMode) {
+      return (
+        <CtaButtons
+          type="startTimer"
+          handleSetTimer={handleSetTimer}
+          text={"start timer"}
+        ></CtaButtons>
+      );
+    } else {
+      return (
+        <CtaButtons
+          type="updateTimer"
+          handleUpdateTimer={handleUpdateSets}
+          text={ctaButtonText}
+        ></CtaButtons>
+      );
+    }
+  };
+
   return (
     <div className="absolute top-0 w-screen h-screen bg-th-primary z-10 p-4 flex flex-col justify-around items-center font-openSans">
       {showTimeModal && (
@@ -151,20 +187,7 @@ export default function EditSetModal({
               setEditMode={setEditMode}
               text={"back"}
             ></CtaButtons>
-            {type === "create" || editMode === true ? (
-              <CtaButtons
-                type="saveTimer"
-                handleSaveTimer={handleUpdateSets}
-                text={ctaButtonText}
-              ></CtaButtons>
-            ) : (
-              <CtaButtons
-                type="startTimer"
-                handle
-                text={"start timer"}
-                handleSetTimer={handleSetTimer}
-              ></CtaButtons>
-            )}
+            {renderCtaButtons()}
           </div>
         </div>
       </div>

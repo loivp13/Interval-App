@@ -48,6 +48,21 @@ export const timerSlice = createSlice({
     updateTimer: (state, action) => {
       let isSignIn = JSON.parse(localStorage.getItem("user"));
       console.log(action);
+      let timerData = action.payload;
+      if (isSignIn) {
+        console.log("handle save server side");
+      } else {
+        let allLocalTimers = JSON.parse(localStorage.getItem("localTimers"));
+        let id = timerData.uuid;
+        console.log(timerData);
+        for (let i = 0; i < allLocalTimers.length; i++) {
+          if (allLocalTimers[i].uuid === id) {
+            allLocalTimers[i] = timerData;
+            localStorage.setItem("localTimers", JSON.stringify(allLocalTimers));
+            break;
+          }
+        }
+      }
     },
     saveNewTimer: (state, action) => {
       let isSignIn = JSON.parse(localStorage.getItem("user"));
@@ -95,7 +110,8 @@ export const asyncSetNewTimer = (payload) => async (dispatch, getState) => {
 };
 
 export const asyncUpdateTimer = (payload) => async (dispatch, getState) => {
-  await dispatch(updateTimer(payload.timerData));
+  let { timerData } = payload;
+  await dispatch(updateTimer(timerData));
 };
 
 export const asyncSaveNewTimer = (payload) => async (dispatch, getState) => {

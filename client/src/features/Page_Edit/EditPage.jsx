@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MobileLayout from "../../layout/MobileLayout";
 import Navbar from "../globalComponents/navbar/Navbar";
 import Footer from "../footer/Footer";
@@ -62,6 +62,11 @@ export default function EditPage() {
       console.log("handle server deletion and localstorage serverTimer");
     }
   };
+  const handleUpdateTimers = () => {
+    let localTimer = JSON.parse(localStorage.getItem("localTimers")) || [];
+    let serverTimer = JSON.parse(localStorage.getItem("serverTimers")) || [];
+    setAllTimers(isUserSignIn ? [...serverTimer] : [...localTimer]);
+  };
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
     const timers = Array.from(allTimers);
@@ -101,6 +106,7 @@ export default function EditPage() {
           editMode={editMode}
           setEditMode={setEditMode}
           handleSetTimer={handleSetTimer}
+          handleUpdateTimers={handleUpdateTimers}
         ></EditSetModal>
       )}
       <MobileLayout>

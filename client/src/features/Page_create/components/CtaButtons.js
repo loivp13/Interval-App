@@ -7,6 +7,7 @@ export default function CtaButtons({
   setModalState,
   handleUpdateValue,
   handleSaveTimer,
+  handleUpdateTimer,
   handleSetTimer,
   setEditModal,
   setEditMode,
@@ -18,6 +19,9 @@ export default function CtaButtons({
         break;
       case "startTimer":
         handleSetTimer();
+        break;
+      case "updateTimer":
+        handleUpdateTimer();
         break;
       case "backToSetTimer":
         setModalState ? setModalState(false) : setEditModal(false);
