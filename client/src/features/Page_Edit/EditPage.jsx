@@ -127,7 +127,7 @@ export default function EditPage() {
           <div className="text-3xl text-th-secondary font-openSans mb-10 text-center">
             saved timers
           </div>
-          <div className="w-full text-3xl  h-9/10  overflow-scroll">
+          <div className="w-full text-3xl  h-9/10  overflow-scroll hide-scrollbar">
             {renderAllTimers()}
           </div>
           <Footer></Footer>

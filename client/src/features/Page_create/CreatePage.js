@@ -8,7 +8,7 @@ import EditIcon from "../../images/ICON - pencil@3x.png";
 import EditTimeModal from "./components/EditTimeModal";
 import EditSetModal from "./components/EditSetModal";
 import {
-  saveNewTimer,
+  asyncSaveNewTimer,
   asyncSetNewTimer,
 } from "../Page_ActiveTimer/components/timerSlice";
 import { useHistory } from "react-router";
@@ -27,7 +27,6 @@ export default function CreateTimer() {
   let history = useHistory();
 
   const handleUpdateValue = (min, sec) => {
-    console.log(sec, min);
     switch (currentEditItem) {
       case "work":
         setWorkValue({ min, sec });
@@ -41,7 +40,7 @@ export default function CreateTimer() {
   };
   const handleSaveTimer = () => {
     let timer = generateTimers(workValue, breakValue, setsValue, "save");
-    dispatch(saveNewTimer(timer));
+    dispatch(asyncSaveNewTimer({ timerData: timer, history }));
   };
   const handleSetTimer = () => {
     let timer = generateTimers(workValue, breakValue, setsValue, "set");

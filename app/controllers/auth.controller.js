@@ -118,14 +118,13 @@ exports.login = (req, res) => {
     .then(async (data) => {
       //No user was found
       if (!data) {
-        return res.status(401).json({
+        return res.status(400).json({
           message: "Unable to login. Email or password is incorrect",
         });
       }
 
       //found user validate password
       if (!(await data.validatePassword(login_password))) {
-        console.log("end");
         return res
           .status(401)
           .json({ message: "Unable to login. Email or password is incorrect" });
@@ -134,10 +133,12 @@ exports.login = (req, res) => {
       const token = jwt.sign({ userId: data.userId }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       });
-      const { email, firstName, lastName, username } = data;
+      const { email, firstName, lastName, username, timers } = data;
       return res.json({
         token,
-        user: { email, username },
+        email,
+        username,
+        timers,
       });
     })
     .catch((err) => {

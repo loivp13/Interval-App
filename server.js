@@ -39,10 +39,12 @@ let AuthRoutes = require("./app/routes/auth.routes");
 let IndexRoutes = require("./app/routes/index.routes");
 let TutorialRoutes = require("./app/routes/tutorial.routes");
 let UserRoutes = require("./app/routes/user.routes");
+let TimerRoutes = require("./app/routes/timers.routes");
 app.use("/", IndexRoutes);
 app.use("/api/auth", AuthRoutes);
 app.use("/api/tutorials", TutorialRoutes);
 app.use("/api/users", UserRoutes);
+app.use("/api/timer", TimerRoutes);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

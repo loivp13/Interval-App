@@ -44,7 +44,6 @@ const Login = ({ handleButtonClick }) => {
       })
       .catch(({ response }) => {
         triggerServerErrorMessage({
-          ...serverErrorMessage,
           errorMessage: response.data.message,
         });
       });

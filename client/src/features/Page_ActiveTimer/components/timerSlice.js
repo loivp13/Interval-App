@@ -65,7 +65,7 @@ export const timerSlice = createSlice({
       }
     },
     saveNewTimer: (state, action) => {
-      let isSignIn = JSON.parse(localStorage.getItem("user"));
+      let isSignIn = localStorage.getItem("user");
       //save to server and add to localStorage timer
       if (isSignIn) {
         let serverTimer =
@@ -117,13 +117,12 @@ export const asyncUpdateTimer = (payload) => async (dispatch, getState) => {
 };
 
 export const asyncSaveNewTimer = (payload) => async (dispatch, getState) => {
-  let isUserSignIn = JSON.parse(localStorage.getItem("user"));
-
-  await saveNewTimer(payload.timerData);
+  let isUserSignIn = localStorage.getItem("user");
+  await dispatch(saveNewTimer(payload.timerData));
   if (isUserSignIn) {
     let data = await apiAxios.put("/timer", {
-      token: JSON.parse(localStorage.get("token")),
-      timers: JSON.parse(localStorage.getItem("serverTimer")),
+      token: localStorage.getItem("token"),
+      timers: localStorage.getItem("serverTimers"),
     });
   } else {
     await dispatch(setNewTimer(payload.timerData));

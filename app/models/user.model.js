@@ -74,16 +74,13 @@ module.exports = (sequelize, Sequelize) => {
           throw new Error("This is a virtual field!");
         },
       },
+      timers: {
+        type: Sequelize.JSON,
+      },
     },
     {
       hooks: {
         beforeCreate: async (user) => {
-          if (user.password) {
-            const salt = await bcrypt.genSalt(saltRounds, "a");
-            user.password = await bcrypt.hash(user.password, salt);
-          }
-        },
-        beforeUpdate: async (user) => {
           if (user.password) {
             const salt = await bcrypt.genSalt(saltRounds, "a");
             user.password = await bcrypt.hash(user.password, salt);

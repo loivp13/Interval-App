@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isSignIn: !!JSON.parse(localStorage.getItem("user")),
+  isSignIn: !!localStorage.getItem("user"),
 };
 
 export const userSlice = createSlice({
@@ -26,15 +26,20 @@ export const { userSignIn, userSignOut } = userSlice.actions;
 export const selectUserSignIn = (state) => state.user.isSignIn;
 
 export const asyncUserSignIn = (payload) => async (dispatch, getState) => {
-  localStorage.setItem("user", JSON.stringify(payload.data.user));
+  console.log(payload.data);
+  localStorage.setItem("user", payload.data.username);
   localStorage.setItem("token", payload.data.token);
-  localStorage.setItem("serverTimers", JSON.stringify([]));
+  localStorage.setItem(
+    "serverTimers",
+    payload.data.timers || JSON.stringify([])
+  );
   await dispatch(userSignIn());
   payload.history.push("/");
 };
 export const asyncUserSignOut = (payload) => async (dispatch, getState) => {
   localStorage.removeItem("user");
   localStorage.removeItem("token");
+  localStorage.removeItem("serverTimers");
   await dispatch(userSignOut());
   payload.history.push("/");
 };

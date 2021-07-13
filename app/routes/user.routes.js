@@ -9,16 +9,16 @@ router.get("/", users.findAll);
 // Retrieve all published users
 router.get("/published", users.findAllPublished);
 
-// Retrieve a single Tutorial with id
+// Retrieve a single User with id
 router.get("/:id", users.findOne);
 
-// Update a Tutorial with id
+// Update a User with id
 router.put("/:id", users.update);
 
-// Delete a Tutorial with id
+// Delete a User with id
 router.delete("/:id", users.delete);
 
-// Delete all Tutorial
+// Delete all User
 router.delete("/", users.deleteAll);
 
 module.exports = router;
