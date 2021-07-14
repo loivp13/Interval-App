@@ -72,10 +72,11 @@ export default function EditPage() {
       console.log("handle server deletion and localstorage serverTimer");
     }
   };
+
   const handleUpdateTimers = (editedSet) => {
     let id = editedSet.uuid;
     let cloneSet = cloneDeep(allTimers);
-    for (let i = 0; i < cloneSet; i++) {
+    for (let i = 0; i < cloneSet.length; i++) {
       if (cloneSet[i].uuid === id) {
         cloneSet[i] = editedSet;
       }
@@ -83,6 +84,7 @@ export default function EditPage() {
     setAllTimers(cloneSet);
     setEditMode(false);
   };
+
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
     if (!hasUpdated) {
@@ -136,6 +138,7 @@ export default function EditPage() {
           setEditMode={setEditMode}
           handleSetTimer={handleSetTimer}
           handleUpdateTimers={handleUpdateTimers}
+          setHasUpdated={setHasUpdated}
         ></EditSetModal>
       )}
       <MobileLayout>

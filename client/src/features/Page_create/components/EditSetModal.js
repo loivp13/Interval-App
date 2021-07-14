@@ -18,6 +18,7 @@ export default function EditSetModal({
   handleSetTimer,
   setEditMode,
   handleUpdateTimers,
+  setHasUpdated,
 }) {
   let dispatch = useDispatch();
   let history = useHistory();
@@ -29,6 +30,9 @@ export default function EditSetModal({
   let [currentEditItem, setCurrentEditItem] = useState(0);
 
   const handleOnChangeNameInput = (e, index) => {
+    if (setHasUpdated) {
+      setHasUpdated(true);
+    }
     let newObj = cloneDeep(editableSet);
     if (index === -1) {
       newObj.timerName = e.target.value;
@@ -49,6 +53,10 @@ export default function EditSetModal({
   };
 
   const handleDeleteSet = (index) => {
+    if (setHasUpdated) {
+      setHasUpdated(true);
+    }
+
     let newObj = cloneDeep(editableSet);
     newObj.timers = [
       ...newObj.timers.slice(0, index),
@@ -66,6 +74,9 @@ export default function EditSetModal({
   };
 
   const handleUpdateTime = (min, sec) => {
+    if (setHasUpdated) {
+      setHasUpdated(true);
+    }
     let newObj = cloneDeep(editableSet);
     newObj.timers[currentEditItem].times.sec = sec;
     newObj.timers[currentEditItem].times.min = min;
