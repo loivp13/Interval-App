@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { selectTimer } from "../../Page_ActiveTimer/components/timerSlice";
 import {
   changeColorText,
   createEventScrollListener,
