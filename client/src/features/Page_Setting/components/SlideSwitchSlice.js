@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isSoundOn: true,
+  isSoundOn: JSON.parse(localStorage.getItem("soundSetting")) || false,
 };
 //create init state and create reducers
 export const SlideSwitchSlice = createSlice({
@@ -10,6 +10,7 @@ export const SlideSwitchSlice = createSlice({
   reducers: {
     flipSoundSwitch: (state) => {
       state.isSoundOn = !state.isSoundOn;
+      localStorage.setItem("soundSetting", state.isSoundOn);
     },
   },
 });

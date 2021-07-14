@@ -39,20 +39,13 @@ export default function EditSetModal({
   };
 
   const handleSaveSets = () => {
-    dispatch(asyncSaveNewTimer({ timerData: editableSet }));
+    dispatch(asyncSaveNewTimer({ timerData: editableSet, history }));
   };
 
   const handleUpdateSets = () => {
-    dispatch(
-      asyncUpdateTimer({
-        timerData: editableSet,
-        history,
-      })
-    );
     setCtaButtonText("updated");
+    handleUpdateTimers(editableSet);
     setEditModal(false);
-    setEditMode(false);
-    handleUpdateTimers();
   };
 
   const handleDeleteSet = (index) => {
@@ -133,7 +126,7 @@ export default function EditSetModal({
         <CtaButtons
           type="saveTimer"
           handleSaveTimer={handleSaveSets}
-          text={ctaButtonText}
+          text={"save"}
         ></CtaButtons>
       );
     } else if (type === "edit" && !editMode) {
@@ -149,7 +142,7 @@ export default function EditSetModal({
         <CtaButtons
           type="updateTimer"
           handleUpdateTimer={handleUpdateSets}
-          text={ctaButtonText}
+          text={"update set"}
         ></CtaButtons>
       );
     }

@@ -9,8 +9,13 @@ import GenerateSetItems from "./DragAndDrop/GenerateSetItems";
 import { selectUserSignIn } from "../../appReduxSlices/userSlice";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { asyncSetNewTimer } from "../Page_ActiveTimer/components/timerSlice";
+import {
+  asyncSetNewTimer,
+  asyncSaveNewTimer,
+  asyncUpdateTimer,
+} from "../Page_ActiveTimer/components/timerSlice";
 import { useHistory } from "react-router";
+import cloneDeep from "lodash/cloneDeep";
 
 import EditSetModal from "../Page_create/components/EditSetModal";
 
@@ -22,6 +27,7 @@ export default function EditPage() {
   let localTimer = JSON.parse(localStorage.getItem("localTimers")) || [];
   let serverTimer = JSON.parse(localStorage.getItem("serverTimers")) || [];
   let [editMode, setEditMode] = useState(false);
+  let [hasUpdated, setHasUpdated] = useState(false);
 
   let [allTimers, setAllTimers] = useState(
     isUserSignIn ? [...serverTimer] : [...localTimer]
@@ -66,16 +72,27 @@ export default function EditPage() {
       console.log("handle server deletion and localstorage serverTimer");
     }
   };
-  const handleUpdateTimers = () => {
-    let localTimer = JSON.parse(localStorage.getItem("localTimers")) || [];
-    let serverTimer = JSON.parse(localStorage.getItem("serverTimers")) || [];
-    setAllTimers(isUserSignIn ? [...serverTimer] : [...localTimer]);
+  const handleUpdateTimers = (editedSet) => {
+    let id = editedSet.uuid;
+    let cloneSet = cloneDeep(allTimers);
+    for (let i = 0; i < cloneSet; i++) {
+      if (cloneSet[i].uuid === id) {
+        cloneSet[i] = editedSet;
+      }
+    }
+    setAllTimers(cloneSet);
+    setEditMode(false);
   };
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
+    if (!hasUpdated) {
+      setHasUpdated(true);
+    }
     const timers = Array.from(allTimers);
+
     let [reorderedItem] = timers.splice(result.source.index, 1);
     timers.splice(result.destination.index, 0, reorderedItem);
+
     setAllTimers(timers);
   };
   const renderAllTimers = () => {
@@ -102,6 +119,12 @@ export default function EditPage() {
       );
     }
   };
+  useEffect(() => {
+    if (hasUpdated) {
+      dispatch(asyncUpdateTimer({ timerData: allTimers }));
+      setHasUpdated(false);
+    }
+  }, [editMode]);
   return (
     <div className="EditPage h-full min-h-screen md:h-screen">
       {showEditModal && (

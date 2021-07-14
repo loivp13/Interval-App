@@ -42,7 +42,7 @@ export default function CtaButtons({
       onClick={() => {
         handleCallAction();
       }}
-      className="rounded-2xl border-2 bg-th-primary border-th-white text-xl md:text-4xl uppercase  text-th-white w-1/2 m-1 text-center p-3 font-quicksand cursor-pointer "
+      className="rounded-2xl border-2 bg-th-primary border-th-white text-xl md:text-2xl uppercase  text-th-white w-1/2 m-1 text-center p-3 font-quicksand cursor-pointer "
     >
       {text}
     </div>

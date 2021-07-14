@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 //import images
-import HomeImage from "../../../images/Group 3@3x.png";
+import HomeImage from "../../../images/Path 28@3x.png";
 import MenuButtonImage from "../../../images/BUTTON - menu@3x.png";
 import EditButtonImage from "../../../images/ICON - pencil@3x.png";
 

@@ -47,21 +47,12 @@ export const timerSlice = createSlice({
       state.timerName = action.payload;
     },
     updateTimer: (state, action) => {
-      let isSignIn = JSON.parse(localStorage.getItem("user"));
-      console.log(action);
+      let isSignIn = localStorage.getItem("user");
       let timerData = action.payload;
       if (isSignIn) {
-        apiAxios.put("/timer", { hi: "hi" });
+        localStorage.setItem("serverTimers", JSON.stringify(timerData));
       } else {
-        let allLocalTimers = JSON.parse(localStorage.getItem("localTimers"));
-        let id = timerData.uuid;
-        for (let i = 0; i < allLocalTimers.length; i++) {
-          if (allLocalTimers[i].uuid === id) {
-            allLocalTimers[i] = timerData;
-            localStorage.setItem("localTimers", JSON.stringify(allLocalTimers));
-            break;
-          }
-        }
+        localStorage.setItem("localTimers", JSON.stringify(timerData));
       }
     },
     saveNewTimer: (state, action) => {
@@ -112,8 +103,16 @@ export const asyncSetNewTimer = (payload) => async (dispatch, getState) => {
 };
 
 export const asyncUpdateTimer = (payload) => async (dispatch, getState) => {
+  let isUserSignIn = localStorage.getItem("user");
   let { timerData } = payload;
   await dispatch(updateTimer(timerData));
+  if (isUserSignIn) {
+    let data = await apiAxios.put("/timer", {
+      token: localStorage.getItem("token"),
+      timers: localStorage.getItem("serverTimers"),
+    });
+  } else {
+  }
 };
 
 export const asyncSaveNewTimer = (payload) => async (dispatch, getState) => {
@@ -127,7 +126,10 @@ export const asyncSaveNewTimer = (payload) => async (dispatch, getState) => {
   } else {
     await dispatch(setNewTimer(payload.timerData));
   }
-  payload.history.push("/editTimer");
+
+  if (payload.history) {
+    payload.history.push("/editTimer");
+  }
 };
 
 export default timerSlice.reducer;
