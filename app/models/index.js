@@ -1,6 +1,5 @@
 // get postgres config
 const dbConfig = require("../config/db.config");
-
 //init sequelize with connection options
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {

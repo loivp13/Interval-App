@@ -13,7 +13,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --ignore ./client/ --trace-warnings server.js",
-    "generate": "npx @appnest/readme generate"
+    "generate": "npx @appnest/readme generate",
+    "start": "nodemon --ignore ./client/ server.js"
   },
   "keywords": [
     "nodejs",
