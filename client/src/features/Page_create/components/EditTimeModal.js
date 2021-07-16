@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import CloseIcon from "../../../images/BUTTON - cancel@3x.png";
 import CtaButtons from "./CtaButtons";
 import EditableTime from "./EditableTime";
+import Footer from "../../footer/Footer";
 import styles from "./EditTimeModal.style";
 
 export default function EditTimeModal({ setModalState, handleUpdateValue }) {
@@ -14,12 +13,7 @@ export default function EditTimeModal({ setModalState, handleUpdateValue }) {
 
   return (
     <div className="absolute top-0 w-screen h-screen bg-th-primary z-10 p-4 flex flex-col justify-around items-center font-openSans">
-      <div className="h-full w-full max-w-md">
-        <Link to="/">
-          <div className="w-10 flex ml-auto">
-            <img src={CloseIcon} alt="" />
-          </div>
-        </Link>
+      <div className="h-full w-full max-w-md flex flex-col justify-between">
         <div className={styles.unitTextContainer({ hidden: hidePane })}>
           <div className={styles.unitText}>min</div>
           <div className={styles.unitText}>sec</div>
@@ -43,6 +37,7 @@ export default function EditTimeModal({ setModalState, handleUpdateValue }) {
             text={"save"}
           ></CtaButtons>
         </div>
+        <Footer> </Footer>
       </div>
     </div>
   );

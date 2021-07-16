@@ -16,6 +16,7 @@ export default {
       "transform",
       "w-full",
       "z-10",
+      "mt-12",
       { "sm:translate-y-2x-full": hidden },
       { "translate-y-full": hidden }
     );
