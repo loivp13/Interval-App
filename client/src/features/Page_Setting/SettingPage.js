@@ -6,7 +6,7 @@ import SlideSwitch from "./components/SlideSwitch";
 
 const SettingPage = () => {
   return (
-    <div className="SettingPage h-full min-h-screen md:h-screen bg-th-primary p-8 pb-0 flex flex-col items-center font-openSans">
+    <div className="SettingPage h-full min-h-screen md:h-screen bg-th-primary pb-0 flex flex-col items-center font-openSans">
       <Navbar displayBack={true}></Navbar>
       <header>
         <h1 className="text-3xl text-th-secondary tracking-widest m-7">

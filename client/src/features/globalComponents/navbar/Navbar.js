@@ -50,7 +50,7 @@ const Navbar = ({
   //render if true
   const renderBackButton = () => {
     return displayBack ? (
-      <div className="w-6 h-auto text-th-linkText bg-th-primary text-right">
+      <div className="w-8 h-auto text-th-linkText bg-th-primary text-right">
         <Link to="/">
           <img className="w-full h-full" src={HomeImage} alt="" />
         </Link>
