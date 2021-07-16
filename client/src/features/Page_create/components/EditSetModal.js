@@ -160,7 +160,7 @@ export default function EditSetModal({
   };
 
   return (
-    <div className="absolute top-0 w-screen h-screen bg-th-primary z-10 p-4 flex flex-col justify-around items-center font-openSans">
+    <div className="absolute overflow-hidden top-0 w-screen h-screen bg-th-primary z-10 p-4 flex flex-col justify-around items-center font-openSans">
       {showTimeModal && (
         <EditTimeModal
           handleUpdateValue={handleUpdateTime}

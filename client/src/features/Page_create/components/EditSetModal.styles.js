@@ -29,6 +29,7 @@ export default {
     return classNames(
       "EditableItemBox",
       "overflow-scroll",
+      "p-2",
       "h-9/10",
       "w-full",
       "flex",
