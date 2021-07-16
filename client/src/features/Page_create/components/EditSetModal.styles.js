@@ -47,6 +47,7 @@ export default {
       "items-center",
       "justify-between",
       "p-2",
+      "px-6",
       "text-2xl",
       "w-full"
     );
