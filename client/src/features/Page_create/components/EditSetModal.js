@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CtaButtons from "./CtaButtons";
 import styles from "./EditSetModal.styles";
 import EditIcon from "../../../images/ICON - pencil@3x.png";
@@ -8,7 +8,7 @@ import EditTimeModal from "./EditTimeModal";
 import { asyncSaveNewTimer } from "../../Page_ActiveTimer/components/timerSlice";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import { asyncUpdateTimer } from "../../Page_ActiveTimer/components/timerSlice";
+import EditInputModal from "./EditInputModal";
 
 export default function EditSetModal({
   sets,
@@ -24,6 +24,7 @@ export default function EditSetModal({
   let history = useHistory();
   let [editableSet, setEditableSet] = useState(sets);
   let [showTimeModal, setShowTimeModal] = useState(false);
+  let [showEditInputModal, setShowEditInputModal] = useState(false);
   let [ctaButtonText, setCtaButtonText] = useState(
     editMode ? "update set" : "save set"
   );
@@ -35,7 +36,7 @@ export default function EditSetModal({
     }
     let newObj = cloneDeep(editableSet);
     if (index === -1) {
-      newObj.timerName = e.target.value;
+      newObj.timerName = e;
     } else {
       newObj.timers[index].currentTimerName = e.target.value;
     }
@@ -101,12 +102,18 @@ export default function EditSetModal({
             )}
             <input
               disabled={!editMode}
+              onFocus={(e) => {
+                e.target.placeholder = "";
+              }}
               onBlur={(e) => {
+                if (!e.target.value) {
+                  e.target.value = time.currentTimerName;
+                }
                 handleOnChangeNameInput(e, index);
               }}
               className={styles.editItemInput()}
               type="text"
-              placeholder={time.currentTimerName || "Unnamed"}
+              placeholder={time.currentTimerName}
             />
           </div>
           <div className={styles.timerValueBox()}>
@@ -160,27 +167,40 @@ export default function EditSetModal({
   };
 
   return (
-    <div className="absolute overflow-hidden top-0 w-screen h-screen bg-th-primary z-10 p-4 flex flex-col justify-around items-center font-openSans">
+    <div
+      className="absolute overflow-hidden top-0 w-screen h-screen bg-th-primary z-10 p-4 flex flex-col justify-around items-center font-openSans"
+      onClick={() => {
+        setShowEditInputModal(false);
+      }}
+    >
       {showTimeModal && (
         <EditTimeModal
           handleUpdateValue={handleUpdateTime}
           setModalState={setShowTimeModal}
         ></EditTimeModal>
       )}
-      <div className="h-full w-full max-w-md flex flex-col items-center justify-between">
+      <div className="h-full w-full max-w-md flex flex-col items-center justify-between relative">
         <div className="w-1/2 mt-1">
-          <input
-            onBlur={(e) => {
-              handleOnChangeNameInput(e, -1);
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowEditInputModal(true);
             }}
-            disabled={!editMode}
             className={styles.title()}
-            type="text"
-            placeholder={editableSet.timerName}
-          />
+          >
+            {editableSet.timerName}
+          </div>
+
           <img className={styles.editIcon()} src={EditIcon} alt="edit icon" />
         </div>
         <div className={styles.editableItemsContainer()}>
+          {showEditInputModal && (
+            <EditInputModal
+              setName={editableSet.timerName}
+              handleSave={handleOnChangeNameInput}
+              handleCancel={setShowEditInputModal}
+            ></EditInputModal>
+          )}
           <div className={styles.editableItemsBox()}>
             {renderEditableItem()}
           </div>

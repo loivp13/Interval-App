@@ -11,6 +11,7 @@ export default {
       "text-center",
       "text-4xl",
       "my-8",
+      "md:my-4",
       "relative",
       "w-full",
       "tracking-widest",
@@ -23,7 +24,7 @@ export default {
     return classNames("w-5", "absolute", "-right-8", "bottom-2");
   },
   editableItemsContainer: () => {
-    return classNames("EditableItemContainer", "h-8/10vh");
+    return classNames("EditableItemContainer", "h-7/10vh", "relative");
   },
   editableItemsBox: () => {
     return classNames(
@@ -89,7 +90,8 @@ export default {
       "bg-th-primary",
       "text-white",
       "placeholder-white",
-      "w-full"
+      "w-full",
+      "focus:outline-none"
     );
   },
 };

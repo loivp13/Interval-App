@@ -50,10 +50,12 @@ const Navbar = ({
   //render if true
   const renderBackButton = () => {
     return displayBack ? (
-      <div className="w-8 h-auto text-th-linkText bg-th-primary text-right">
-        <Link to="/">
-          <img className="w-full h-full" src={HomeImage} alt="" />
-        </Link>
+      <div className="w-full h-auto text-th-linkText bg-th-primary text-right">
+        <div className="w-8 h-full">
+          <Link to="/">
+            <img className="w-full h-full" src={HomeImage} alt="" />
+          </Link>
+        </div>
       </div>
     ) : (
       ""
@@ -74,7 +76,7 @@ const Navbar = ({
   };
 
   return (
-    <div className="Navbar h-14 flex items-center justify-center w-full sticky top-0 bg-th-primary z-50">
+    <div className="Navbar max-w-md h-14 flex items-center justify-center w-full sticky top-0 bg-th-primary z-50">
       {renderMenuButton()}
       {renderBackButton()}
       {renderHelpButton()}

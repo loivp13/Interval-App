@@ -18,7 +18,7 @@ const Footer = () => {
   };
 
   return (
-    <div className="Footer flex flex-row justify-center h-20 w-full md:max-w-md mt-auto p-2">
+    <div className="Footer flex flex-row justify-center h-20 w-full md:max-w-md mt-auto p-4">
       <div
         onMouseEnter={() => {
           setHeartImgHover(true);
