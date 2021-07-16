@@ -35,7 +35,7 @@ const Navbar = ({
   //render if true
   const renderHelpButton = () => {
     return displayHelp ? (
-      <div className="w-full items-end pr-5 h-14 text-th-linkText bg-th-primary text-right">
+      <div className="w-full md:max-w-md items-end pr-5 h-14 text-th-linkText bg-th-primary text-right">
         <Link to="/help">
           <button className="h-full font-openSans text-th-needHelp">
             need help ?
@@ -74,7 +74,7 @@ const Navbar = ({
   };
 
   return (
-    <div className="Navbar h-14 flex items-center w-full sticky top-0 bg-th-primary z-50">
+    <div className="Navbar h-14 flex items-center justify-center w-full sticky top-0 bg-th-primary z-50">
       {renderMenuButton()}
       {renderBackButton()}
       {renderHelpButton()}

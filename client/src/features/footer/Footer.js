@@ -18,7 +18,7 @@ const Footer = () => {
   };
 
   return (
-    <div className="Footer flex flex-row justify-between h-20 w-9/10 min-w-15.75rem mt-auto">
+    <div className="Footer flex flex-row justify-center h-20 w-full md:max-w-md mt-auto p-2">
       <div
         onMouseEnter={() => {
           setHeartImgHover(true);
@@ -26,13 +26,13 @@ const Footer = () => {
         onMouseLeave={() => {
           setHeartImgHover(false);
         }}
-        className="flex flex-row justify-start items-center"
+        className="flex w-full flex-row justify-start items-center"
       >
         <Link to="/editTimer">{renderHeartButton()}</Link>
       </div>
       <div className="flex flex-row justify-end items-center">
-        <Link className="w-1/4 h-auto" to="/setting">
-          <img className="" src={SettingImg} alt="Settings" />
+        <Link className="w-full h-auto" to="/setting">
+          <img className="w-10" src={SettingImg} alt="Settings" />
         </Link>
       </div>
     </div>
