@@ -6,14 +6,14 @@ import SlideSwitch from "./components/SlideSwitch";
 
 const SettingPage = () => {
   return (
-    <div className="SettingPage h-full min-h-screen md:h-screen bg-th-primary pb-0 flex flex-col items-center font-openSans">
-      <Navbar displayBack={true}></Navbar>
-      <header>
-        <h1 className="text-3xl text-th-secondary tracking-widest m-7">
-          settings
-        </h1>
-      </header>
+    <div className="SettingPage h-full min-h-screen md:h-screen  bg-th-primary pb-0 flex flex-col items-center font-openSans">
       <main className="self-center w-screen max-w-md px-8 ">
+        <Navbar displayBack={true}></Navbar>
+        <header>
+          <h1 className="text-3xl text-th-secondary tracking-widest m-7 text-center">
+            settings
+          </h1>
+        </header>
         <section className="SettingPage_Color mb-4">
           <h2 className="font-quicksand text-th-white text-2xl uppercase tracking-wide">
             colors

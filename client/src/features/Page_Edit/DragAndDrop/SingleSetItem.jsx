@@ -47,8 +47,7 @@ export default function SingleSetItem({
             </div>
             <div className="uppercase">{item.timerName}</div>
             <div className="text-th-secondary text-xl">
-              {item.totalSets} set(s) - {totalAmountOfMins(item.timers)} total
-              mins
+              {totalAmountOfMins(item.timers)} total mins
             </div>
           </div>
         );
