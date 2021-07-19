@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import MobileLayout from "../../layout/MobileLayout";
 import { apiAxios } from "../../helpers/axios_api";
 import { useParams } from "react-router-dom";
+import Navbar from "../globalComponents/navbar/Navbar";
+import Footer from "../footer/Footer";
 
 export default function ActivateUserPage() {
   let [text, setText] = useState("Activating Account");
@@ -17,8 +19,16 @@ export default function ActivateUserPage() {
         }
       })
       .catch((data) => {
-        setText(data.response.data.error);
+        setText("Unable to register your email, please try signing up again.");
       });
   }, []);
-  return <MobileLayout>{text}</MobileLayout>;
+  return (
+    <MobileLayout>
+      <main className="w-full">
+        <Navbar displayBack={true}></Navbar>
+        <div className="mt-6 text-3xl">{text}</div>
+      </main>
+      <Footer></Footer>
+    </MobileLayout>
+  );
 }
