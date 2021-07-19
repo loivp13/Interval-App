@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import UseIntervalHook from "../../../customHooks/UseInterval";
 import AnimatedTimer from "../../animateTimer/AnimatedTimer";
 import TimerButton from "./TimerButton";
@@ -31,6 +31,7 @@ export default function Timer({
   };
 
   const startTimer = () => {
+    countDown();
     setRunningState(true);
   };
 
@@ -56,11 +57,7 @@ export default function Timer({
       min,
     });
   };
-  useEffect(() => {
-    if (isFinished && isSoundOn) {
-      timerAudio.play();
-    }
-  }, [isFinished]);
+
   //function to calc and update new times
   const countDown = () => {
     let updatedSec = --sec;
@@ -88,7 +85,11 @@ export default function Timer({
   };
 
   UseIntervalHook(countDown, 1000, isRunning);
-
+  useEffect(() => {
+    if (isFinished && isSoundOn) {
+      timerAudio.play();
+    }
+  }, [isFinished]);
   useEffect(() => {
     if (isRunning) {
       loadNextTimer();

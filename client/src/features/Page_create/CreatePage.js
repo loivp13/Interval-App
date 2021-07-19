@@ -119,7 +119,7 @@ export default function CreateTimer() {
             <div className="w-6 mr-2">
               <img src={EditIcon} alt="" />
             </div>
-            <div className="text-th-white text-xl  md:text-2xl font-quicksand">
+            <div className="text-th-white text-xl  md:text-2xl font-quicksand cursor-pointer">
               edit names & times
             </div>
           </div>
