@@ -82,7 +82,7 @@ exports.findAll = (req, res) => {
 
   User.findAll({ where: condition })
     .then((data) => {
-      res.send(data);
+      res.send({ message: "Close connection" });
     })
     .catch((err) => {
       res.status(500).send({
