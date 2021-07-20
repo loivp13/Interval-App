@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CtaButtons from "../../Page_create/components/CtaButtons";
 const InputModal = ({ inputData }) => {
+  const [message, setMessage] = useState("");
   const { inputText, buttonText, action } = inputData;
   let [inputValue, setInputValue] = useState({
     currentPw: "",
@@ -24,7 +25,7 @@ const InputModal = ({ inputData }) => {
 
           <input
             className="p-2 border border-th-white rounded-md text-th-white bg-th-overlay placeholder-white text-3xl focus:outline-none"
-            type="text"
+            type="password"
             maxLength="16"
             onClick={() => {
               setCurrentSelectedInput(i);
@@ -38,7 +39,11 @@ const InputModal = ({ inputData }) => {
     });
   };
   return (
-    <div>
+    <div
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
       <div className="EditInputModal absolute top-1/4 transform  -translate-x-1/2 left-1/2 z-30 px-5 py-5 bg-th-overlay border rounded-2xl flex flex-col items-center">
         {renderInput()}
         <div className="flex justify-center m-4">

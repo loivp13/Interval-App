@@ -30,3 +30,14 @@ exports.userResetPasswordValidator = [
 exports.userUpdateValidator = [
   check("update_email").not().isEmpty().withMessage("Name is required"),
 ];
+
+exports.userChangePasswordValidator = [
+  check("current_password")
+    .not()
+    .isEmpty()
+    .withMessage("Current password can not be empty"),
+  check("new_password")
+    .not()
+    .isEmpty()
+    .withMessage("New password can not be empty."),
+];

@@ -250,3 +250,29 @@ exports.resetPassword = (req, res) => {
       });
     });
 };
+
+exports.changePassword = (req, res) => {
+  const { new_password, current_password, changePw_email } = req.body;
+  User.findOne({ where: { email: { [Op.iLike]: changePw_email } } }).then(
+    async (data) => {
+      let isPwValid = await data.validatePassword(current_password);
+      if (!isPwValid) {
+        return res.status(400).json({
+          message: "Password is incorrect. Please try again.",
+        });
+      }
+      data
+        .update({ password: new_password })
+        .then((data) => {
+          res.json({
+            message: "Password has been changed",
+          });
+        })
+        .catch(() => {
+          res.status(500).json({
+            message: "An error occur while updated",
+          });
+        });
+    }
+  );
+};

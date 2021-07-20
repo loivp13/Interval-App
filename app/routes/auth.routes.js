@@ -1,7 +1,14 @@
 let router = require("express").Router();
 //importing controllers
 const auth = require("../controllers/auth.controller");
-const { register, login, forgotPassword, activate, resetPassword } = auth;
+const {
+  register,
+  login,
+  forgotPassword,
+  activate,
+  resetPassword,
+  changePassword,
+} = auth;
 
 //import validator
 const validators = require("./validators/auth.validators");
@@ -11,6 +18,7 @@ const {
   userResetPasswordValidator,
   userForgotPasswordValidator,
   userUpdateValidator,
+  userChangePasswordValidator,
 } = validators;
 
 const { runValidation } = require("./validators");
@@ -43,4 +51,10 @@ router.put(
   resetPassword
 );
 
+router.put(
+  "/change-password",
+  userChangePasswordValidator,
+  runValidation,
+  changePassword
+);
 module.exports = router;

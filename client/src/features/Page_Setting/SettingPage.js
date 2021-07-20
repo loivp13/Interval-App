@@ -13,10 +13,11 @@ const SettingPage = () => {
   let [showInputModal, setShowInputModal] = useState(false);
   let [currentInputModal, setCurrentInputModal] = useState(0);
   const handleChangePasswordClick = (inputValue) => {
-    apiAxios("/auth/reset-password", {
-      newPassword: inputValue.newPw,
-      currentPassword: inputValue.currentPw,
-      token: localStorage.getItem("token"),
+    console.log(inputValue);
+    apiAxios.put("/auth/change-password", {
+      new_password: inputValue.newPw,
+      current_password: inputValue.currentPw,
+      changePw_email: localStorage.getItem("email"),
     });
   };
 
@@ -37,10 +38,9 @@ const SettingPage = () => {
   const renderAccountOptions = () => {
     if (!isSignIn) {
       return (
-        <p className="ml-4">
-          Sign in{" "}
-          <Link className="text-th-white" to={"/login"}>
-            here
+        <p className="ml-4 text-th-white">
+          <Link className="" to={"/login"}>
+            Sign in here
           </Link>
         </p>
       );
