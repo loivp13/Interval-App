@@ -5,7 +5,7 @@ module.exports = function () {
     username: "masterveloute",
     firstName: "Loyd",
     lastName: "VP",
-    email: "LVP@gmail.com",
+    email: "lvpwevdev@gmail.com",
     password: "123456",
   })
     .then((data) => {
@@ -23,19 +23,6 @@ module.exports = function () {
   })
     .then((data) => {
       console.log("created minty successful");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  User.create({
-    username: "wevdev",
-    firstName: "wev",
-    lastName: "dev",
-    email: "lvpwevdev@gmail.com",
-    password: "Wev123456",
-  })
-    .then((data) => {
-      console.log("created wev successful");
     })
     .catch((err) => {
       console.log(err);

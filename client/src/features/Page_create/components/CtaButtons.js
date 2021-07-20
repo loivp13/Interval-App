@@ -12,6 +12,7 @@ export default function CtaButtons({
   setEditModal,
   setEditMode,
   handleAction,
+  addCss,
 }) {
   const handleCallAction = () => {
     switch (type) {
@@ -46,7 +47,7 @@ export default function CtaButtons({
       onClick={() => {
         handleCallAction();
       }}
-      className="rounded-2xl border-2  border-th-white text-xl md:text-2xl uppercase mx-5  text-th-white w-1/2 text-center p-3 font-quicksand cursor-pointer "
+      className={`rounded-2xl border-2  border-th-white text-xl md:text-2xl uppercase mx-5  text-th-white w-1/2 text-center p-3 font-quicksand cursor-pointer ${addCss} `}
     >
       {text}
     </div>

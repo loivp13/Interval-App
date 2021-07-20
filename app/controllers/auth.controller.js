@@ -159,13 +159,13 @@ exports.requireSignin = expressJwt({
 });
 
 exports.forgotPassword = (req, res) => {
-  const { email } = req.body;
-
-  User.findOne({ where: { email: { [Op.iLike]: signup_email } } })
+  const { forgot_email } = req.body;
+  console.log(forgot_email);
+  User.findOne({ where: { email: { [Op.iLike]: forgot_email } } })
     .then((data) => {
       //no user found
       if (!data) {
-        res.status(400).json({
+        return res.status(400).json({
           message: "We could not verify your email. Please try again",
         });
       }
@@ -178,16 +178,16 @@ exports.forgotPassword = (req, res) => {
           expiresIn: "10min",
         }
       );
-      User.update({ resetToken: token }, { where: { email } })
+      User.update({ resetToken: token }, { where: { email: forgot_email } })
         .then((data) => {
           const sendEmail = ses
-            .sendEmail(forgotEmailPasswordParams(email, token))
+            .sendEmail(forgotEmailPasswordParams(forgot_email, token))
             .promise();
 
           sendEmail
             .then((data) => {
               return res.json({
-                message: `Email has been sent to ${email}. Please follow the email's instructions to reset your password. The link will expire in 10 minutes.`,
+                message: `Email has been sent to ${forgot_email}. Please follow the email's instructions to reset your password. The link will expire in 10 minutes.`,
               });
             })
             .catch((error) => {

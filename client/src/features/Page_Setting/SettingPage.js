@@ -1,14 +1,89 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "../globalComponents/navbar/Navbar";
 import Footer from "../footer/Footer";
 import ColorPalette from "./components/ColorPalette";
 import SlideSwitch from "./components/SlideSwitch";
-
+import { apiAxios } from "../../helpers/axios_api";
+import InputModal from "../globalComponents/InputModal/InputModal";
+import { useSelector } from "react-redux";
+import { selectUserSignIn } from "../../appReduxSlices/userSlice";
 const SettingPage = () => {
+  let isSignIn = useSelector(selectUserSignIn);
+  let [showInputModal, setShowInputModal] = useState(false);
+  let [currentInputModal, setCurrentInputModal] = useState(0);
+  const handleChangePasswordClick = (inputValue) => {
+    apiAxios("/auth/reset-password", {
+      newPassword: inputValue.newPw,
+      currentPassword: inputValue.currentPw,
+      token: localStorage.getItem("token"),
+    });
+  };
+
+  const handleDeletePasswordClick = () => {};
+  const InputData = [
+    {
+      inputText: ["Enter current password", "Enter new password"],
+      buttonText: "Change Password",
+      action: handleChangePasswordClick,
+    },
+    {
+      inputText: ["Enter password"],
+      buttonText: "Delete Account",
+      action: handleDeletePasswordClick,
+    },
+  ];
+
+  const renderAccountOptions = () => {
+    if (!isSignIn) {
+      return (
+        <p className="ml-4">
+          Sign in{" "}
+          <Link className="text-th-white" to={"/login"}>
+            here
+          </Link>
+        </p>
+      );
+    } else {
+      return (
+        <div className="ml-4">
+          {" "}
+          <p
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentInputModal(0);
+              setShowInputModal(true);
+            }}
+            className="text-th-white text-lg ml-4 font-quicksand cursor-pointer"
+          >
+            Change password
+          </p>
+          <p
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentInputModal(1);
+              setShowInputModal(true);
+            }}
+            className="text-th-white text-lg ml-4 font-quicksand cursor-pointer"
+          >
+            Delete account
+          </p>
+        </div>
+      );
+    }
+  };
   return (
-    <div className="SettingPage h-full min-h-screen md:h-screen  bg-th-primary pb-0 flex flex-col items-center font-openSans">
-      <main className="self-center w-screen max-w-md px-8 ">
+    <div
+      onClick={() => {
+        setShowInputModal(false);
+      }}
+      className="SettingPage h-full min-h-screen md:h-screen  bg-th-primary pb-0 flex flex-col items-center font-openSans"
+    >
+      <main className="self-center w-screen max-w-md px-8 relative">
         <Navbar displayBack={true}></Navbar>
+        {showInputModal && (
+          <InputModal inputData={InputData[currentInputModal]}></InputModal>
+        )}
         <header>
           <h1 className="text-3xl text-th-secondary tracking-widest m-7 text-center">
             settings
@@ -35,12 +110,7 @@ const SettingPage = () => {
           <h2 className="font-quicksand text-th-white text-2xl uppercase tracking-wide">
             Account
           </h2>
-          <p className="text-th-white text-lg ml-4 font-quicksand">
-            Change password
-          </p>
-          <p className="text-th-white text-lg ml-4 font-quicksand">
-            Delete account
-          </p>
+          {renderAccountOptions()}
         </section>
         <section className="SettingPage_About  mb-4">
           <h2 className="font-quicksand text-th-white text-2xl uppercase tracking-wide">

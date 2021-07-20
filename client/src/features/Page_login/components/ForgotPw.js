@@ -3,6 +3,7 @@ import InputField from "./sharedComponents/InputField";
 import AuthForm from "./sharedComponents/AuthForm";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { apiAxios } from "../../../helpers/axios_api";
 import * as yup from "yup";
 
 const schema = yup.object().shape({
@@ -12,6 +13,7 @@ const schema = yup.object().shape({
     .required("Email is required."),
 });
 const ForgotPw = ({ handleButtonClick }) => {
+  const [apiMessage, setApiMessage] = useState("");
   const {
     register,
     handleSubmit,
@@ -19,7 +21,18 @@ const ForgotPw = ({ handleButtonClick }) => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
   const onSubmit = (data) => {
-    console.log(data);
+    apiAxios
+      .post("/auth/forgot-password", data)
+      .then((res) => {
+        console.log(res.data);
+        setApiMessage(res.data.message);
+      })
+      .catch((err) => {
+        if (err) {
+          console.dir(err);
+          setApiMessage(err.response.data.message);
+        }
+      });
   };
   return (
     <>
@@ -60,6 +73,9 @@ const ForgotPw = ({ handleButtonClick }) => {
         >
           sign up
         </div>
+        {apiMessage && (
+          <div className="text-th-white text-xl mt-12">{apiMessage}</div>
+        )}
       </AuthForm>
     </>
   );

@@ -28,6 +28,7 @@ export const selectUserSignIn = (state) => state.user.isSignIn;
 export const asyncUserSignIn = (payload) => async (dispatch, getState) => {
   console.log(payload.data);
   localStorage.setItem("user", payload.data.username);
+  localStorage.setItem("email", payload.data.email);
   localStorage.setItem("token", payload.data.token);
   localStorage.setItem(
     "serverTimers",
