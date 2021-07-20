@@ -214,18 +214,19 @@ exports.forgotPassword = (req, res) => {
 };
 
 exports.resetPassword = (req, res) => {
-  const { newPassword, token } = req.body;
+  const { new_password, token } = req.body;
+  console.log(new_password);
   User.findOne({ where: { resetToken: token } })
     .then((data) => {
       if (!data) {
         return res.status(400).json({
-          message: "Resetting password failed. Please try again",
+          message: "No reset token found. Please try again",
         });
       }
       data
         .update(
           {
-            password: newPassword,
+            password: new_password,
           },
           { where: { resetToken: token } }
         )

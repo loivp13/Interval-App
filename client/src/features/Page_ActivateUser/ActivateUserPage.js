@@ -8,6 +8,8 @@ import Footer from "../footer/Footer";
 export default function ActivateUserPage() {
   let [text, setText] = useState("Activating Account");
   let { token } = useParams();
+
+  //on page load activate user's account
   useEffect((params) => {
     apiAxios
       .post("/auth/activate", { token })
@@ -24,7 +26,7 @@ export default function ActivateUserPage() {
   }, []);
   return (
     <MobileLayout>
-      <main className="w-full">
+      <main className="w-full max-w-md">
         <Navbar displayBack={true}></Navbar>
         <div className="mt-6 text-3xl">{text}</div>
       </main>

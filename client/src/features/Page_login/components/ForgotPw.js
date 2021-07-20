@@ -69,13 +69,15 @@ const ForgotPw = ({ handleButtonClick }) => {
           onClick={() => {
             handleButtonClick("signup");
           }}
-          className="mt-10 text-th-white w-full text-center cursor-pointer"
+          className="mt-6 text-th-white w-full text-center cursor-pointer relative"
         >
           sign up
+          {apiMessage && (
+            <div className="text-th-white text-lg mt-12 absolute text-left">
+              {apiMessage}
+            </div>
+          )}
         </div>
-        {apiMessage && (
-          <div className="text-th-white text-xl mt-12">{apiMessage}</div>
-        )}
       </AuthForm>
     </>
   );

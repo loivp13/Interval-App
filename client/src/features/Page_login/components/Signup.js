@@ -58,7 +58,9 @@ const Signup = ({ handleButtonClick }) => {
     watch,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
+
   const onSubmit = (data) => {
+    console.log("what");
     apiAxios
       .post("/auth", data)
       .then((data) => {

@@ -11,11 +11,11 @@ exports.registerEmailParams = (email, token) => {
           Charset: "UTF-8",
           Data: `<html>
               
-                <h1 style='color:red;'>
+                <h1 style='color:green;'>
                   Verify your email address
                 </h1>
                 <p>Please use the following link to complete your registration.</p>
-                <p>${process.env.CLIENT_URL}/activate/${token}</p>
+                <a href="${process.env.CLIENT_URL}/activate/${token}">Activate your email</a>
             </html>`,
         },
       },
@@ -40,11 +40,11 @@ exports.forgotEmailPasswordParams = (email, token) => {
           Charset: "UTF-8",
           Data: `<html>
               
-                <h1 style='color:red;'>
+                <h1 style='color:green;'>
                   Reset Password Link
                 </h1>
                 <p>Please use the following link to reset your password.</p>
-                <p>${process.env.CLIENT_URL}/password/reset/${token}</p>
+                <a href="${process.env.CLIENT_URL}/reset-password/${token}">Reset your password.</a>
             </html>`,
         },
       },

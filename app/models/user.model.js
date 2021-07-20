@@ -80,10 +80,17 @@ module.exports = (sequelize, Sequelize) => {
     },
     {
       hooks: {
-        beforeCreate: async (user) => {
+        beforeCreate: async (user, options) => {
           if (user.password) {
             const salt = await bcrypt.genSalt(saltRounds, "a");
             user.password = await bcrypt.hash(user.password, salt);
+          }
+        },
+        beforeUpdate: async (user, options) => {
+          if (user.changed("password")) {
+            const salt = await bcrypt.genSalt(saltRounds, "a");
+            let newPw = await bcrypt.hash(user.get("password"), salt);
+            user.password = newPw;
           }
         },
       },

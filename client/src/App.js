@@ -19,6 +19,7 @@ import ActivateUserPage from "./features/Page_ActivateUser/ActivateUserPage";
 import ActiveTimerPage from "./features/Page_ActiveTimer/ActiveTimerPage";
 import EditPage from "./features/Page_Edit/EditPage.jsx";
 import CreatePage from "./features/Page_create/CreatePage";
+import ResetPasswordPage from "./features/Page_ResetPassword/Page_ResetPassword";
 
 //CSS
 import "./App.css";
@@ -86,6 +87,13 @@ function App() {
           path="/createTimer/"
           component={() => {
             return <CreatePage></CreatePage>;
+          }}
+        ></Route>
+        <Route
+          exact
+          path="/reset-password/:token"
+          component={() => {
+            return <ResetPasswordPage></ResetPasswordPage>;
           }}
         ></Route>
       </Switch>
