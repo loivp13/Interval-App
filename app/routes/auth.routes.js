@@ -8,6 +8,7 @@ const {
   activate,
   resetPassword,
   changePassword,
+  deleteUserAccount,
 } = auth;
 
 //import validator
@@ -19,6 +20,7 @@ const {
   userForgotPasswordValidator,
   userUpdateValidator,
   userChangePasswordValidator,
+  userDeleteAccountValidator,
 } = validators;
 
 const { runValidation } = require("./validators");
@@ -58,3 +60,10 @@ router.put(
   changePassword
 );
 module.exports = router;
+
+router.delete(
+  "/delete-account",
+  userDeleteAccountValidator,
+  runValidation,
+  deleteUserAccount
+);

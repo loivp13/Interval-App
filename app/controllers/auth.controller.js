@@ -264,13 +264,40 @@ exports.changePassword = (req, res) => {
       data
         .update({ password: new_password })
         .then((data) => {
-          res.json({
+          return res.json({
             message: "Password has been changed",
           });
         })
         .catch(() => {
-          res.status(500).json({
+          return res.status(500).json({
             message: "An error occur while updated",
+          });
+        });
+    }
+  );
+};
+
+exports.deleteUserAccount = (req, res) => {
+  const { delete_email, current_password } = req.body;
+  User.findOne({ where: { email: { [Op.iLike]: delete_email } } }).then(
+    async (data) => {
+      let isPwValid = await data.validatePassword(current_password);
+      if (!isPwValid) {
+        return res.status(400).json({
+          message: "Password is incorrect. Please try again",
+        });
+      }
+      data
+        .destroy()
+        .then((data) => {
+          return res.json({
+            message: "Account has been deleted",
+          });
+        })
+        .catch((data) => {
+          return res.json({
+            message:
+              "An error occuring while attempting to delete your account. Please try again.",
           });
         });
     }

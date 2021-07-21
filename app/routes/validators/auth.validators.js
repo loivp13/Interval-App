@@ -35,9 +35,16 @@ exports.userChangePasswordValidator = [
   check("current_password")
     .not()
     .isEmpty()
-    .withMessage("Current password can not be empty"),
+    .withMessage("Current password is required."),
   check("new_password")
     .not()
     .isEmpty()
-    .withMessage("New password can not be empty."),
+    .withMessage("New password is required."),
+];
+exports.userDeleteAccountValidator = [
+  check("delete_email").not().isEmpty().withMessage("Email is required"),
+  check("current_password")
+    .not()
+    .isEmpty()
+    .withMessage("Password is required."),
 ];

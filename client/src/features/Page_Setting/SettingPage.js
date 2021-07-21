@@ -8,20 +8,48 @@ import { apiAxios } from "../../helpers/axios_api";
 import InputModal from "../globalComponents/InputModal/InputModal";
 import { useSelector } from "react-redux";
 import { selectUserSignIn } from "../../appReduxSlices/userSlice";
+import { useHistory } from "react-router";
 const SettingPage = () => {
   let isSignIn = useSelector(selectUserSignIn);
   let [showInputModal, setShowInputModal] = useState(false);
   let [currentInputModal, setCurrentInputModal] = useState(0);
+  let [message, setMessage] = useState("");
+  let history = useHistory();
   const handleChangePasswordClick = (inputValue) => {
-    console.log(inputValue);
-    apiAxios.put("/auth/change-password", {
-      new_password: inputValue.newPw,
-      current_password: inputValue.currentPw,
-      changePw_email: localStorage.getItem("email"),
-    });
+    apiAxios
+      .put("/auth/change-password", {
+        new_password: inputValue.newPw,
+        current_password: inputValue.currentPw,
+        changePw_email: localStorage.getItem("email"),
+      })
+      .then((data) => {
+        setMessage("Password has been changed");
+        setShowInputModal(false);
+      })
+      .catch((err) => {
+        setMessage(err.response.data.error);
+        setShowInputModal(false);
+      });
   };
 
-  const handleDeletePasswordClick = () => {};
+  const handleDeletePasswordClick = (inputValue) => {
+    apiAxios
+      .delete("/auth/delete-account", {
+        data: {
+          delete_email: localStorage.getItem("email"),
+          current_password: inputValue.currentPw,
+        },
+      })
+      .then((data) => {
+        history.push("/");
+      })
+      .catch((err) => {
+        console.dir(err);
+
+        setMessage(err.response.data.error);
+        setShowInputModal(false);
+      });
+  };
   const InputData = [
     {
       inputText: ["Enter current password", "Enter new password"],
@@ -107,8 +135,15 @@ const SettingPage = () => {
         </section>
 
         <section className="SettingPage_Account  mb-4">
-          <h2 className="font-quicksand text-th-white text-2xl uppercase tracking-wide">
-            Account
+          <h2 className="font-quicksand text-th-white text-2xl uppercase tracking-wide ">
+            <div className="w-1/3 relative">
+              Account
+              {message && (
+                <div className="text-th-error absolute right-0 top-0 transform translate-x-full translate-y-1/2 text-sm whitespace-nowrap pl-2">
+                  {message}
+                </div>
+              )}
+            </div>
           </h2>
           {renderAccountOptions()}
         </section>
@@ -125,7 +160,7 @@ const SettingPage = () => {
           </p>
           <br />
 
-          <p className="text-th-secondary text-lg ml-4"> updated: 6.4.21</p>
+          <p className="text-th-secondary text-lg ml-4"> updated: 7.21.21</p>
           <p className="text-th-secondary text-lg ml-4">V1.0</p>
         </section>
       </main>
