@@ -10,7 +10,7 @@ export default function LandingPage({}) {
       <Navbar displayMenu={true} displayHelp={true}></Navbar>
       <main className="Landing-main h-9/10 w-9/10 max-w-md flex flex-col justify-center items-center pt-8">
         <Link to="/createTimer">
-          <div className="SetIntervalCircle h-17/20vw w-17/20vw max-w-md max-h-md flex justify-center items-center rounded-full border-2 border-th-white mb-12 hover:text-th-secondary hover:border-th-secondary ">
+          <div className="SetIntervalCircle h-17/20vw w-17/20vw max-w-md max-h-md flex justify-center items-center rounded-full border-2 border-th-white mb-12 hover:text-th-secondary hover:border-th-secondary animate-pulse">
             <h1 className="text-5xl p-9 text-center uppercase leading-tight tracking-widest">
               Set Interval Timer
             </h1>
