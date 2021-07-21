@@ -9,7 +9,10 @@ import InputModal from "../globalComponents/InputModal/InputModal";
 import { useSelector } from "react-redux";
 import { selectUserSignIn } from "../../appReduxSlices/userSlice";
 import { useHistory } from "react-router";
+import { asyncUserSignOut } from "../../appReduxSlices/userSlice";
+import { useDispatch } from "react-redux";
 const SettingPage = () => {
+  const dispatch = useDispatch();
   let isSignIn = useSelector(selectUserSignIn);
   let [showInputModal, setShowInputModal] = useState(false);
   let [currentInputModal, setCurrentInputModal] = useState(0);
@@ -41,7 +44,7 @@ const SettingPage = () => {
         },
       })
       .then((data) => {
-        history.push("/");
+        dispatch(asyncUserSignOut({ history }));
       })
       .catch((err) => {
         console.dir(err);
