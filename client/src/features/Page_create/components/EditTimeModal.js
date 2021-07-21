@@ -6,8 +6,11 @@ import styles from "./EditTimeModal.style";
 
 export default function EditTimeModal({ setModalState, handleUpdateValue }) {
   let [hidePane, setHidePane] = useState(false);
-  let handleHidePaneOnFocus = () => {
+  let handleHidePaneOnFocus = (action, e) => {
     setHidePane((hidePane) => !hidePane);
+    if (action) {
+      action(e);
+    }
   };
   let [selectedTime, setSelectedTime] = useState({ min: 0, sec: 1 });
 

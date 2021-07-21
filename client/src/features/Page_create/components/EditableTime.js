@@ -18,10 +18,13 @@ export default function EditableTime({
     scrollTopSec: 0,
   });
 
+  //queue revert Input back to original value after user has edit and attempts to scroll, runs queue after hidePane is set to false. Triggers by useEffect below.
+
   let scrollTopSecRef = useRef();
   let scrollTopMinRef = useRef();
   let minRef = useRef();
   let secRef = useRef();
+  let revertInputQueueRef = useRef({});
 
   const handleTimeInputChange = (e) => {
     let isSecColumn = e.target.classList.contains("sec");
@@ -35,6 +38,24 @@ export default function EditableTime({
       });
     }
   };
+  const handleEnqueueRevertInputOnBlur = (e, i) => {
+    if (!revertInputQueueRef.current[i]) {
+      revertInputQueueRef.current = {
+        ...revertInputQueueRef.current,
+        [i]: { element: e },
+      };
+    }
+  };
+  const handleRevertInputQueueOnScroll = () => {
+    let queue = revertInputQueueRef.current;
+    if (Object.entries(queue).length !== 0) {
+      for (let e in queue) {
+        queue[e].element.target.value = "";
+      }
+      revertInputQueueRef.current = {};
+    }
+  };
+
   //Add extra divs
   const addMoreColumns = (arr, keyId, rounds, colType) => {
     //max 60min | max 59sec
@@ -56,7 +77,9 @@ export default function EditableTime({
               handleHidePaneOnFocus();
             }}
             onBlur={(e) => {
-              handleHidePaneOnFocus(e);
+              //if not in queue, add element to
+              handleEnqueueRevertInputOnBlur(e, keyId + i);
+              handleHidePaneOnFocus();
             }}
           />
         </div>
@@ -76,7 +99,7 @@ export default function EditableTime({
     renderColumns([1, 1000], [59, 59], "sec")
   );
   const [minColumnState, setMinColumn] = useState(
-    renderColumns([1, 1000], [60, 60], "min")
+    renderColumns([2000, 3000], [60, 60], "min")
   );
 
   //calculate and update sec timer state
@@ -149,6 +172,7 @@ export default function EditableTime({
   };
 
   //start the columns at the center and recenter when user reaches bottom or top
+
   useEffect(() => {
     //sec column centered
     let secColumns = document.getElementById("secondsColumn");
@@ -171,14 +195,16 @@ export default function EditableTime({
       calcSecChange,
       calcMinChange,
       scrollTopSecRef,
-      scrollTopMinRef
+      scrollTopMinRef,
+      handleRevertInputQueueOnScroll
     );
     const minEventScrollListener = createEventScrollListener(
       "min",
       calcSecChange,
       calcMinChange,
       scrollTopSecRef,
-      scrollTopMinRef
+      scrollTopMinRef,
+      handleRevertInputQueueOnScroll
     );
 
     secColumns.addEventListener("scroll", secEventScrollListener);

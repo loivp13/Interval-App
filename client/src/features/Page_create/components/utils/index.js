@@ -21,9 +21,11 @@ export const createEventScrollListener = (
   calcSecChange,
   calcMinChange,
   scrollTopSecRef,
-  scrollTopMinRef
+  scrollTopMinRef,
+  handleRevertInputQueueOnScroll
 ) => {
   return function (e) {
+    handleRevertInputQueueOnScroll();
     let { clientHeight, scrollTop, scrollHeight, children } = e.target;
 
     let childBoxHeight = clientHeight / 3;
