@@ -51,7 +51,10 @@ export default function EditableTime({
             onKeyDown={(e) => {
               limitChar2(e, handleTimeInputChange);
             }}
-            onFocus={handleHidePaneOnFocus}
+            onWheel={(e) => e.target.blur()}
+            onFocus={(e) => {
+              handleHidePaneOnFocus();
+            }}
             onBlur={(e) => {
               handleHidePaneOnFocus(e);
             }}
@@ -189,6 +192,17 @@ export default function EditableTime({
       minColumns.removeEventListener("scroll", minEventScrollListener);
     };
   }, []);
+  useEffect(() => {
+    let secColumns = document.getElementById("secondsColumn");
+    let minColumns = document.getElementById("minColumn");
+    if (hidePane) {
+      secColumns.style.overflow = "hidden";
+      minColumns.style.overflow = "hidden";
+    } else {
+      secColumns.style.overflow = "scroll";
+      minColumns.style.overflow = "scroll";
+    }
+  }, [hidePane]);
   return (
     <div className="h-1/2 ">
       <div className="flex justify-center h-full items-center relative">
