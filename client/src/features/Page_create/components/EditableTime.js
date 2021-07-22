@@ -64,12 +64,12 @@ export default function EditableTime({
         <div key={i + keyId} className={styles.timeValues}>
           <input
             className={styles.input({ colType })}
-            type="number"
+            type="tel"
             min={0}
             max={60}
             maxLength={2}
             placeholder={`${i}`.padStart(2, 0)}
-            onKeyDown={(e) => {
+            onKeyPress={(e) => {
               limitChar2(e, handleTimeInputChange);
             }}
             onWheel={(e) => e.target.blur()}
@@ -230,7 +230,7 @@ export default function EditableTime({
     }
   }, [hidePane]);
   return (
-    <div className="h-1/2 ">
+    <div className="h-1/2">
       <div className="flex justify-center h-full items-center relative">
         {hidePane ? (
           <div className="HidePane absolute top-0 w-full h-1/3 bg-th-primary"></div>

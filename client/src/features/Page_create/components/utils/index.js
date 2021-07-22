@@ -88,6 +88,13 @@ export const changeColorText = (
 export function limitChar2(e, handleTimeInputChange) {
   e.preventDefault();
   let isMaxCharacter = e.target.value.length + 1 > 2;
+  if (isNaN(+e.key)) {
+    return;
+  }
+  if (isMaxCharacter) {
+    e.target.value = +e.target.value.substring(1, 3);
+    handleTimeInputChange(e);
+  }
   let currentValue = +(e.target.value + e.key);
   if (currentValue > 60) {
     e.target.value = e.key;
@@ -95,10 +102,6 @@ export function limitChar2(e, handleTimeInputChange) {
     return;
   } else {
     e.target.value = e.target.value + e.key;
-    handleTimeInputChange(e);
-  }
-  if (isMaxCharacter && !isNaN(e.key)) {
-    e.target.value = e.target.value.substring(1, 3);
     handleTimeInputChange(e);
   }
 }

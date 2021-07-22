@@ -23,7 +23,7 @@ export default {
     "hide-scrollbar ",
     "overflow-scroll",
     "scroll-mandatory-y",
-    "text-8xl",
+    "text-5xl",
     "md:text-9xl",
     "text-center",
     "text-th-white",
