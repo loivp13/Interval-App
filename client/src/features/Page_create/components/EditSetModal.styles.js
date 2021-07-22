@@ -11,7 +11,6 @@ export default {
       "text-center",
       "text-4xl",
       "my-8",
-      "md:my-4",
       "relative",
       "w-full",
       "tracking-widest",

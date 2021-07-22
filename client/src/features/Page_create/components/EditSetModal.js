@@ -180,7 +180,7 @@ export default function EditSetModal({
         ></EditTimeModal>
       )}
       <div className="h-full w-full max-w-md flex flex-col items-center justify-between relative">
-        <div className="w-1/2 mt-1">
+        <div className="w-1/2 mt-1 ">
           <div
             onClick={(e) => {
               e.stopPropagation();
